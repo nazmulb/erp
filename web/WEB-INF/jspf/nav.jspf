@@ -1,0 +1,25 @@
+<nav>
+    <div class="nav-header">Inventory Management</div>
+    <div class="nav-content">
+        <ul>
+            <li class="active"><a href="#">Product Entry</a></li>
+            <li><a href="#">Purchase Request</a></li>
+            <li><a href="#">Product Receive</a></li>
+            <li><a href="#">Product Request</a></li>
+            <li><a href="#">Product Issue</a></li>
+        </ul>
+    </div>
+
+    <div class="nav-header">User Management</div>
+    <div class="nav-content">
+        <ul>
+            <li><a href="#">User Lists</a></li>
+            <li><a href="#">Add User</a></li>
+        </ul>
+    </div>
+    <div class="nav-header">Sales Management</div>
+    <div class="nav-header">Accounting Management</div>
+    <div class="nav-header">Human Resource Management</div>
+    <div class="nav-header">Production Management</div>
+    <div class="nav-header">Customer Service Management</div>
+</nav>
