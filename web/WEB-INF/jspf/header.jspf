@@ -1,4 +1,11 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if(session.getAttribute("uname") == null && !request.getServletPath().equalsIgnoreCase("/login.jsp")){
+        //response.sendRedirect("login.jsp");
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,8 +25,18 @@
             </div>
 
             <div class="pull-right top-right">
-                <span class="user">Hi Nazmul !</span> | <a class="logout" href="#">Logout</a><br />
-                Tuesday, <span class="year">21st October 2014</span> 3:01 PM
+                <%
+                    if(session.getAttribute("uname") != null){
+                %>
+                <span class="user">Hi <%=session.getAttribute("uname")%> !</span> | <a class="logout" href="user?action=logout">Logout</a><br />
+                <%
+                    }    
+                    Date dNow = new Date( );
+                    SimpleDateFormat dayName = new SimpleDateFormat("EEEE");
+                    SimpleDateFormat yearFull = new SimpleDateFormat("d MMMM yyyy");
+                    SimpleDateFormat timeFull = new SimpleDateFormat("h:mm a");
+                %>
+                <%=dayName.format(dNow)%>, <span class="year"><%=yearFull.format(dNow)%></span> <%=timeFull.format(dNow)%>
             </div>
         </div>
     </header>

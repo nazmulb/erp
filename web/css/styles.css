@@ -98,6 +98,7 @@ footer {
 .user {
     padding: 0 6px 0 0;
     font-weight: bold;
+    text-transform: capitalize;
 }
 
 .logout {

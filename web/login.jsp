@@ -1,14 +1,17 @@
 <section>
     <div class="container content">
         <div class="login">
-            <form role="form">
+            <% if(request.getParameter("msg") != null){ %>
+                <p class="bg-warning"><%= request.getParameter("msg").toString()%></p>
+            <% } %>
+            <form role="form" action="user?action=login_process" method="POST">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                    <label for="txtUname">User Name</label>
+                    <input type="text" name="uname" class="form-control" id="txtUname" placeholder="Enter User Name">
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label for="txtPass">Password</label>
+                    <input type="password" name="password" class="form-control" id="txtPass" placeholder="Password">
                 </div>
 
                 <button type="submit" class="btn btn-default">Submit</button>
