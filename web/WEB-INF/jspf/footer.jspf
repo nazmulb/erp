@@ -1,10 +1,10 @@
 <%@page import="java.util.Calendar"%>
 <%@page import="java.util.GregorianCalendar"%>
 
-        <div class="row">
-            <br/>
-            <p>Copyright © <%=new GregorianCalendar().get(Calendar.YEAR)%></p>
-        </div>    
-    </div>
+    <footer>
+        <div class="container">
+                Copyright &copy; <%=new GregorianCalendar().get(Calendar.YEAR)%> Field Nation LLC.
+        </div>
+    </footer>
 </body>
 </html>

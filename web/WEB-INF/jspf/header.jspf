@@ -3,8 +3,23 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>ERP</title>
+    <title>FN ERP</title>
+    <meta name="description" content="Field Nation ERP" />
+    <meta name="keywords" content="ERP" />
+    <meta name="author" content="nazmul.basher@fieldnation.com" />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <%@include file="common.jspf" %>
 </head>
-<body style="margin: 10px;">
-    <div class="container-fluid">
+<body>
+    <header>
+        <div class="container">
+            <div class="pull-left">
+                <div class="logo">FN ERP</div>
+            </div>
+
+            <div class="pull-right top-right">
+                <span class="user">Hi Nazmul !</span> | <a class="logout" href="#">Logout</a><br />
+                Tuesday, <span class="year">21st October 2014</span> 3:01 PM
+            </div>
+        </div>
+    </header>
