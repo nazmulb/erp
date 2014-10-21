@@ -1,0 +1,10 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="java.util.GregorianCalendar"%>
+
+        <div class="row">
+            <br/>
+            <p>Copyright © <%=new GregorianCalendar().get(Calendar.YEAR)%></p>
+        </div>    
+    </div>
+</body>
+</html>
