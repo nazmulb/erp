@@ -1,11 +1,16 @@
 package com.erp.entity.user;
 
 /**
- * User Table
+ * <h1>ERP Entity</h1>
+ * tbl_user Table Entity Class
+ * 
+ * @author  nazmul.basher@fieldnation.com
+ * @version 1.0
+ * @since   2014-10-21 
  */
 public class TblUser 
 {
-    private Integer uid;
+    private int uid;
     private String uname;
     private String firstName;
     private String lastName;
@@ -13,18 +18,18 @@ public class TblUser
     private String email;
     private String phone;
     private String image;
-    private Short status;
+    private int status;
 
     public TblUser() 
     {
     }
 
-    public TblUser(Integer uid) 
+    public TblUser(int uid) 
     {
         this.uid = uid;
     }
 
-    public TblUser(Integer uid, String uname, String password, String email) 
+    public TblUser(int uid, String uname, String password, String email) 
     {
         this.uid = uid;
         this.uname = uname;
@@ -32,12 +37,12 @@ public class TblUser
         this.email = email;
     }
  
-    public Integer getUid() 
+    public int getUid() 
     {
         return uid;
     }
 
-    public void setUid(Integer uid) 
+    public void setUid(int uid) 
     {
         this.uid = uid;
     }
@@ -112,12 +117,12 @@ public class TblUser
         this.image = image;
     }
 
-    public Short getStatus() 
+    public int getStatus() 
     {
         return status;
     }
 
-    public void setStatus(Short status) 
+    public void setStatus(int status) 
     {
         this.status = status;
     }

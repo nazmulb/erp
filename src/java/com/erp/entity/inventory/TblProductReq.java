@@ -1,28 +1,31 @@
 package com.erp.entity.inventory;
 
-import java.util.Date;
-
 /**
- * ProductReq Table
+ * <h1>ERP Entity</h1>
+ * tbl_product_req Table Entity Class
+ * 
+ * @author  nazmul.basher@fieldnation.com
+ * @version 1.0
+ * @since   2014-10-21 
  */
 public class TblProductReq 
 {
-    private Integer reqId;
-    private Date reqDate;
-    private Integer reqBy;
-    private Short status;
-    private Date reqRequiredDate;
+    private int reqId;
+    private String reqDate;
+    private int reqBy;
+    private int status;
+    private String reqRequiredDate;
 
     public TblProductReq() 
     {
     }
 
-    public TblProductReq(Integer reqId) 
+    public TblProductReq(int reqId) 
     {
         this.reqId = reqId;
     }
 
-    public TblProductReq(Integer reqId, Date reqDate, Integer reqBy, Short status, Date reqRequiredDate) 
+    public TblProductReq(int reqId, String reqDate, int reqBy, int status, String reqRequiredDate) 
     {
         this.reqId = reqId;
         this.reqDate = reqDate;
@@ -31,52 +34,52 @@ public class TblProductReq
         this.reqRequiredDate = reqRequiredDate;
     }
     
-    public Integer getReqId() 
+    public int getReqId() 
     {
         return reqId;
     }
 
-    public void setReqId(Integer reqId) 
+    public void setReqId(int reqId) 
     {
         this.reqId = reqId;
     }
 
-    public Date getReqDate() 
+    public String getReqDate() 
     {
         return reqDate;
     }
 
-    public void setReqDate(Date reqDate) 
+    public void setReqDate(String reqDate) 
     {
         this.reqDate = reqDate;
     }
 
-    public Integer getReqBy() 
+    public int getReqBy() 
     {
         return reqBy;
     }
 
-    public void setReqBy(Integer reqBy) 
+    public void setReqBy(int reqBy) 
     {
         this.reqBy = reqBy;
     }
 
-    public Short getStatus() 
+    public int getStatus() 
     {
         return status;
     }
 
-    public void setStatus(Short status) 
+    public void setStatus(int status) 
     {
         this.status = status;
     }
 
-    public Date getReqRequiredDate() 
+    public String getReqRequiredDate() 
     {
         return reqRequiredDate;
     }
 
-    public void setReqRequiredDate(Date reqRequiredDate) 
+    public void setReqRequiredDate(String reqRequiredDate) 
     {
         this.reqRequiredDate = reqRequiredDate;
     }

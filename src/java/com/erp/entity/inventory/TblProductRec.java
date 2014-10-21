@@ -1,94 +1,97 @@
 package com.erp.entity.inventory;
 
-import java.util.Date;
-
 /**
- * ProductRec Table
+ * <h1>ERP Entity</h1>
+ * tbl_product_rec Table Entity Class
+ * 
+ * @author  nazmul.basher@fieldnation.com
+ * @version 1.0
+ * @since   2014-10-21 
  */
 public class TblProductRec 
 {
-    private Integer recId;
-    private Integer reqDetId;
-    private Double qty;
-    private Double rate;
-    private Date recDate;
-    private Double qtyDisburse;
+    private int recId;
+    private int purReqDetId;
+    private double qty;
+    private double rate;
+    private String recDate;
+    private double qtyDisburse;
     
     public TblProductRec() 
     {
     }
 
-    public TblProductRec(Integer recId) 
+    public TblProductRec(int recId) 
     {
         this.recId = recId;
     }
 
-    public TblProductRec(Integer recId, Integer reqDetId, Double qty, Double rate, Date recDate, Double qtyDisburse) 
+    public TblProductRec(int recId, int reqDetId, double qty, double rate, String recDate, double qtyDisburse) 
     {
         this.recId = recId;
-        this.reqDetId = reqDetId;
+        this.purReqDetId = reqDetId;
         this.qty = qty;
         this.rate = rate;
         this.recDate = recDate;
         this.qtyDisburse = qtyDisburse;
     }
 
-    public Integer getRecId() 
+    public int getRecId() 
     {
         return recId;
     }
 
-    public void setRecId(Integer recId) 
+    public void setRecId(int recId) 
     {
         this.recId = recId;
     }
 
-    public Integer getReqDetId() 
+    public int getPurReqDetId() 
     {
-        return reqDetId;
+        return purReqDetId;
     }
 
-    public void setReqDetId(Integer reqDetId) 
+    public void setPurReqDetId(int purReqDetId) 
     {
-        this.reqDetId = reqDetId;
+        this.purReqDetId = purReqDetId;
     }
 
-    public Double getQty() 
+    public double getQty() 
     {
         return qty;
     }
 
-    public void setQty(Double qty) 
+    public void setQty(double qty) 
     {
         this.qty = qty;
     }
 
-    public Double getRate() 
+    public double getRate() 
     {
         return rate;
     }
 
-    public void setRate(Double rate) 
+    public void setRate(double rate) 
     {
         this.rate = rate;
     }
 
-    public Date getRecDate() 
+    public String getRecDate() 
     {
         return recDate;
     }
 
-    public void setRecDate(Date recDate) 
+    public void setRecDate(String recDate) 
     {
         this.recDate = recDate;
     }
 
-    public Double getQtyDisburse() 
+    public double getQtyDisburse() 
     {
         return qtyDisburse;
     }
 
-    public void setQtyDisburse(Double qtyDisburse) 
+    public void setQtyDisburse(double qtyDisburse) 
     {
         this.qtyDisburse = qtyDisburse;
     }
@@ -96,6 +99,6 @@ public class TblProductRec
     @Override
     public String toString() 
     {
-        return "TblProductRec{" + "recId=" + recId + ", reqDetId=" + reqDetId + ", qty=" + qty + ", rate=" + rate + ", recDate=" + recDate + ", qtyDisburse=" + qtyDisburse + '}';
+        return "TblProductRec{" + "recId=" + recId + ", purReqDetId=" + purReqDetId + ", qty=" + qty + ", rate=" + rate + ", recDate=" + recDate + ", qtyDisburse=" + qtyDisburse + '}';
     }
 }

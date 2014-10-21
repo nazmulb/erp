@@ -1,26 +1,31 @@
 package com.erp.entity.inventory;
 
 /**
- * Product Table
+ * <h1>ERP Entity</h1>
+ * tbl_product Table Entity Class
+ * 
+ * @author  nazmul.basher@fieldnation.com
+ * @version 1.0
+ * @since   2014-10-21 
  */
 public class TblProduct 
 {
-    private Integer pid;
+    private int pid;
     private String name;
-    private Double currentStock;
-    private Double rate;
+    private double currentStock;
+    private double rate;
     private String unit;
     
     public TblProduct() 
     {
     }
-
-    public TblProduct(Integer pid) 
+    
+    public TblProduct(int pid) 
     {
         this.pid = pid;
     }
 
-    public TblProduct(Integer pid, String name, Double currentStock, Double rate, String unit) 
+    public TblProduct(int pid, String name, double currentStock, double rate, String unit) 
     {
         this.pid = pid;
         this.name = name;
@@ -29,12 +34,12 @@ public class TblProduct
         this.unit = unit;
     } 
     
-    public Integer getPid() 
+    public int getPid() 
     {
         return pid;
     }
 
-    public void setPid(Integer pid) 
+    public void setPid(int pid) 
     {
         this.pid = pid;
     }
@@ -49,22 +54,22 @@ public class TblProduct
         this.name = name;
     }
 
-    public Double getCurrentStock() 
+    public double getCurrentStock() 
     {
         return currentStock;
     }
 
-    public void setCurrentStock(Double currentStock) 
+    public void setCurrentStock(double currentStock) 
     {
         this.currentStock = currentStock;
     }
 
-    public Double getRate() 
+    public double getRate() 
     {
         return rate;
     }
 
-    public void setRate(Double rate) 
+    public void setRate(double rate) 
     {
         this.rate = rate;
     }

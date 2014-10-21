@@ -1,26 +1,31 @@
 package com.erp.entity.inventory;
 
 /**
- * ProductReqDetails Table
+ * <h1>ERP Entity</h1>
+ * tbl_product_req_details Table Entity Class
+ * 
+ * @author  nazmul.basher@fieldnation.com
+ * @version 1.0
+ * @since   2014-10-21 
  */
 public class TblProductReqDetails 
 {
-    private Integer reqDetId;
-    private Integer reqId;
-    private Integer pid;
-    private Double qty;
+    private int reqDetId;
+    private int reqId;
+    private int pid;
+    private double qty;
     
     
     public TblProductReqDetails() 
     {
     }
 
-    public TblProductReqDetails(Integer reqDetId) 
+    public TblProductReqDetails(int reqDetId) 
     {
         this.reqDetId = reqDetId;
     }
 
-    public TblProductReqDetails(Integer reqDetId, Double qty, Integer reqId, Integer pid) 
+    public TblProductReqDetails(int reqDetId, double qty, int reqId, int pid) 
     {
         this.reqDetId = reqDetId;
         this.qty = qty;
@@ -28,42 +33,42 @@ public class TblProductReqDetails
         this.pid = pid;
     }
 
-    public Integer getReqDetId() 
+    public int getReqDetId() 
     {
         return reqDetId;
     }
 
-    public void setReqDetId(Integer reqDetId) 
+    public void setReqDetId(int reqDetId) 
     {
         this.reqDetId = reqDetId;
     }
 
-    public Double getQty() 
+    public double getQty() 
     {
         return qty;
     }
 
-    public void setQty(Double qty) 
+    public void setQty(double qty) 
     {
         this.qty = qty;
     }
 
-    public Integer getReqId() 
+    public int getReqId() 
     {
         return reqId;
     }
 
-    public void setReqId(Integer reqId) 
+    public void setReqId(int reqId) 
     {
         this.reqId = reqId;
     }
 
-    public Integer getPid() 
+    public int getPid() 
     {
         return pid;
     }
 
-    public void setPid(Integer pid) 
+    public void setPid(int pid) 
     {
         this.pid = pid;
     }
