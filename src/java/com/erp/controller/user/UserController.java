@@ -65,7 +65,7 @@ public class UserController extends HttpServlet
                     break;    
 
                     case "list":              
-                        displayPage(request, response, action);
+                        list(request, response);
                     break;
 
                     default:
@@ -113,6 +113,12 @@ public class UserController extends HttpServlet
             e.printStackTrace();
         }
     }
+    
+    public void list(HttpServletRequest request, HttpServletResponse response)
+    {
+        displayPage(request, response, "list");
+    }
+    
     
     public void displayPage(HttpServletRequest request, HttpServletResponse response, String action)
     {

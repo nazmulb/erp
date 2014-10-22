@@ -30,7 +30,6 @@ public class Utility
 
             if(session.getAttribute("uname") == null && !a.contains(routePath))
             {
-                //System.out.println("KKK="+routePath);
                 response.sendRedirect("login.jsp");
             }
         } catch(Exception e){

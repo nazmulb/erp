@@ -42,7 +42,7 @@ public class UserModel
            
            pstmt = conn.prepareStatement(sql); 
            pstmt.setString(1, uname);
-           pstmt.setString(2, password);
+           pstmt.setInt(2, password.hashCode());
            rs = pstmt.executeQuery();
 
            if(rs.next()){
@@ -59,7 +59,6 @@ public class UserModel
             conn.close();
         }
         
-        return isValid;
-         
+        return isValid;   
     }
 }
