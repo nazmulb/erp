@@ -8,7 +8,8 @@ import java.sql.SQLException;
 
 /**
  * <h1>ERP Model</h1>
- * User Model Class
+ * User Model Class which is related to below the table:
+ * tbl_user
  * 
  * @author  nazmul.basher@fieldnation.com
  * @version 1.0

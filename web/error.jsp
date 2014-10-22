@@ -3,7 +3,7 @@
 <section>
     <div class="container content">
         <h1>Opps...</h1>
-        <table width="900" class="table-bordered">
+        <table width="60%" class="table-condensed">
             <tr valign="top">
                 <td width="40%"><b>Error:</b></td>
                 <td>${pageContext.exception}</td>

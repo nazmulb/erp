@@ -177,11 +177,11 @@ nav {
     line-height: 20px;
 }
 
-aside h1, aside h2 {
+.content h1, .content h2 {
     margin: 0;
 }
 
-aside h1 {
+.content h1 {
     font-size: 25px;
     padding: 0 0 8px;
     margin: 0 0 15px;
@@ -189,7 +189,7 @@ aside h1 {
     line-height: normal;
 }
 
-aside h2 {
+.content h2 {
     font-size: 18px;
     margin: 0 0 5px;
     line-height: normal;

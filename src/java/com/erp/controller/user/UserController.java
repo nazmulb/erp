@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
  * @version 1.0
  * @since   2014-10-21 
  */
-
 @WebServlet(name="UserController",
             loadOnStartup = 1,
             urlPatterns = {"/login_process",
