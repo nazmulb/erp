@@ -1,0 +1,13 @@
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) { 
+    .col-md-9, .right-padding {
+        padding: 0;
+    }
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) { 
+    .col-md-9, .right-padding {
+        padding: 0;
+    }
+}

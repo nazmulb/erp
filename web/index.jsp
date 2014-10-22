@@ -2,7 +2,7 @@
     <div class="container content">
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
-        <aside>
+        <aside class="col-md-9">
             <h1>Welcome to Field Nation ERP</h1>
                 
             <div class="right-content">
