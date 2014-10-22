@@ -1,5 +1,6 @@
 package com.erp.controller.user;
 
+import com.erp.model.user.UserModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -85,7 +86,9 @@ public class UserController extends HttpServlet
         try {
             String uname = request.getParameter("uname");
             String pass  = request.getParameter("password");
-            if(uname.equals("admin") && pass.equals("admin")){
+            UserModel um = new UserModel();
+            
+            if(um.isValidUser(uname, pass)){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("uname", uname);
                 response.sendRedirect("index.jsp");
