@@ -4,7 +4,7 @@
             <% if(request.getParameter("msg") != null){ %>
                 <p class="bg-warning"><%= request.getParameter("msg").toString()%></p>
             <% } %>
-            <form role="form" action="user?action=login_process" method="POST">
+            <form role="form" action="login_process" method="POST">
                 <div class="form-group">
                     <label for="txtUname">User Name</label>
                     <input type="text" name="uname" class="form-control" id="txtUname" placeholder="Enter User Name">

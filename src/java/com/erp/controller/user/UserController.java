@@ -2,6 +2,7 @@ package com.erp.controller.user;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,11 @@ import javax.servlet.http.HttpSession;
  * @version 1.0
  * @since   2014-10-21 
  */
+
+@WebServlet(name="UserController",
+            loadOnStartup = 1,
+            urlPatterns = {"/login_process",
+                           "/user"})
 public class UserController extends HttpServlet 
 {
     /**
@@ -29,47 +35,46 @@ public class UserController extends HttpServlet
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
         try {
-            String action = request.getParameter("action");
-            action = (action.isEmpty()) ? "list" : action.trim();
+            if(request.getServletPath().equals("/login_process"))
+            {
+                loginProcess(request, response);
+            }else{
+                String action = request.getParameter("action");
+                action = (action==null) ? "" : action.trim();
 
-            switch(action){
-                case "login_process":
-                   loginProcess(request, response);
-                break;
-                    
-                case "logout":
-                   logout(request, response);
-                break;    
-                    
-                case "add":
-                   
-                break;
+                switch(action){
+                    case "logout":
+                       logout(request, response);
+                    break;    
 
-                case "update":
-                    
-                break;    
+                    case "add":
 
-                case "delete":
-                    
-                break;
+                    break;
 
-                case "details":
-                    
-                break;    
-                
-                case "list":              
-                    
-                break;
-                    
-                default:
-                    response.sendRedirect("404.jsp");
-                break;
+                    case "update":
+
+                    break;    
+
+                    case "delete":
+
+                    break;
+
+                    case "details":
+
+                    break;    
+
+                    case "list":              
+                        displayPage(request, response, action);
+                    break;
+
+                    default:
+                        response.sendRedirect("404.jsp");
+                    break;
+                }
             }
-            
-            String url = "/WEB-INF/view/template/user/" + action + ".jsp";
-            
-            request.getRequestDispatcher(url).forward(request, response);
-
+          
+        } catch(IOException ie) {
+            throw new IOException();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +85,6 @@ public class UserController extends HttpServlet
         try {
             String uname = request.getParameter("uname");
             String pass  = request.getParameter("password");
-            
             if(uname.equals("admin") && pass.equals("admin")){
                 HttpSession session = request.getSession(true);
                 session.setAttribute("uname", uname);
@@ -102,6 +106,17 @@ public class UserController extends HttpServlet
            }
            
            response.sendRedirect("login.jsp");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    public void displayPage(HttpServletRequest request, HttpServletResponse response, String action)
+    {
+        try {
+           String url = "/WEB-INF/view/template/user/" + action + ".jsp";
+            
+            request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){
             e.printStackTrace();
         }

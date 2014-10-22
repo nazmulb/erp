@@ -19,7 +19,7 @@ a, a:link, a:visited
 {
     text-decoration: none;
     outline: 0;
-    color: #ff8827;
+    color: #F47A22;
 }
 
 a:hover
@@ -87,6 +87,11 @@ footer {
     background: #2e2e2e;
     border-radius: 5px;
     text-shadow: 0 1px 1px #999;
+}
+
+.logo a, .logo a:link, .logo a:visited {
+    color:#fff;
+    text-decoration: none;
 }
 
 .top-right {
@@ -202,7 +207,12 @@ aside h2 {
     margin: 1px 11px;
 }
 
-
+.bg-warning{
+    padding: 3px;
+    background-color: #FF6347;
+    color: #fff;
+    font-weight: bold;
+}
 
 
 
