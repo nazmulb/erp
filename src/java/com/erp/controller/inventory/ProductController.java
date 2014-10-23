@@ -78,6 +78,7 @@ public class ProductController extends HttpServlet {
             request.setAttribute("results", results);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
+            request.setAttribute("pageURL", "product?action=product_list");
         
             String url = "/WEB-INF/view/template/inventory/product_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
