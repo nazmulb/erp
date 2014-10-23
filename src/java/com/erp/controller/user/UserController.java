@@ -1,5 +1,6 @@
 package com.erp.controller.user;
 
+import com.erp.common.Utility;
 import com.erp.model.user.UserModel;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -48,14 +49,14 @@ public class UserController extends HttpServlet
                     break;    
 
                     case "add":
-
+                        add(request, response);
                     break;
 
                     case "update":
 
                     break;    
 
-                    case "delete":
+                    case "active_inactive":
 
                     break;
 
@@ -115,21 +116,24 @@ public class UserController extends HttpServlet
     
     public void list(HttpServletRequest request, HttpServletResponse response)
     {
-        displayPage(request, response, "list");
-    }
-    
-    
-    public void displayPage(HttpServletRequest request, HttpServletResponse response, String action)
-    {
         try {
-           String url = "/WEB-INF/view/template/user/" + action + ".jsp";
-            
+            String url = "/WEB-INF/view/template/user/list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){
             e.printStackTrace();
         }
     }
-
+    
+    public void add(HttpServletRequest request, HttpServletResponse response)
+    {
+        try {
+            String url = "/WEB-INF/view/template/user/add.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

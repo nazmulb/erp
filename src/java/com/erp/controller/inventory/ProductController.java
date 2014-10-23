@@ -1,7 +1,6 @@
 package com.erp.controller.inventory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,20 +27,58 @@ public class ProductController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            String action = request.getParameter("action");
+            action = (action==null) ? "product_list" : action.trim();
+
+            switch(action){
+                case "product_add":
+                    productAdd(request, response);
+                break;
+
+                case "product_update":
+
+                break;    
+
+                case "product_details":
+
+                break;    
+
+                case "product_list":              
+                    productList(request, response);
+                break;
+
+                default:
+                    response.sendRedirect("404.jsp");
+                break;
+            }
+        } catch(IOException ie) {
+            throw new IOException();
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
+    
+    private void productList(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            String url = "/WEB-INF/view/template/inventory/product_list.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void productAdd(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            String url = "/WEB-INF/view/template/inventory/product_add.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

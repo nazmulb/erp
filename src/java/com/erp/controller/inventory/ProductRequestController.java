@@ -29,18 +29,45 @@ public class ProductRequestController extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ProductRequestController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ProductRequestController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            String action = request.getParameter("action");
+            action = (action==null) ? "product_req_list" : action.trim();
+
+            switch(action){
+                case "product_req_add":
+
+                break;
+
+                case "product_req_update":
+
+                break;    
+
+                case "product_req_details":
+
+                break;    
+
+                case "product_req_list":              
+                    productReqList(request, response);
+                break;
+
+                default:
+                    response.sendRedirect("404.jsp");
+                break;
+            }
+        } catch(IOException ie) {
+            throw new IOException();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void productReqList(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            String url = "/WEB-INF/view/template/inventory/product_req_list.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 

@@ -1,7 +1,6 @@
 package com.erp.controller.inventory;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,18 +27,45 @@ public class PurchaseRequestController extends HttpServlet
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
     {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PurchaseRequestController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PurchaseRequestController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        try {
+            String action = request.getParameter("action");
+            action = (action==null) ? "purchase_req_list" : action.trim();
+
+            switch(action){
+                case "purchase_req_add":
+
+                break;
+
+                case "purchase_req_update":
+
+                break;    
+
+                case "purchase_req_details":
+
+                break;    
+
+                case "purchase_req_list":              
+                    purchaseReqList(request, response);
+                break;
+
+                default:
+                    response.sendRedirect("404.jsp");
+                break;
+            }
+        } catch(IOException ie) {
+            throw new IOException();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void purchaseReqList(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            String url = "/WEB-INF/view/template/inventory/purchase_req_list.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
         }
     }
 
