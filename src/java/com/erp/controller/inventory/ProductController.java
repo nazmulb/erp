@@ -1,6 +1,9 @@
 package com.erp.controller.inventory;
 
+import com.erp.entity.inventory.TblProduct;
+import com.erp.model.inventory.ProductModel;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +64,21 @@ public class ProductController extends HttpServlet {
     
     private void productList(HttpServletRequest request, HttpServletResponse response) 
     {
+        int page = 1;
+        int recordsPerPage = 1;
+        
         try {
+            if(request.getParameter("page") != null)
+                page = Integer.parseInt(request.getParameter("page"));
+            
+            ProductModel pm = new ProductModel();
+            ArrayList<TblProduct> results = pm.load((page-1)*recordsPerPage, recordsPerPage);
+            int noOfRecords = pm.getNoOfRecords();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            request.setAttribute("results", results);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+        
             String url = "/WEB-INF/view/template/inventory/product_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){
