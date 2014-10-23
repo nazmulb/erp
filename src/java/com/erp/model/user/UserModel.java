@@ -1,10 +1,9 @@
 package com.erp.model.user;
 
 import com.erp.dal.MysqlConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import com.erp.entity.user.TblUser;
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * <h1>ERP Model</h1>
@@ -17,12 +16,90 @@ import java.sql.SQLException;
  */
 public class UserModel 
 {
-    private static Connection conn = null;
-    
+    private Connection conn = null;
+    private PreparedStatement pstmt = null;
+    private int noOfRecords = 0;
+        
     public UserModel()
     {
         MysqlConnection mysqlCon = MysqlConnection.getInstance();
         conn = mysqlCon.getConnection();
+    }
+    
+    /**
+     * To get the no of record found.
+     * @return int no of record found.
+     */
+    public int getNoOfRecords() 
+    {
+        return noOfRecords;
+    }
+    
+    /**
+     * To get all users.
+     * @return ArrayList<TblUser> This will return list of users.
+     * @exception SQLException On SQL error.
+     */
+    public ArrayList<TblUser> load() throws SQLException 
+    {
+        return load(-1, -1);
+    }
+    
+    
+    /**
+     * To get users with limit.
+     * @param offset
+     * @param noOfRecords
+     * @return ArrayList<TblUser> This will return list of users.
+     * @exception SQLException On SQL error.
+     */
+    public ArrayList<TblUser> load(int offset, int noOfRecords) throws SQLException 
+    {
+        ResultSet rs = null;
+        ArrayList<TblUser> userList = new ArrayList<TblUser>();
+        
+        try {    
+           String sql = "SELECT SQL_CALC_FOUND_ROWS * FROM tbl_user "+((offset==-1 && noOfRecords==-1) ? "" :  " LIMIT ?, ?");
+           
+           pstmt = conn.prepareStatement(sql);
+           if(!(offset==-1 && noOfRecords==-1)){
+                pstmt.setInt(1, offset);
+                pstmt.setInt(2, noOfRecords);
+           }
+           
+           rs = pstmt.executeQuery();
+
+           while(rs.next()){
+               TblUser u = new TblUser();
+               u.setUid(rs.getInt("uid"));
+               u.setUname(rs.getString("uname"));
+               u.setFirstName(rs.getString("first_name"));
+               u.setLastName(rs.getString("last_name"));
+               u.setPassword(rs.getString("password"));
+               u.setEmail(rs.getString("email"));
+               u.setPhone(rs.getString("phone"));
+               u.setImage(rs.getString("image"));
+               u.setStatus(rs.getInt("status"));
+               
+               userList.add(u);
+           } 
+           
+           pstmt = conn.prepareStatement("SELECT FOUND_ROWS()");
+           rs = pstmt.executeQuery();
+           if(rs.next())
+                this.noOfRecords = rs.getInt(1);
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+        
+        return userList;   
     }
     
     /**
@@ -34,7 +111,6 @@ public class UserModel
     */
     public boolean isValidUser(String uname, String password) throws SQLException 
     {
-        PreparedStatement pstmt = null;
         ResultSet rs = null;
         boolean isValid = false;
         

@@ -1,8 +1,9 @@
 package com.erp.controller.user;
 
-import com.erp.common.Utility;
+import com.erp.entity.user.TblUser;
 import com.erp.model.user.UserModel;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -116,7 +117,22 @@ public class UserController extends HttpServlet
     
     public void list(HttpServletRequest request, HttpServletResponse response)
     {
+        int page = 1;
+        int recordsPerPage = 1;
+        
         try {
+            if(request.getParameter("page") != null)
+                page = Integer.parseInt(request.getParameter("page"));
+            
+            UserModel um = new UserModel();
+            ArrayList<TblUser> results = um.load((page-1)*recordsPerPage, recordsPerPage);
+            int noOfRecords = um.getNoOfRecords();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            request.setAttribute("results", results);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("pageURL", "user?action=list");
+        
             String url = "/WEB-INF/view/template/user/list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){

@@ -21,7 +21,7 @@
                             <td>${result.currentStock}</td>
                             <td>${result.rate}</td>
                             <td>${result.unit}</td>
-                            <td><a class="btn btn-default btn-sm" href="product?action=product_add&amp;pid=${result.pid}">Edit</a></td>
+                            <td><a class="btn btn-default btn-xs" href="product?action=product_add&amp;pid=${result.pid}">Edit</a></td>
                         </tr>
                     </c:forEach>
                 </table>
