@@ -103,6 +103,32 @@ public class UserModel
     }
     
     /**
+     * Update status by user id.
+     * @param uid User ID.
+     * @param status User Status.
+     * @exception SQLException On SQL error.
+    */
+    public void updateStatus(int uid, int status) throws SQLException 
+    {
+        try {    
+           String sql = "UPDATE tbl_user SET status=? WHERE uid=?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setInt(1, status);
+           pstmt.setInt(2, uid);
+           pstmt.executeUpdate();      
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            pstmt.close();
+            conn.close();
+        }
+    }
+    
+    /**
      * To check a user is valid or not.
      * @param uname User Name.
      * @param password User Password.
@@ -115,7 +141,7 @@ public class UserModel
         boolean isValid = false;
         
         try {    
-           String sql = "SELECT COUNT(1) AS counts FROM  tbl_user WHERE status=1 AND uname=? AND password=?";
+           String sql = "SELECT COUNT(1) AS counts FROM tbl_user WHERE status=1 AND uname=? AND password=?";
            
            pstmt = conn.prepareStatement(sql); 
            pstmt.setString(1, uname);

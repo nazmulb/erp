@@ -204,11 +204,14 @@ nav {
     margin: 1px 11px;
 }
 
-.bg-warning{
-    padding: 3px;
+.bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {
+    padding: 10px;
+    font-weight: bold;
+}
+
+.bg-danger {
     background-color: #FF6347;
     color: #fff;
-    font-weight: bold;
 }
 
 .navbar-toggle {

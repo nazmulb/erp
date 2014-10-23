@@ -58,7 +58,7 @@ public class UserController extends HttpServlet
                     break;    
 
                     case "active_inactive":
-
+                        activeInactive(request, response);
                     break;
 
                     case "details":
@@ -135,6 +135,22 @@ public class UserController extends HttpServlet
         
             String url = "/WEB-INF/view/template/user/list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private void activeInactive(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int uid = (request.getParameter("uid") != null) ? Integer.parseInt(request.getParameter("uid")) : 0;
+            int status = (request.getParameter("status") != null) ? Integer.parseInt(request.getParameter("status")) : 0;
+            
+            UserModel um = new UserModel();
+            um.updateStatus(uid, status);
+            response.sendRedirect("user?action=list&msg_type=success&msg=User has been successfully "+(status==1 ? "activated" : "inactivated") + ".");
+            
         } catch(Exception e){
             e.printStackTrace();
         }

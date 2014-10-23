@@ -2,7 +2,7 @@
     <div class="container content">
         <div class="login">
             <% if(request.getParameter("msg") != null){ %>
-                <p class="bg-warning"><%= request.getParameter("msg").toString()%></p>
+                <p class="bg-danger"><%= request.getParameter("msg").toString()%></p>
             <% } %>
             <form role="form" action="login_process" method="POST">
                 <div class="form-group">
