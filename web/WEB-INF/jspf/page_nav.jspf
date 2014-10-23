@@ -1,7 +1,7 @@
 <c:if test="${noOfPages > 1}">
     <div class="page-nav-div">
         <c:if test="${currentPage != 1}">
-            <a class="page-navs" href="${pageURL}&amp;page=${currentPage - 1}">&lt;&lt; </a>
+            <a class="page-navs" href="${pageURL}&amp;page=${currentPage - 1}">&lt;&lt; &nbsp;</a>
         </c:if>
         <c:forEach begin="1" end="${noOfPages}" var="i">
             <c:if test="${i > 1}">
@@ -17,7 +17,7 @@
             </c:choose>
         </c:forEach>
         <c:if test="${currentPage < noOfPages}">
-            <a class="page-navs" href="${pageURL}&amp;page=${currentPage + 1}"> &gt;&gt;</a>
+            <a class="page-navs" href="${pageURL}&amp;page=${currentPage + 1}">&nbsp; &gt;&gt;</a>
         </c:if>
     </div>
 </c:if>

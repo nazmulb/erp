@@ -5,7 +5,9 @@
         <aside class="col-md-9">
             <h1>Product List</h1>
             <div class="right-content">
-                <table width="70%" class="table-bordered">
+                <a style="margin-right: 166px; margin-bottom: 10px;" class="pull-right btn btn-success btn-sm" href="product?action=product_add">Add Product</a>
+                <div class="clearfix"></div>
+                <table width="80%" class="table-bordered">
                     <tr>
                         <th>Product Name</th>
                         <th>Current Stock</th>
@@ -19,7 +21,7 @@
                             <td>${result.currentStock}</td>
                             <td>${result.rate}</td>
                             <td>${result.unit}</td>
-                            <td><a href="#">Edit</a></td>
+                            <td><a class="btn btn-default btn-sm" href="product?action=product_add&amp;pid=${result.pid}">Edit</a></td>
                         </tr>
                     </c:forEach>
                 </table>

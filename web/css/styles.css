@@ -236,14 +236,40 @@ nav {
     padding: 5px; 
 }
 
+.btn, .btn:link, .btn:visited, .btn:hover {
+    color: #fff;
+    text-decoration: none;
+}
 
+.btn-default, .btn-default:link, .btn-default:visited, .btn-default:hover {
+    color: #000;
+}
 
+.page-nav-div {
+    width: 80%;
+    padding: 0px 0px 0px 5px;
+    color: #333;
+}
 
+.page-navs:link, .page-navs:visited {
+    font-weight: bold;
+    text-decoration: none;
+}
 
+.page-navs:hover {
+    font-weight: bold;
+    text-decoration: none;
+}
 
+.page-current {
+    font-weight: bold;
+    text-decoration: underline;
+}
 
-
-
+.page-pipe {
+    font-weight: bold;
+    padding: 0 4px;
+}
 
 
 
