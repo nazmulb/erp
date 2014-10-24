@@ -101,7 +101,7 @@ public class UserModel
         
         return userList;   
     }
-    
+        
     /**
      * Update status by user id.
      * @param uid User ID.

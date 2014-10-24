@@ -4,11 +4,11 @@
 
         <aside class="col-md-9">
             <h1>User List</h1>
-            <div class="right-content">
+            <div class="right-content list-area">
                 <%@include file="/WEB-INF/jspf/msg.jspf" %>
-                <a style="margin-right: 166px; margin-bottom: 10px;" class="pull-right btn btn-success btn-sm" href="user?action=add">Add User</a>
+                <a class="btn btn-success btn-sm btn-add-right" href="user?action=add">Add User</a>
                 <div class="clearfix"></div>
-                <table width="80%" class="table-bordered">
+                <table width="100%" class="table-bordered">
                     <tr>
                         <th>User Name</th>
                         <th>Name</th>

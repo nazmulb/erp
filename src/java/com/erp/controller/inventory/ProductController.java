@@ -40,11 +40,7 @@ public class ProductController extends HttpServlet {
                 break;
 
                 case "product_update":
-
-                break;    
-
-                case "product_details":
-
+                    productUpdate(request, response);
                 break;    
 
                 case "product_list":              
@@ -64,12 +60,10 @@ public class ProductController extends HttpServlet {
     
     private void productList(HttpServletRequest request, HttpServletResponse response) 
     {
-        int page = 1;
-        int recordsPerPage = 1;
+        int recordsPerPage = 4;
         
         try {
-            if(request.getParameter("page") != null)
-                page = Integer.parseInt(request.getParameter("page"));
+            int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
             
             ProductModel pm = new ProductModel();
             ArrayList<TblProduct> results = pm.load((page-1)*recordsPerPage, recordsPerPage);
@@ -90,8 +84,63 @@ public class ProductController extends HttpServlet {
     private void productAdd(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
+            int pid = (request.getParameter("pid") != null) ? Integer.parseInt(request.getParameter("pid")) : 0;
+            request.setAttribute("result", null);
+            
+            if(pid>0){
+                ProductModel pm = new ProductModel();
+                TblProduct result = pm.loadById(pid);
+                request.setAttribute("result", result);
+            }
+            
             String url = "/WEB-INF/view/template/inventory/product_add.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void productUpdate(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int pid = (request.getParameter("pid") != null && request.getParameter("pid") != "") ? Integer.parseInt(request.getParameter("pid")) : 0;
+            String name = (request.getParameter("name") != null && request.getParameter("name") != "") ? request.getParameter("name") : "";
+            double currentStock = (request.getParameter("current_stock") != null && request.getParameter("current_stock") != "") ? Double.parseDouble(request.getParameter("current_stock")) : 0;
+            double rate = (request.getParameter("rate") != null && request.getParameter("rate") != "") ? Double.parseDouble(request.getParameter("rate")) : 0;
+            String unit = (request.getParameter("unit") != null && request.getParameter("unit") != "") ? request.getParameter("unit") : "";
+            
+            TblProduct p = new TblProduct();
+            p.setPid(pid);
+            p.setName(name);
+            p.setCurrentStock(currentStock);
+            p.setRate(rate);
+            p.setUnit(unit);
+            
+            ProductModel pm = new ProductModel();
+            pm.save(p);         
+            
+            response.sendRedirect("product?action=product_list&msg_type=success&msg=Product has beed "+(pid==0 ? "added" : "updated") + " successfully.");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void productDetails(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int pid = (request.getParameter("pid") != null) ? Integer.parseInt(request.getParameter("pid")) : 0;
+            
+            if(pid>0){
+                ProductModel pm = new ProductModel();
+                TblProduct result = pm.loadById(pid);
+                request.setAttribute("result", result);
+                
+                String url = "/WEB-INF/view/template/inventory/product_details.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }else{
+                throw new Error("Product id requied to show product details.");
+            }
+            
         } catch(Exception e){
             e.printStackTrace();
         }

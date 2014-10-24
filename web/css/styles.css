@@ -269,5 +269,25 @@ nav {
     padding: 0 4px;
 }
 
+.list-area {
+    width: 80%;
+}
 
+.list-area .btn-add-right {
+    float: right;
+    margin-bottom: 10px;
+}
+
+.form-area {
+    width: 80%;
+}
+
+input.error { 
+    border: 1px solid red; 
+}
+
+label.error {
+    color: red;
+    font-style: italic
+}
 

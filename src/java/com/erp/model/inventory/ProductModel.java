@@ -19,6 +19,7 @@ public class ProductModel
     private Connection conn = null;
     private PreparedStatement pstmt = null;
     private int noOfRecords = 0;
+    private int lastInsertedId = -1;
     
     public ProductModel()
     {
@@ -33,6 +34,15 @@ public class ProductModel
     public int getNoOfRecords() 
     {
         return noOfRecords;
+    }
+    
+    /**
+     * To get the last inserted id.
+     * @return int no of record found.
+     */
+    public int getLastInsertedId() 
+    {
+        return lastInsertedId;
     }
     
     /**
@@ -97,4 +107,88 @@ public class ProductModel
         
         return proList;   
     }
+    
+    /**
+     * To get product by product id.
+     * @param pid
+     * @return TblProduct This will return product details.
+     * @exception SQLException On SQL error.
+     */
+    public TblProduct loadById(int pid) throws SQLException 
+    {
+        ResultSet rs = null;
+        TblProduct p = new TblProduct();
+        
+        try {    
+           String sql = "SELECT * FROM tbl_product WHERE pid=?";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, pid);
+           
+           rs = pstmt.executeQuery();
+
+           if(rs.next()){
+               p.setPid(rs.getInt("pid"));
+               p.setName(rs.getString("name"));
+               p.setCurrentStock(rs.getDouble("current_stock"));
+               p.setRate(rs.getDouble("rate"));
+               p.setUnit(rs.getString("unit"));
+           } 
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+        
+        return p;   
+    }
+    
+    /**
+     * Add or update product depending on product id.
+     * @param product product object.
+     * @exception SQLException On SQL error.
+    */
+    public void save(TblProduct product) throws SQLException 
+    {
+        try {
+            int pid = product.getPid();
+            String sql;
+            
+            if(pid>0){ 
+                sql = "UPDATE tbl_product SET name=?, current_stock=?, rate=?, unit=?  WHERE pid=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(5, pid);
+            }else{
+                sql = "INSERT INTO tbl_product (name, current_stock, rate, unit) VALUES (?, ?, ?, ?)";
+                pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            
+            pstmt.setString(1, product.getName());
+            pstmt.setDouble(2, product.getCurrentStock());
+            pstmt.setDouble(3, product.getRate());
+            pstmt.setString(4, product.getUnit());            
+            pstmt.executeUpdate();
+            
+            if(pid==0){ 
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.lastInsertedId = rs.getInt(1);
+                }
+            }
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            pstmt.close();
+            conn.close();
+        }
+    }
+    
 }

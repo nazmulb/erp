@@ -15,6 +15,12 @@ import javax.servlet.http.HttpSession;
  */
 public class Utility 
 {
+    /**
+     * Authenticate the pages
+     * @param request
+     * @param response
+     * @exception Exception
+     */
     public static void auth(HttpServletRequest request, HttpServletResponse response)
     {
         try {

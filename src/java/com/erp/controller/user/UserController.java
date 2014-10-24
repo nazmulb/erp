@@ -117,12 +117,10 @@ public class UserController extends HttpServlet
     
     public void list(HttpServletRequest request, HttpServletResponse response)
     {
-        int page = 1;
         int recordsPerPage = 1;
         
         try {
-            if(request.getParameter("page") != null)
-                page = Integer.parseInt(request.getParameter("page"));
+            int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
             
             UserModel um = new UserModel();
             ArrayList<TblUser> results = um.load((page-1)*recordsPerPage, recordsPerPage);
