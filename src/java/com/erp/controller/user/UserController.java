@@ -1,5 +1,6 @@
 package com.erp.controller.user;
 
+import com.erp.common.Utility;
 import com.erp.entity.user.TblUser;
 import com.erp.model.user.UserModel;
 import java.io.IOException;
@@ -117,7 +118,7 @@ public class UserController extends HttpServlet
     
     public void list(HttpServletRequest request, HttpServletResponse response)
     {
-        int recordsPerPage = 1;
+        int recordsPerPage = Utility.getRecordsPerPage();
         
         try {
             int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;

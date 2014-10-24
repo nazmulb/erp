@@ -1,6 +1,10 @@
 package com.erp.controller.inventory;
 
+import com.erp.common.Utility;
+import com.erp.entity.inventory.TblProductPurchaseReq;
+import com.erp.model.inventory.PurchaseRequestModel;
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +65,20 @@ public class PurchaseRequestController extends HttpServlet
     
     private void purchaseReqList(HttpServletRequest request, HttpServletResponse response) 
     {
+        int recordsPerPage = Utility.getRecordsPerPage();
+        
         try {
+            int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
+            
+            PurchaseRequestModel m = new PurchaseRequestModel();
+            ArrayList<TblProductPurchaseReq> results = m.load((page-1)*recordsPerPage, recordsPerPage);
+            int noOfRecords = m.getNoOfRecords();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            request.setAttribute("results", results);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("pageURL", "purchase_request?action=purchase_req_list");
+        
             String url = "/WEB-INF/view/template/inventory/purchase_req_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){

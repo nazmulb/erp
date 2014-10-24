@@ -15,6 +15,8 @@ import javax.servlet.http.HttpSession;
  */
 public class Utility 
 {
+    private static int recordsPerPage = 1;
+    
     /**
      * Authenticate the pages
      * @param request
@@ -41,5 +43,15 @@ public class Utility
         } catch(Exception e){
             e.printStackTrace();
         }
-    }    
+    }
+    
+    /**
+     * Authenticate the pages
+     * @return records per page
+     * @exception Exception
+     */
+    public static int getRecordsPerPage()
+    {
+        return recordsPerPage;
+    }
 }

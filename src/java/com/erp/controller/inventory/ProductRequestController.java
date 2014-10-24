@@ -1,7 +1,10 @@
 package com.erp.controller.inventory;
 
+import com.erp.common.Utility;
+import com.erp.entity.inventory.TblProductReq;
+import com.erp.model.inventory.ProductRequestModel;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +35,7 @@ public class ProductRequestController extends HttpServlet
         try {
             String action = request.getParameter("action");
             action = (action==null) ? "product_req_list" : action.trim();
-
+            
             switch(action){
                 case "product_req_add":
 
@@ -63,7 +66,20 @@ public class ProductRequestController extends HttpServlet
     
     private void productReqList(HttpServletRequest request, HttpServletResponse response) 
     {
+        int recordsPerPage = Utility.getRecordsPerPage();
+        
         try {
+            int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
+            
+            ProductRequestModel m = new ProductRequestModel();
+            ArrayList<TblProductReq> results = m.load((page-1)*recordsPerPage, recordsPerPage);
+            int noOfRecords = m.getNoOfRecords();
+            int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
+            request.setAttribute("results", results);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+            request.setAttribute("pageURL", "product_request?action=product_req_list");
+        
             String url = "/WEB-INF/view/template/inventory/product_req_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){

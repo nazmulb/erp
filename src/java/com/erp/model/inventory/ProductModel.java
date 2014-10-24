@@ -152,7 +152,7 @@ public class ProductModel
      * Add or update product depending on product id.
      * @param product product object.
      * @exception SQLException On SQL error.
-    */
+     */
     public void save(TblProduct product) throws SQLException 
     {
         try {

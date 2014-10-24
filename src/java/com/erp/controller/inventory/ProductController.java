@@ -1,5 +1,6 @@
 package com.erp.controller.inventory;
 
+import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProduct;
 import com.erp.model.inventory.ProductModel;
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class ProductController extends HttpServlet {
     
     private void productList(HttpServletRequest request, HttpServletResponse response) 
     {
-        int recordsPerPage = 4;
+        int recordsPerPage = Utility.getRecordsPerPage();
         
         try {
             int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
