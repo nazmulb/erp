@@ -282,6 +282,29 @@ nav {
     width: 80%;
 }
 
+.details-view-area {
+    width: 80%;
+}
+
+.details-view-area .row {
+    padding: 5px 0;
+    margin-left: 0px;
+}
+
+.details-view-area .row .dva-left {
+    padding: 3px 7px;
+    font-weight: bold;
+    background-color: #f4f4f4;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+
+.details-view-area .row .dva-right {
+    padding: 3px 7px;
+    background-color: #f4f4f4;
+    border-right: 1px solid #ccc;
+}
+
 input.error { 
     border: 1px solid red; 
 }

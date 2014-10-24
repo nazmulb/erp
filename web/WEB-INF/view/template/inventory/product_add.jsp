@@ -5,7 +5,7 @@
         <aside class="col-md-9">
             <h1>${pageContext.request.getParameter('pid')==null ? 'Add' : 'Edit'} Product</h1>
 
-            <div class="right-content form-cont">
+            <div class="right-content form-area">
                 <form id="productEntryForm" role="form" action="product?action=product_update" method="POST">
                     <input type="hidden" name="pid" value="${pageContext.request.getParameter('pid')}" />
                     <div class="form-group">

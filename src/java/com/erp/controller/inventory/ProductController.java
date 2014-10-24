@@ -125,29 +125,7 @@ public class ProductController extends HttpServlet {
             e.printStackTrace();
         }
     }
-    
-    private void productDetails(HttpServletRequest request, HttpServletResponse response) 
-    {
-        try {
-            int pid = (request.getParameter("pid") != null) ? Integer.parseInt(request.getParameter("pid")) : 0;
-            
-            if(pid>0){
-                ProductModel pm = new ProductModel();
-                TblProduct result = pm.loadById(pid);
-                request.setAttribute("result", result);
-                
-                String url = "/WEB-INF/view/template/inventory/product_details.jsp";
-                request.getRequestDispatcher(url).forward(request, response);
-            }else{
-                throw new Error("Product id requied to show product details.");
-            }
-            
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
-
+   
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

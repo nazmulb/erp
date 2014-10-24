@@ -45,7 +45,7 @@ public class PurchaseRequestController extends HttpServlet
                 break;    
 
                 case "purchase_req_details":
-
+                    purchaseReqDetails(request, response);
                 break;    
 
                 case "purchase_req_list":              
@@ -81,6 +81,27 @@ public class PurchaseRequestController extends HttpServlet
         
             String url = "/WEB-INF/view/template/inventory/purchase_req_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void purchaseReqDetails(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int id = (request.getParameter("id") != null) ? Integer.parseInt(request.getParameter("id")) : 0;
+            
+            if(id>0){
+                PurchaseRequestModel m = new PurchaseRequestModel();
+                TblProductPurchaseReq result = m.loadById(id);
+                request.setAttribute("result", result);
+                
+                String url = "/WEB-INF/view/template/inventory/purchase_req_details.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }else{
+                throw new Error("Product id requied to show product details.");
+            }
+            
         } catch(Exception e){
             e.printStackTrace();
         }
