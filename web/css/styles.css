@@ -305,6 +305,36 @@ nav {
     border-right: 1px solid #ccc;
 }
 
+.ptop-row, .pbottom-row {
+    margin-left: 0px !important;
+    
+}
+
+.ptop-row {
+    width: 85%;
+    padding: 30px 10px;
+    border: 1px solid #ccc;
+}
+
+.pbottom-row {
+    width: 55%;
+    padding: 0 0 10px 0;
+    border: 1px solid #ccc;
+}
+
+.pbottom-row .btn-danger {
+    margin-top: 30px;
+}
+
+.psubmit-row .btn-default {
+    margin-left: 305px !important;
+}
+
+.psubmit-row .btn-success {
+    margin-left: 15px !important;
+    margin-top: 40px !important;
+}
+
 input.error { 
     border: 1px solid red; 
 }
