@@ -94,7 +94,7 @@ public class UserController extends HttpServlet
                 session.setAttribute("uname", uname);
                 response.sendRedirect("index.jsp");
             }else{
-                response.sendRedirect("login.jsp?msg=User Name or Password does not match.");
+                response.sendRedirect("login.jsp?msg_type=danger&msg=User Name or Password does not match.");
             }
         } catch(Exception e){
             e.printStackTrace();

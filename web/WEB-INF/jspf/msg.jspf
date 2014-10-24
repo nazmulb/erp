@@ -1,0 +1,3 @@
+<c:if test="${pageContext.request.getParameter('msg')!=null}">
+    <p class="bg-${pageContext.request.getParameter('msg_type')}">${pageContext.request.getParameter('msg').toString()}</p>
+</c:if>

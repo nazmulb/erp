@@ -5,9 +5,7 @@
         <aside class="col-md-9">
             <h1>User List</h1>
             <div class="right-content">
-                <% if(request.getParameter("msg") != null){ %>
-                    <p class="bg-<%=request.getParameter("msg_type")%>"><%= request.getParameter("msg").toString()%></p>
-                <% } %>
+                <%@include file="/WEB-INF/jspf/msg.jspf" %>
                 <a style="margin-right: 166px; margin-bottom: 10px;" class="pull-right btn btn-success btn-sm" href="user?action=add">Add User</a>
                 <div class="clearfix"></div>
                 <table width="80%" class="table-bordered">

@@ -1,9 +1,7 @@
 <section>
     <div class="container content">
         <div class="login">
-            <% if(request.getParameter("msg") != null){ %>
-                <p class="bg-danger"><%= request.getParameter("msg").toString()%></p>
-            <% } %>
+            <%@include file="/WEB-INF/jspf/msg.jspf" %>
             <form role="form" action="login_process" method="POST">
                 <div class="form-group">
                     <label for="txtUname">User Name</label>
