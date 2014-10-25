@@ -2,6 +2,7 @@ package com.erp.model.inventory;
 
 import com.erp.dal.MysqlConnection;
 import com.erp.entity.inventory.TblProductPurchaseReq;
+import com.erp.entity.inventory.TblProductPurchaseReqDetails;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -183,8 +184,47 @@ public class PurchaseRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            pstmt.close();
-            conn.close();
+        }
+    }
+    
+    
+    /**
+     * Add or update purchase request details depending on id.
+     * @param obj purchase request details object.
+     * @exception SQLException On SQL error.
+     */
+    public void savePurchaseReqDetails(TblProductPurchaseReqDetails obj) throws SQLException 
+    {
+        try {
+            int id = obj.getPurReqDetId();
+            String sql;
+            
+            if(id>0){ 
+                sql = "UPDATE  tbl_product_purchase_req_details SET pur_req_id=?, pid=?, qty=?  WHERE pur_req_det_id=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(4, id);
+            }else{
+                sql = "INSERT INTO tbl_product_purchase_req_details (pur_req_id, pid, qty) VALUES (?, ?, ?)";
+                pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            
+            pstmt.setInt(1, obj.getPurReqId());
+            pstmt.setInt(2, obj.getPid());
+            pstmt.setDouble(3, obj.getQty());          
+            pstmt.executeUpdate();
+            
+            if(id==0){ 
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.lastInsertedId = rs.getInt(1);
+                }
+            }
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
         }
     }
 }

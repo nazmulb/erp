@@ -171,7 +171,7 @@ CREATE TABLE `tbl_user` (
 
 /*Data for the table `tbl_user` */
 
-insert  into `tbl_user`(`uid`,`uname`,`first_name`,`last_name`,`password`,`email`,`phone`,`image`,`status`) values (1,'admin','Nazmul','Basher','admin','nazmul.basher@fieldnation.com','+8801712994064',NULL,1),(2,'alamin','Al','Amin','alamin','enalamin@gmail.com','+8801677073455',NULL,1);
+insert  into `tbl_user`(`uid`,`uname`,`first_name`,`last_name`,`password`,`email`,`phone`,`image`,`status`) values (1,'admin','Nazmul','Basher','92668751','nazmul.basher@fieldnation.com','+8801712994064',NULL,1),(2,'alamin','Al','Amin','-1415201540','enalamin@gmail.com','+8801677073455',NULL,1);
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

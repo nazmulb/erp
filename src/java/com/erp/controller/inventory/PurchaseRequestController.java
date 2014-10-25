@@ -2,6 +2,7 @@ package com.erp.controller.inventory;
 
 import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProductPurchaseReq;
+import com.erp.entity.inventory.TblProductPurchaseReqDetails;
 import com.erp.model.inventory.PurchaseRequestModel;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,32 +91,43 @@ public class PurchaseRequestController extends HttpServlet
     private void purchaseReqUpdate(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
-            Enumeration paramNames = request.getParameterNames();
+            
+            String purRqDate = (request.getParameter("pur_req_date") != null && request.getParameter("pur_req_date") != "") ? request.getParameter("pur_req_date") : "";
+            
+            TblProductPurchaseReq p = new TblProductPurchaseReq();
+            p.setPurReqDate(purRqDate);
+            p.setPurReqBy(1);
+            p.setStatus(1);
+            
+            PurchaseRequestModel pm = new PurchaseRequestModel();
+            pm.save(p); 
+            int purReqId = pm.getLastInsertedId();
+            
+            int cntInputs = (request.getParameter("cnt_inputs") != null && request.getParameter("cnt_inputs") != "") ? Integer.parseInt(request.getParameter("cnt_inputs")) : 0;
+            int pid = 0;
+            double qty = 0;
+            
+            for(int i=1; i<=cntInputs; i++){
+                
+                try{
+                    pid = Integer.parseInt(request.getParameter("pid_"+i));
+                    qty = Double.parseDouble(request.getParameter("qty_"+i));
+                    System.out.println("pid: "+pid+" qty: "+qty);
+                    if(pid>0 && qty>0){
+                        TblProductPurchaseReqDetails pd = new TblProductPurchaseReqDetails();
+                        pd.setPurReqId(purReqId);
+                        pd.setPid(pid);
+                        pd.setQty(qty);
 
-            while(paramNames.hasMoreElements()) {
-               String paramName = (String)paramNames.nextElement();
-               System.out.print(paramName+": ");
-               String paramValue = request.getParameter(paramName);
-               System.out.println(paramValue);
+                        pm.savePurchaseReqDetails(pd);
+                    }
+                } catch(Exception e){
+                    continue;
+                }
             }
-            /*int pid = (request.getParameter("pid") != null && request.getParameter("pid") != "") ? Integer.parseInt(request.getParameter("pid")) : 0;
-            String name = (request.getParameter("name") != null && request.getParameter("name") != "") ? request.getParameter("name") : "";
-            double currentStock = (request.getParameter("current_stock") != null && request.getParameter("current_stock") != "") ? Double.parseDouble(request.getParameter("current_stock")) : 0;
-            double rate = (request.getParameter("rate") != null && request.getParameter("rate") != "") ? Double.parseDouble(request.getParameter("rate")) : 0;
-            String unit = (request.getParameter("unit") != null && request.getParameter("unit") != "") ? request.getParameter("unit") : "";
             
-            TblProduct p = new TblProduct();
-            p.setPid(pid);
-            p.setName(name);
-            p.setCurrentStock(currentStock);
-            p.setRate(rate);
-            p.setUnit(unit);
+            response.sendRedirect("purchase_request?action=purchase_req_list&msg_type=success&msg=Purchase request has beed added successfully.");
             
-            ProductModel pm = new ProductModel();
-            pm.save(p);         
-            
-            response.sendRedirect("product?action=product_list&msg_type=success&msg=Product has beed "+(pid==0 ? "added" : "updated") + " successfully.");
-            */
         } catch(Exception e){
             e.printStackTrace();
         }
