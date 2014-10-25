@@ -100,9 +100,6 @@ public class PurchaseRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            rs.close();
-            pstmt.close();
-            conn.close();
         }
         
         return list;   
@@ -120,7 +117,10 @@ public class PurchaseRequestModel
         TblProductPurchaseReq p = new TblProductPurchaseReq();
         
         try {    
-           String sql = "SELECT * FROM tbl_product_purchase_req WHERE pur_req_id=? LIMIT 1";
+           String sql = ""
+                   + "SELECT ppr.*, u.uname FROM tbl_product_purchase_req ppr "
+                   + "LEFT JOIN tbl_user u ON(u.uid=ppr.pur_req_by) "
+                   + "WHERE pur_req_id=? LIMIT 1";
            
            pstmt = conn.prepareStatement(sql);
            pstmt.setInt(1, id);
@@ -132,6 +132,7 @@ public class PurchaseRequestModel
                p.setPurReqDate(rs.getString("pur_req_date"));
                p.setPurReqBy(rs.getInt("pur_req_by"));
                p.setStatus(rs.getInt("status"));
+               p.setPurReqByName(rs.getString("uname"));
            } 
 
         }catch(SQLException se){
@@ -196,7 +197,10 @@ public class PurchaseRequestModel
         ArrayList<TblProductPurchaseReqDetails> list = new ArrayList<TblProductPurchaseReqDetails>();
         
         try {    
-           String sql = "SELECT * FROM tbl_product_purchase_req_details WHERE pur_req_id=?";
+           String sql = ""
+                   + "SELECT prd.*, p.name FROM tbl_product_purchase_req_details prd "
+                   + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
+                   + "WHERE pur_req_id=?";
            
            pstmt = conn.prepareStatement(sql);
            pstmt.setInt(1, purReqId);
@@ -209,6 +213,7 @@ public class PurchaseRequestModel
                p.setPurReqId(rs.getInt("pur_req_id"));
                p.setPid(rs.getInt("pid"));
                p.setQty(rs.getDouble("qty"));
+               p.setProductName(rs.getString("name"));
                
                list.add(p);
            } 
@@ -218,9 +223,6 @@ public class PurchaseRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            rs.close();
-            pstmt.close();
-            conn.close();
         }
         
         return list;   

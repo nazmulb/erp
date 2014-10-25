@@ -16,7 +16,7 @@
                         </div>
                         <div class="pull-left">
                             <label>Request By:</label>
-                            ${result.purReqBy}
+                            ${result.purReqByName}
                         </div>
                     </div>
                     
@@ -24,11 +24,12 @@
                         <div class="form-group pbottom-row" style="width: 85%;">    
                             <div class="col-sm-3">
                                 <label>Item</label> <br />
-                                ${req.pid}
+                                ${req.productName}
                             </div>    
                             <div class="col-sm-2">
                                 <label>Qty</label> <br />
                                 ${req.qty}
+                                <input type="hidden" name="itmqty_${req.purReqDetId}" value="${req.qty}" />
                             </div>
                             <div class="checkbox col-sm-1">
                                 <label>

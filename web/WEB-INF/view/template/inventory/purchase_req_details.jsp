@@ -19,7 +19,7 @@
                 
                 <div class="row">
                     <div class="dva-left col-md-3">Request By: </div>
-                    <div class="dva-right col-md-9">${result.purReqBy}</div>
+                    <div class="dva-right col-md-9">${result.purReqByName}</div>
                 </div>
                 
                 <div class="row">

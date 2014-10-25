@@ -13,6 +13,7 @@ public class TblProductPurchaseReq
     private int purReqId;
     private String purReqDate;
     private int purReqBy;
+    private String purReqByName;
     private int status;
     
     public TblProductPurchaseReq() 
@@ -29,6 +30,14 @@ public class TblProductPurchaseReq
         this.purReqId = purReqId;
         this.purReqDate = purReqDate;
         this.purReqBy = purReqBy;
+        this.status = status;
+    }
+
+    public TblProductPurchaseReq(int purReqId, String purReqDate, String purReqByName, int status) 
+    {
+        this.purReqId = purReqId;
+        this.purReqDate = purReqDate;
+        this.purReqByName = purReqByName;
         this.status = status;
     }
 
@@ -71,10 +80,20 @@ public class TblProductPurchaseReq
     {
         this.status = status;
     }
+    
+    public String getPurReqByName() 
+    {
+        return purReqByName;
+    }
+
+    public void setPurReqByName(String purReqByName) 
+    {
+        this.purReqByName = purReqByName;
+    }
 
     @Override
     public String toString() 
     {
-        return "TblProductPurchaseReq{" + "purReqId=" + purReqId + ", purReqDate=" + purReqDate + ", purReqBy=" + purReqBy + ", status=" + status + '}';
-    }
+        return "TblProductPurchaseReq{" + "purReqId=" + purReqId + ", purReqDate=" + purReqDate + ", purReqBy=" + purReqBy + ", purReqByName=" + purReqByName + ", status=" + status + '}';
+    }    
 }
