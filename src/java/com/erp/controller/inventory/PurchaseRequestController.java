@@ -5,6 +5,7 @@ import com.erp.entity.inventory.TblProductPurchaseReq;
 import com.erp.model.inventory.PurchaseRequestModel;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -41,7 +42,7 @@ public class PurchaseRequestController extends HttpServlet
                 break;
 
                 case "purchase_req_update":
-
+                    purchaseReqUpdate(request, response);
                 break;    
 
                 case "purchase_req_details":
@@ -81,6 +82,40 @@ public class PurchaseRequestController extends HttpServlet
         
             String url = "/WEB-INF/view/template/inventory/purchase_req_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void purchaseReqUpdate(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            Enumeration paramNames = request.getParameterNames();
+
+            while(paramNames.hasMoreElements()) {
+               String paramName = (String)paramNames.nextElement();
+               System.out.print(paramName+": ");
+               String paramValue = request.getParameter(paramName);
+               System.out.println(paramValue);
+            }
+            /*int pid = (request.getParameter("pid") != null && request.getParameter("pid") != "") ? Integer.parseInt(request.getParameter("pid")) : 0;
+            String name = (request.getParameter("name") != null && request.getParameter("name") != "") ? request.getParameter("name") : "";
+            double currentStock = (request.getParameter("current_stock") != null && request.getParameter("current_stock") != "") ? Double.parseDouble(request.getParameter("current_stock")) : 0;
+            double rate = (request.getParameter("rate") != null && request.getParameter("rate") != "") ? Double.parseDouble(request.getParameter("rate")) : 0;
+            String unit = (request.getParameter("unit") != null && request.getParameter("unit") != "") ? request.getParameter("unit") : "";
+            
+            TblProduct p = new TblProduct();
+            p.setPid(pid);
+            p.setName(name);
+            p.setCurrentStock(currentStock);
+            p.setRate(rate);
+            p.setUnit(unit);
+            
+            ProductModel pm = new ProductModel();
+            pm.save(p);         
+            
+            response.sendRedirect("product?action=product_list&msg_type=success&msg=Product has beed "+(pid==0 ? "added" : "updated") + " successfully.");
+            */
         } catch(Exception e){
             e.printStackTrace();
         }

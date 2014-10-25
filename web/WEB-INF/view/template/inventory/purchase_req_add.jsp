@@ -7,7 +7,7 @@
 
             <div class="right-content form-area">
                 <form class="form-horizontal" id="purchaseRequestForm" role="form" action="purchase_request?action=purchase_req_update" method="POST">
-                    
+                    <input type="hidden" id="cntInputs" name="cnt_inputs" value="1" />
                     <div class="form-group ptop-row">
                         <label for="txtDate" class="col-sm-1 control-label">Date:</label>
                         <div class="col-sm-3">
@@ -21,13 +21,13 @@
                     </div>
                         
                     <div class="form-group psubmit-row">
-                        <a class="btn btn-default btn-sm" href="#">Add More</a>
+                        <a id="aItemAddMore" class="btn btn-default btn-sm" href="#">Add More</a>
                     </div>
                         
                     <div class="form-group pbottom-row">    
                         <div class="col-sm-5">
                             <label>Item</label>
-                            <select name="pid" class="form-control" required>
+                            <select name="pid_1" class="form-control" required>
                                 <option value=""></option>
                                 <option value="1">Item 1</option>
                                 <option value="2">Item 2</option>
@@ -38,12 +38,33 @@
                         </div>    
                         <div class="col-sm-4">
                             <label>Qty</label>
-                            <input type="number" name="qty" value="" class="form-control" required />
+                            <input type="number" name="qty_1" value="" class="form-control" required />
                         </div>
-                        <div class="col-sm-1"><a class="btn btn-danger btn-xs" href="#">Remove</a></div>    
+                        <div class="col-sm-1"></div>    
                     </div>
                     
+                    <div id="itemToCloneDiv"></div>
                     
+                    <div id="cloneDiv" style="display:none;">    
+                        <div class="form-group pbottom-row">    
+                            <div class="col-sm-5">
+                                <label>Item</label>
+                                <select name="pid_2" class="form-control">
+                                    <option value=""></option>
+                                    <option value="1">Item 1</option>
+                                    <option value="2">Item 2</option>
+                                    <option value="3">Item 3</option>
+                                    <option value="4">Item 4</option>
+                                    <option value="5">Item 5</option>
+                                </select>
+                            </div>    
+                            <div class="col-sm-4">
+                                <label>Qty</label>
+                                <input type="number" name="qty_2" value="" class="form-control" />
+                            </div>
+                            <div class="col-sm-1"><a class="btn btn-danger btn-xs" href="#" onclick="jQuery(this).parent().parent().remove()">Remove</a></div>    
+                        </div>
+                    </div>
                     
                     <div class="form-group psubmit-row">
                         <button type="submit" class="btn btn-success">Submit Request</button>
@@ -60,5 +81,7 @@
     jQuery(document).ready(function(){
         // validate the form when it is submitted
         jQuery("#purchaseRequestForm").validate();
+        
+        jQuery("#aItemAddMore").on( "click", addMoreItem );
     });
 </script>
