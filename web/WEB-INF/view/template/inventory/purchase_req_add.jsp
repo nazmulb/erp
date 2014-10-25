@@ -1,17 +1,16 @@
 <section>
     <div class="container content">
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
-
         <aside class="col-md-9">
             <h1>Purchase Request</h1>
-
+            <%  SimpleDateFormat todayDate = new SimpleDateFormat("yyyy-MM-dd"); %>
             <div class="right-content form-area">
                 <form class="form-horizontal" id="purchaseRequestForm" role="form" action="purchase_request?action=purchase_req_update" method="POST">
                     <input type="hidden" id="cntInputs" name="cnt_inputs" value="1" />
                     <div class="form-group ptop-row">
                         <label for="txtDate" class="col-sm-1 control-label">Date:</label>
                         <div class="col-sm-3">
-                            <input type="text" name="pur_req_date" value="${(result!=null) ? result.purReqDate : ''}" class="form-control" id="txtDate" required />
+                            <input type="text" name="pur_req_date" value="<%=todayDate.format(dNow)%>" class="form-control" id="txtDate" readonly />
                         </div>
                         <div class="col-sm-2"></div>
                         <label for="txtRequestBy" class="col-sm-3 control-label">Request By:</label>
@@ -29,11 +28,9 @@
                             <label>Item</label>
                             <select name="pid_1" class="form-control" required>
                                 <option value=""></option>
-                                <option value="1">Item 1</option>
-                                <option value="2">Item 2</option>
-                                <option value="3">Item 3</option>
-                                <option value="4">Item 4</option>
-                                <option value="5">Item 5</option>
+                                <c:forEach var="product" items="${products}">
+                                    <option value="${product.pid}">${product.name}</option>
+                                </c:forEach>
                             </select>
                         </div>    
                         <div class="col-sm-4">
@@ -51,11 +48,9 @@
                                 <label>Item</label>
                                 <select name="pid_2" class="form-control">
                                     <option value=""></option>
-                                    <option value="1">Item 1</option>
-                                    <option value="2">Item 2</option>
-                                    <option value="3">Item 3</option>
-                                    <option value="4">Item 4</option>
-                                    <option value="5">Item 5</option>
+                                    <c:forEach var="product" items="${products}">
+                                        <option value="${product.pid}">${product.name}</option>
+                                    </c:forEach>
                                 </select>
                             </div>    
                             <div class="col-sm-4">
@@ -83,5 +78,10 @@
         jQuery("#purchaseRequestForm").validate();
         
         jQuery("#aItemAddMore").on( "click", addMoreItem );
+        
+        jQuery("[name=pur_req_date]").datetimepicker({
+            timepicker:false,
+            format:'Y-m-d'
+        });
     });
 </script>

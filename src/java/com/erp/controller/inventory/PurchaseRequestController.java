@@ -1,16 +1,20 @@
 package com.erp.controller.inventory;
 
 import com.erp.common.Utility;
+import com.erp.entity.inventory.TblProduct;
 import com.erp.entity.inventory.TblProductPurchaseReq;
 import com.erp.entity.inventory.TblProductPurchaseReqDetails;
+import com.erp.entity.user.TblUser;
+import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.PurchaseRequestModel;
+import com.erp.model.user.UserModel;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * <h1>ERP Controller</h1>
@@ -48,7 +52,11 @@ public class PurchaseRequestController extends HttpServlet
 
                 case "purchase_req_details":
                     purchaseReqDetails(request, response);
-                break;    
+                break;
+                    
+                case "purchase_req_received":
+                    purchaseReqReceived(request, response);
+                break;
 
                 case "purchase_req_list":              
                     purchaseReqList(request, response);
@@ -94,9 +102,14 @@ public class PurchaseRequestController extends HttpServlet
             
             String purRqDate = (request.getParameter("pur_req_date") != null && request.getParameter("pur_req_date") != "") ? request.getParameter("pur_req_date") : "";
             
+            HttpSession session = request.getSession(true);
+            String uname = session.getAttribute("uname").toString();
+            UserModel um = new UserModel();
+            TblUser u = um.loadByUserName(uname);
+                    
             TblProductPurchaseReq p = new TblProductPurchaseReq();
             p.setPurReqDate(purRqDate);
-            p.setPurReqBy(1);
+            p.setPurReqBy(u.getUid());
             p.setStatus(1);
             
             PurchaseRequestModel pm = new PurchaseRequestModel();
@@ -112,7 +125,6 @@ public class PurchaseRequestController extends HttpServlet
                 try{
                     pid = Integer.parseInt(request.getParameter("pid_"+i));
                     qty = Double.parseDouble(request.getParameter("qty_"+i));
-                    System.out.println("pid: "+pid+" qty: "+qty);
                     if(pid>0 && qty>0){
                         TblProductPurchaseReqDetails pd = new TblProductPurchaseReqDetails();
                         pd.setPurReqId(purReqId);
@@ -136,17 +148,30 @@ public class PurchaseRequestController extends HttpServlet
     private void purchaseReqAdd(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
+            ProductModel pm = new ProductModel();
+            ArrayList<TblProduct> products = pm.load();
+            request.setAttribute("products", products);
+            String url = "/WEB-INF/view/template/inventory/purchase_req_add.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private void purchaseReqReceived(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
             int id = (request.getParameter("id") != null) ? Integer.parseInt(request.getParameter("id")) : 0;
-            request.setAttribute("result", null);
             
             if(id>0){
                 PurchaseRequestModel pm = new PurchaseRequestModel();
                 TblProductPurchaseReq result = pm.loadById(id);
                 request.setAttribute("result", result);
+                
+                String url = "/WEB-INF/view/template/inventory/purchase_req_received.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
             }
-            
-            String url = "/WEB-INF/view/template/inventory/purchase_req_add.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){
             e.printStackTrace();
         }

@@ -120,7 +120,7 @@ public class PurchaseRequestModel
         TblProductPurchaseReq p = new TblProductPurchaseReq();
         
         try {    
-           String sql = "SELECT * FROM tbl_product_purchase_req WHERE pur_req_id=?";
+           String sql = "SELECT * FROM tbl_product_purchase_req WHERE pur_req_id=? LIMIT 1";
            
            pstmt = conn.prepareStatement(sql);
            pstmt.setInt(1, id);

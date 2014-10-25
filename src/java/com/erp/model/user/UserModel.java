@@ -129,6 +129,50 @@ public class UserModel
     }
     
     /**
+     * To get user by user name.
+     * @param uname
+     * @return TblUser This will return user info.
+     * @exception SQLException On SQL error.
+     */
+    public TblUser loadByUserName(String uname) throws SQLException 
+    {
+        ResultSet rs = null;
+        TblUser u = new TblUser();
+        
+        try {    
+           String sql = "SELECT * FROM tbl_user WHERE uname=? LIMIT 1";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setString(1, uname);
+           
+           rs = pstmt.executeQuery();
+
+           if(rs.next()){
+               u.setUid(rs.getInt("uid"));
+               u.setUname(rs.getString("uname"));
+               u.setFirstName(rs.getString("first_name"));
+               u.setLastName(rs.getString("last_name"));
+               u.setPassword(rs.getString("password"));
+               u.setEmail(rs.getString("email"));
+               u.setPhone(rs.getString("phone"));
+               u.setImage(rs.getString("image"));
+               u.setStatus(rs.getInt("status"));
+           } 
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+        
+        return u;   
+    }
+    
+    /**
      * To check a user is valid or not.
      * @param uname User Name.
      * @param password User Password.

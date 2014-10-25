@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
     <!-- Optional theme -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/jquery.datetimepicker.css" type="text/css" />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css" type="text/css" />
     <link rel="stylesheet" href="css/styles-responsive.css" type="text/css" />
@@ -9,6 +10,7 @@
     <!-- jQuery -->
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
     <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/jquery.datetimepicker.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/html5.js"></script>
