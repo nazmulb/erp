@@ -139,9 +139,6 @@ public class PurchaseRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            rs.close();
-            pstmt.close();
-            conn.close();
         }
         
         return p;   
@@ -185,6 +182,48 @@ public class PurchaseRequestModel
            e.printStackTrace();
         } finally {
         }
+    }
+    
+    /**
+     * To get all purchase request details by pur_req_id.
+     * @param purReqId
+     * @return ArrayList<TblProductPurchaseReqDetails> This will return all purchase request details.
+     * @exception SQLException On SQL error.
+     */
+    public ArrayList<TblProductPurchaseReqDetails> loadByPurchaseId(int purReqId) throws SQLException 
+    {
+        ResultSet rs = null;
+        ArrayList<TblProductPurchaseReqDetails> list = new ArrayList<TblProductPurchaseReqDetails>();
+        
+        try {    
+           String sql = "SELECT * FROM tbl_product_purchase_req_details WHERE pur_req_id=?";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, purReqId);
+           
+           rs = pstmt.executeQuery();
+
+           while(rs.next()){
+               TblProductPurchaseReqDetails p = new TblProductPurchaseReqDetails();
+               p.setPurReqDetId(rs.getInt("pur_req_det_id"));
+               p.setPurReqId(rs.getInt("pur_req_id"));
+               p.setPid(rs.getInt("pid"));
+               p.setQty(rs.getDouble("qty"));
+               
+               list.add(p);
+           } 
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+        
+        return list;   
     }
     
     

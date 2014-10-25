@@ -54,10 +54,14 @@ public class PurchaseRequestController extends HttpServlet
                     purchaseReqDetails(request, response);
                 break;
                     
+                case "purchase_req_receive":
+                    purchaseReqReceive(request, response);
+                break;
+                
                 case "purchase_req_received":
                     purchaseReqReceived(request, response);
                 break;
-
+                
                 case "purchase_req_list":              
                     purchaseReqList(request, response);
                 break;
@@ -110,7 +114,7 @@ public class PurchaseRequestController extends HttpServlet
             TblProductPurchaseReq p = new TblProductPurchaseReq();
             p.setPurReqDate(purRqDate);
             p.setPurReqBy(u.getUid());
-            p.setStatus(1);
+            p.setStatus(0);
             
             PurchaseRequestModel pm = new PurchaseRequestModel();
             pm.save(p); 
@@ -158,8 +162,7 @@ public class PurchaseRequestController extends HttpServlet
         }
     }
     
-    
-    private void purchaseReqReceived(HttpServletRequest request, HttpServletResponse response) 
+    private void purchaseReqReceive(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
             int id = (request.getParameter("id") != null) ? Integer.parseInt(request.getParameter("id")) : 0;
@@ -169,9 +172,23 @@ public class PurchaseRequestController extends HttpServlet
                 TblProductPurchaseReq result = pm.loadById(id);
                 request.setAttribute("result", result);
                 
-                String url = "/WEB-INF/view/template/inventory/purchase_req_received.jsp";
+                ArrayList<TblProductPurchaseReqDetails> reqDetails = pm.loadByPurchaseId(result.getPurReqId());
+                request.setAttribute("reqDetails", reqDetails);
+                
+                String url = "/WEB-INF/view/template/inventory/purchase_req_receive.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
+            }else{
+                throw new Error("Id requied to receive.");
             }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void purchaseReqReceived(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -190,7 +207,7 @@ public class PurchaseRequestController extends HttpServlet
                 String url = "/WEB-INF/view/template/inventory/purchase_req_details.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
             }else{
-                throw new Error("Product id requied to show product details.");
+                throw new Error("Id requied to show details.");
             }
             
         } catch(Exception e){

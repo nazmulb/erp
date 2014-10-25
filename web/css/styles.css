@@ -316,6 +316,15 @@ nav {
     border: 1px solid #ccc;
 }
 
+.ptop-row .pull-left{
+    width: 33%;
+}
+
+.ptop-row .pull-left label{
+    padding-left: 25px;
+    padding-right: 5px;
+}
+
 .pbottom-row {
     width: 55%;
     padding: 0 0 10px 0;

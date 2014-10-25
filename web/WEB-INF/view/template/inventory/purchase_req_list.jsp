@@ -22,7 +22,7 @@
                             <td>${result.status==1 ? "Received" : "Not Received"}</td>
                             <td>
                                 <c:if test="${result.status!=1}">
-                                    <a class="btn btn-default btn-xs" href="purchase_request?action=purchase_req_add&amp;id=${result.purReqId}">Receive</a>
+                                    <a class="btn btn-default btn-xs" href="purchase_request?action=purchase_req_receive&amp;id=${result.purReqId}">Receive</a>
                                 </c:if>
                                 <a class="btn btn-default btn-xs" href="purchase_request?action=purchase_req_details&amp;id=${result.purReqId}">View</a></td>
                         </tr>
