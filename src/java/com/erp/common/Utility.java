@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  */
 public class Utility 
 {
-    private static int recordsPerPage = 1;
+    private static int recordsPerPage = 50;
     
     /**
      * Authenticate the pages

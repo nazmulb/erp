@@ -4,12 +4,16 @@ import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProduct;
 import com.erp.entity.inventory.TblProductPurchaseReq;
 import com.erp.entity.inventory.TblProductPurchaseReqDetails;
+import com.erp.entity.inventory.TblProductRec;
 import com.erp.entity.user.TblUser;
 import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.PurchaseRequestModel;
 import com.erp.model.user.UserModel;
 import java.io.IOException;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -188,6 +192,51 @@ public class PurchaseRequestController extends HttpServlet
     private void purchaseReqReceived(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
+            Enumeration paramNames = request.getParameterNames();
+            int purReqId = Integer.parseInt(request.getParameter("pur_req_id"));
+            int id = 0, pid = 0;
+            double qty = 0, rate =0;
+            Date dnow = new Date();
+            SimpleDateFormat fullDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            
+            PurchaseRequestModel pm = new PurchaseRequestModel();
+            
+            while(paramNames.hasMoreElements()) {
+                String paramName = (String)paramNames.nextElement();
+               
+                if(paramName.startsWith("itmqty_")){
+                    try{
+                        id = Integer.parseInt(paramName.split("_")[1]);
+
+                        if(Integer.parseInt(request.getParameter("chk_"+id)) == 1){
+                            pid = Integer.parseInt(request.getParameter("pid_"+id));    
+                            qty = Double.parseDouble(request.getParameter("qty_"+id));
+                            rate = Double.parseDouble(request.getParameter("rate_"+id));
+                            if(qty>0 && rate>0){
+                                // Add product in receive table.
+                                TblProductRec pr = new TblProductRec();
+                                pr.setPurReqDetId(id);
+                                pr.setQty(qty);
+                                pr.setRate(rate);
+                                pr.setRecDate(fullDateTime.format(dnow));
+                                pr.setQtyDisburse(0);
+                                pm.saveProductReceive(pr);
+                                
+                                // Update stock in product table.
+                                ProductModel p = new ProductModel();
+                                p.updateCurrentStock(pid, qty);
+                            }
+                        }
+                    } catch(Exception e){
+                        continue;
+                    }
+                 }
+            } 
+            
+            // Mark the request as received.
+            pm.updateStatus(purReqId, 1);
+            
+            response.sendRedirect("purchase_request?action=purchase_req_list&msg_type=success&msg=Purchase request has beed received successfully.");
             
         } catch(Exception e){
             e.printStackTrace();

@@ -17,6 +17,12 @@ function addRequiredItem(id) {
     var rate = "[name=rate_"+id+"]";
     var itmqty = "[name=itmqty_"+id+"]";
     
+    if(jQuery(".chk-class").is(':checked')){
+       jQuery("#btnSubmit").removeAttr('disabled');
+    }else{
+        jQuery("#btnSubmit").attr('disabled', 'disabled');
+    }
+    
     if(jQuery(chk).is(':checked')){
         itmqty = jQuery(itmqty).val();
         jQuery(qty).addClass("required").val(itmqty);

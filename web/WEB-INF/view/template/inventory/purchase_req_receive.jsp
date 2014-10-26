@@ -9,6 +9,7 @@
                         <div class="pull-left">
                             <label>Number:</label>
                             ${result.purReqId}
+                            <input type="hidden" name="pur_req_id" value="${result.purReqId}" />
                         </div>
                         <div class="pull-left">
                             <label>Date:</label>
@@ -25,6 +26,7 @@
                             <div class="col-sm-3">
                                 <label>Item</label> <br />
                                 ${req.productName}
+                                <input type="hidden" name="pid_${req.purReqDetId}" value="${req.pid}" />
                             </div>    
                             <div class="col-sm-2">
                                 <label>Qty</label> <br />
@@ -33,7 +35,7 @@
                             </div>
                             <div class="checkbox col-sm-1">
                                 <label>
-                                    <input type="checkbox" name="chk_${req.purReqDetId}" value="1" onclick="addRequiredItem(${req.purReqDetId})" />
+                                    <input class="chk-class" type="checkbox" name="chk_${req.purReqDetId}" value="1" onclick="addRequiredItem(${req.purReqDetId})" />
                                 </label>
                             </div>
                             <div class="col-sm-3">
@@ -48,7 +50,7 @@
                     </c:forEach>
                         
                     <div class="form-group psubmit-row">
-                        <button type="submit" class="btn btn-success">Save</button>
+                        <button id="btnSubmit" type="submit" class="btn btn-success" disabled="disabled">Save</button>
                     </div>
                         
                 </form>

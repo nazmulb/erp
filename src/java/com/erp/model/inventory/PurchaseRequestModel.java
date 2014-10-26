@@ -3,6 +3,7 @@ package com.erp.model.inventory;
 import com.erp.dal.MysqlConnection;
 import com.erp.entity.inventory.TblProductPurchaseReq;
 import com.erp.entity.inventory.TblProductPurchaseReqDetails;
+import com.erp.entity.inventory.TblProductRec;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -186,6 +187,30 @@ public class PurchaseRequestModel
     }
     
     /**
+     * Update status by purchase request id.
+     * @param purReqId purchase request id.
+     * @param status
+     * @exception SQLException On SQL error.
+    */
+    public void updateStatus(int purReqId, int status) throws SQLException 
+    {
+        try {    
+           String sql = "UPDATE tbl_product_purchase_req SET status=? WHERE pur_req_id=?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setInt(1, status);
+           pstmt.setInt(2, purReqId);
+           pstmt.executeUpdate();      
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+    }
+    
+    /**
      * To get all purchase request details by pur_req_id.
      * @param purReqId
      * @return ArrayList<TblProductPurchaseReqDetails> This will return all purchase request details.
@@ -268,4 +293,49 @@ public class PurchaseRequestModel
         } finally {
         }
     }
+    
+    
+    /**
+     * Add or update product receive depending on id.
+     * @param obj product receive object.
+     * @exception SQLException On SQL error.
+     */
+    public void saveProductReceive(TblProductRec obj) throws SQLException 
+    {
+        try {
+            int id = obj.getRecId();
+            String sql;
+            
+            if(id>0){ 
+                sql = "UPDATE tbl_product_rec SET pur_req_det_id=?, qty=?, rate=?, rec_date=?, qty_disburse=? WHERE rec_id=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(6, id);
+            }else{
+                sql = "INSERT INTO tbl_product_rec (pur_req_det_id, qty, rate, rec_date, qty_disburse) VALUES (?, ?, ?, ?, ?)";
+                pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            
+            pstmt.setInt(1, obj.getPurReqDetId());
+            pstmt.setDouble(2, obj.getQty());
+            pstmt.setDouble(3, obj.getRate());
+            pstmt.setString(4, obj.getRecDate());
+            pstmt.setDouble(5, obj.getQtyDisburse());
+            
+            pstmt.executeUpdate();
+            
+            if(id==0){ 
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.lastInsertedId = rs.getInt(1);
+                }
+            }
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+    }
+    
 }

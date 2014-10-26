@@ -191,4 +191,27 @@ public class ProductModel
         }
     }
     
+    /**
+     * Update current stock by product id.
+     * @param pid product id.
+     * @param stock
+     * @exception SQLException On SQL error.
+    */
+    public void updateCurrentStock(int pid, double stock) throws SQLException 
+    {
+        try {    
+           String sql = "UPDATE tbl_product SET current_stock=(current_stock + ?) WHERE pid=?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setDouble(1, stock);
+           pstmt.setInt(2, pid);
+           pstmt.executeUpdate();      
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+    }
 }
