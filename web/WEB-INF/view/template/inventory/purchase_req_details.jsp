@@ -26,7 +26,26 @@
                     <div class="dva-left col-md-3">Status: </div>
                     <div class="dva-right col-md-9">${result.status==1 ? "Received" : "Not Received"}</div>
                 </div>
-               
+                
+                <div class="row" style="margin-top:15px; margin-bottom: 15px;">
+                    <table width="100%" class="table-bordered">
+                        <tr>
+                            <th>Item</th>
+                            <th>Qty</th>
+                        </tr>
+                        <c:forEach var="req" items="${reqDetails}">
+                            <tr>
+                                <td>${req.productName}</td>
+                                <td>${req.qty}</td>
+                            </tr> 
+                        </c:forEach>
+                    </table>
+                </div>
+                
+                <div class="row">
+                    <a href="purchase_request?action=purchase_req_list" class="btn btn-default">Back</a>
+                </div>
+                
             </div>
         </aside>
 

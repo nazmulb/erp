@@ -253,6 +253,9 @@ public class PurchaseRequestController extends HttpServlet
                 TblProductPurchaseReq result = m.loadById(id);
                 request.setAttribute("result", result);
                 
+                ArrayList<TblProductPurchaseReqDetails> reqDetails = m.loadByPurchaseId(result.getPurReqId());
+                request.setAttribute("reqDetails", reqDetails);
+                
                 String url = "/WEB-INF/view/template/inventory/purchase_req_details.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
             }else{
