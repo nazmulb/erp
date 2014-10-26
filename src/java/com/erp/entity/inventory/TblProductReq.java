@@ -13,6 +13,7 @@ public class TblProductReq
     private int reqId;
     private String reqDate;
     private int reqBy;
+    private String reqByName;
     private int status;
     private String reqRequiredDate;
 
@@ -30,6 +31,15 @@ public class TblProductReq
         this.reqId = reqId;
         this.reqDate = reqDate;
         this.reqBy = reqBy;
+        this.status = status;
+        this.reqRequiredDate = reqRequiredDate;
+    }
+
+    public TblProductReq(int reqId, String reqDate, String reqByName, int status, String reqRequiredDate) 
+    {
+        this.reqId = reqId;
+        this.reqDate = reqDate;
+        this.reqByName = reqByName;
         this.status = status;
         this.reqRequiredDate = reqRequiredDate;
     }
@@ -63,6 +73,16 @@ public class TblProductReq
     {
         this.reqBy = reqBy;
     }
+    
+    public String getReqByName() 
+    {
+        return reqByName;
+    }
+
+    public void setReqByName(String reqByName) 
+    {
+        this.reqByName = reqByName;
+    }
 
     public int getStatus() 
     {
@@ -87,6 +107,6 @@ public class TblProductReq
     @Override
     public String toString() 
     {
-        return "TblProductReq{" + "reqId=" + reqId + ", reqDate=" + reqDate + ", reqBy=" + reqBy + ", status=" + status + ", reqRequiredDate=" + reqRequiredDate + '}';
-    }    
+        return "TblProductReq{" + "reqId=" + reqId + ", reqDate=" + reqDate + ", reqBy=" + reqBy + ", reqByName=" + reqByName + ", status=" + status + ", reqRequiredDate=" + reqRequiredDate + '}';
+    }
 }

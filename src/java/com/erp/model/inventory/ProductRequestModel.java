@@ -2,6 +2,7 @@ package com.erp.model.inventory;
 
 import com.erp.dal.MysqlConnection;
 import com.erp.entity.inventory.TblProductReq;
+import com.erp.entity.inventory.TblProductReqDetails;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -100,9 +101,6 @@ public class ProductRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            rs.close();
-            pstmt.close();
-            conn.close();
         }
         
         return list;   
@@ -120,7 +118,10 @@ public class ProductRequestModel
         TblProductReq p = new TblProductReq();
         
         try {    
-           String sql = "SELECT * FROM tbl_product_req WHERE req_id=?";
+           String sql = ""
+                   + "SELECT pr.*, u.uname FROM tbl_product_req pr "
+                   + "LEFT JOIN tbl_user u ON(u.uid=pr.req_by) "
+                   + "WHERE req_id=? LIMIT 1";
            
            pstmt = conn.prepareStatement(sql);
            pstmt.setInt(1, id);
@@ -131,6 +132,7 @@ public class ProductRequestModel
                p.setReqId(rs.getInt("req_id"));
                p.setReqDate(rs.getString("req_date"));
                p.setReqBy(rs.getInt("req_by"));
+               p.setReqByName(rs.getString("uname"));
                p.setStatus(rs.getInt("status"));
                p.setReqRequiredDate(rs.getString("req_required_date"));
            } 
@@ -140,9 +142,6 @@ public class ProductRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            rs.close();
-            pstmt.close();
-            conn.close();
         }
         
         return p;   
@@ -186,8 +185,73 @@ public class ProductRequestModel
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            pstmt.close();
-            conn.close();
         }
+    }
+    
+    /**
+     * Update status by request id.
+     * @param reqId request id.
+     * @param status
+     * @exception SQLException On SQL error.
+    */
+    public void updateStatus(int reqId, int status) throws SQLException 
+    {
+        try {    
+           String sql = "UPDATE tbl_product_req SET status=? WHERE req_id =?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setInt(1, status);
+           pstmt.setInt(2, reqId);
+           pstmt.executeUpdate();      
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+    }
+    
+    /**
+     * To get all request details by req_id.
+     * @param reqId
+     * @return ArrayList<TblProductReqDetails> This will return all request details.
+     * @exception SQLException On SQL error.
+     */
+    public ArrayList<TblProductReqDetails> loadByRequestId(int reqId) throws SQLException 
+    {
+        ResultSet rs = null;
+        ArrayList<TblProductReqDetails> list = new ArrayList<TblProductReqDetails>();
+        
+        try {    
+           String sql = ""
+                   + "SELECT prd.*, p.name FROM tbl_product_req_details prd "
+                   + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
+                   + "WHERE req_id=?";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, reqId);
+           
+           rs = pstmt.executeQuery();
+
+           while(rs.next()){
+               TblProductReqDetails p = new TblProductReqDetails();
+               p.setReqDetId(rs.getInt("req_det_id"));
+               p.setReqId(rs.getInt("req_id"));
+               p.setPid(rs.getInt("pid"));
+               p.setQty(rs.getDouble("qty"));
+               p.setProductName(rs.getString("name"));
+               
+               list.add(p);
+           } 
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+        
+        return list;   
     }
 }

@@ -2,6 +2,7 @@ package com.erp.controller.inventory;
 
 import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProductReq;
+import com.erp.entity.inventory.TblProductReqDetails;
 import com.erp.model.inventory.ProductRequestModel;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class ProductRequestController extends HttpServlet
                 break;    
 
                 case "product_req_details":
-
+                    productReqDetails(request, response);
                 break;    
 
                 case "product_req_list":              
@@ -82,6 +83,31 @@ public class ProductRequestController extends HttpServlet
         
             String url = "/WEB-INF/view/template/inventory/product_req_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    
+    private void productReqDetails(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int id = (request.getParameter("id") != null) ? Integer.parseInt(request.getParameter("id")) : 0;
+            
+            if(id>0){
+                ProductRequestModel m = new ProductRequestModel();
+                TblProductReq result = m.loadById(id);
+                request.setAttribute("result", result);
+                
+                ArrayList<TblProductReqDetails> reqDetails = m.loadByRequestId(result.getReqId());
+                request.setAttribute("reqDetails", reqDetails);
+                
+                String url = "/WEB-INF/view/template/inventory/product_req_details.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }else{
+                throw new Error("Id requied to show details.");
+            }
+            
         } catch(Exception e){
             e.printStackTrace();
         }

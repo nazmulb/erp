@@ -14,6 +14,7 @@ public class TblProductReqDetails
     private int reqId;
     private int pid;
     private double qty;
+    private String productName;
     
     
     public TblProductReqDetails() 
@@ -33,6 +34,15 @@ public class TblProductReqDetails
         this.pid = pid;
     }
 
+    public TblProductReqDetails(int reqDetId, int reqId, int pid, double qty, String productName) 
+    {
+        this.reqDetId = reqDetId;
+        this.reqId = reqId;
+        this.pid = pid;
+        this.qty = qty;
+        this.productName = productName;
+    }
+    
     public int getReqDetId() 
     {
         return reqDetId;
@@ -73,9 +83,19 @@ public class TblProductReqDetails
         this.pid = pid;
     }
 
+    public String getProductName() 
+    {
+        return productName;
+    }
+
+    public void setProductName(String productName) 
+    {
+        this.productName = productName;
+    }
+
     @Override
     public String toString() 
     {
-        return "TblProductReqDetails{" + "reqDetId=" + reqDetId + ", qty=" + qty + ", reqId=" + reqId + ", pid=" + pid + '}';
-    } 
+        return "TblProductReqDetails{" + "reqDetId=" + reqDetId + ", reqId=" + reqId + ", pid=" + pid + ", qty=" + qty + ", productName=" + productName + '}';
+    }    
 }
