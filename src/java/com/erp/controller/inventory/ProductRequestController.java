@@ -1,8 +1,10 @@
 package com.erp.controller.inventory;
 
 import com.erp.common.Utility;
+import com.erp.entity.inventory.TblProduct;
 import com.erp.entity.inventory.TblProductReq;
 import com.erp.entity.inventory.TblProductReqDetails;
+import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.ProductRequestModel;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ public class ProductRequestController extends HttpServlet
             
             switch(action){
                 case "product_req_add":
-
+                    productReqAdd(request, response);
                 break;
 
                 case "product_req_update":
@@ -88,6 +90,18 @@ public class ProductRequestController extends HttpServlet
         }
     }
     
+    private void productReqAdd(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            ProductModel pm = new ProductModel();
+            ArrayList<TblProduct> products = pm.load();
+            request.setAttribute("products", products);
+            String url = "/WEB-INF/view/template/inventory/product_req_add.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
     private void productReqDetails(HttpServletRequest request, HttpServletResponse response) 
     {
