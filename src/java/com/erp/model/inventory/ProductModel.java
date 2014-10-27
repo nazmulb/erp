@@ -195,12 +195,15 @@ public class ProductModel
      * Update current stock by product id.
      * @param pid product id.
      * @param stock
+     * @param increase is increase or decrease
      * @exception SQLException On SQL error.
     */
-    public void updateCurrentStock(int pid, double stock) throws SQLException 
+    public void updateCurrentStock(int pid, double stock, boolean increase) throws SQLException 
     {
         try {    
-           String sql = "UPDATE tbl_product SET current_stock=(current_stock + ?) WHERE pid=?";
+            
+           String opt = (increase)? "+" : "-"; 
+           String sql = "UPDATE tbl_product SET current_stock=(current_stock "+opt+" ?) WHERE pid=?";
            
            pstmt = conn.prepareStatement(sql); 
            pstmt.setDouble(1, stock);

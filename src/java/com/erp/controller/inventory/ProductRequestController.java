@@ -2,14 +2,19 @@ package com.erp.controller.inventory;
 
 import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProduct;
+import com.erp.entity.inventory.TblProductOut;
 import com.erp.entity.inventory.TblProductReq;
 import com.erp.entity.inventory.TblProductReqDetails;
 import com.erp.entity.user.TblUser;
 import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.ProductRequestModel;
+import com.erp.model.inventory.PurchaseRequestModel;
 import com.erp.model.user.UserModel;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -188,16 +193,16 @@ public class ProductRequestController extends HttpServlet
     }
     
     private void productReqOuted(HttpServletRequest request, HttpServletResponse response) 
-    { /*
+    { 
         try {
             Enumeration paramNames = request.getParameterNames();
-            int purReqId = Integer.parseInt(request.getParameter("pur_req_id"));
-            int id = 0, pid = 0;
+            int reqId = Integer.parseInt(request.getParameter("req_id"));
+            int id = 0, pid = 0, recId = 0;
             double qty = 0, rate =0;
             Date dnow = new Date();
             SimpleDateFormat fullDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             
-            PurchaseRequestModel pm = new PurchaseRequestModel();
+            ProductRequestModel pm = new ProductRequestModel();
             
             while(paramNames.hasMoreElements()) {
                 String paramName = (String)paramNames.nextElement();
@@ -208,21 +213,27 @@ public class ProductRequestController extends HttpServlet
 
                         if(Integer.parseInt(request.getParameter("chk_"+id)) == 1){
                             pid = Integer.parseInt(request.getParameter("pid_"+id));    
+                            recId = Integer.parseInt(request.getParameter("recid_"+id));
                             qty = Double.parseDouble(request.getParameter("qty_"+id));
                             rate = Double.parseDouble(request.getParameter("rate_"+id));
                             if(qty>0 && rate>0){
-                                // Add product in receive table.
-                                TblProductRec pr = new TblProductRec();
-                                pr.setPurReqDetId(id);
+                                // Add product in product out table.
+                                TblProductOut pr = new TblProductOut();
+                                pr.setPid(pid);
+                                pr.setRecId(recId);
+                                pr.setReqDetId(id);
                                 pr.setQty(qty);
                                 pr.setRate(rate);
-                                pr.setRecDate(fullDateTime.format(dnow));
-                                pr.setQtyDisburse(0);
-                                pm.saveProductReceive(pr);
+                                pr.setOutDate(fullDateTime.format(dnow));
+                                pm.saveProductOut(pr);
                                 
                                 // Update stock in product table.
                                 ProductModel p = new ProductModel();
-                                p.updateCurrentStock(pid, qty);
+                                p.updateCurrentStock(pid, qty, false);
+                                
+                                // Update qty disburse in product receive table.
+                                PurchaseRequestModel prm = new PurchaseRequestModel();
+                                prm.updateQtyDisburse(recId, qty);
                             }
                         }
                     } catch(Exception e){
@@ -232,13 +243,13 @@ public class ProductRequestController extends HttpServlet
             } 
             
             // Mark the request as received.
-            pm.updateStatus(purReqId, 1);
+            pm.updateStatus(reqId, 1);
             
-            response.sendRedirect("purchase_request?action=purchase_req_list&msg_type=success&msg=Purchase request has beed received successfully.");
+            response.sendRedirect("product_request?action=product_req_list&msg_type=success&msg=Product request has beed out successfully.");
             
         } catch(Exception e){
             e.printStackTrace();
-        }*/
+        }
     }
     
     private void productReqDetails(HttpServletRequest request, HttpServletResponse response) 

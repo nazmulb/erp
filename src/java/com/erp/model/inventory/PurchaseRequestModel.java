@@ -338,4 +338,27 @@ public class PurchaseRequestModel
         }
     }
     
+    /**
+     * Update qty disburse by product receive id.
+     * @param recId
+     * @param qty
+     * @exception SQLException On SQL error.
+    */
+    public void updateQtyDisburse(int recId, double qty) throws SQLException 
+    {
+        try {    
+           String sql = "UPDATE tbl_product_rec SET qty_disburse=? WHERE rec_id=?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setDouble(1, qty);
+           pstmt.setInt(2, recId);
+           pstmt.executeUpdate();      
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+    }
 }

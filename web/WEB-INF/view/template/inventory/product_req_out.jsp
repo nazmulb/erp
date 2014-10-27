@@ -1,32 +1,32 @@
 <section>
     <div class="container content">
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
-        <aside class="col-md-9">
+        <aside id="productOutPage" class="col-md-9">
             <h1>Product Out</h1>
             <div class="right-content form-area">
                 <form class="form-horizontal" id="productOutForm" role="form" action="product_request?action=product_req_outed" method="POST">
-                    <div class="form-group ptop-row">
-                        <div class="pull-left">
+                    <div class="form-group ptop-row" style="width: 100%;">
+                        <div class="pull-left" style="width: 15%;">
                             <label>Number:</label>
                             ${result.reqId}
                             <input type="hidden" name="req_id" value="${result.reqId}" />
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left" style="width: 25%;">
                             <label>Date:</label>
                             ${result.reqDate}
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left" style="width: 30%;">
                             <label>Request By:</label>
                             ${result.reqByName}
                         </div>
-                        <div class="pull-left">
+                        <div class="pull-left" style="width: 30%;">
                             <label>Required Date:</label>
                             ${result.reqRequiredDate}
                         </div>
                     </div>
                     
                     <c:forEach var="req" items="${reqDetails}">
-                        <div class="form-group pbottom-row" style="width: 85%;">    
+                        <div class="form-group pbottom-row" style="width: 100%;">    
                             <div class="col-sm-3">
                                 <label>Item</label> <br />
                                 ${req.productName}

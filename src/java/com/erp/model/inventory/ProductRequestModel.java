@@ -254,7 +254,7 @@ public class ProductRequestModel
                p.setProductName(rs.getString("name"));
                
                if(withRecId){
-                   p.setReqId(rs.getInt("rec_id"));
+                   p.setRecId(rs.getInt("rec_id"));
                }
                
                list.add(p);
@@ -316,18 +316,18 @@ public class ProductRequestModel
      * @param obj product out object.
      * @exception SQLException On SQL error.
      */
-    public void saveProductReceive(TblProductOut obj) throws SQLException 
+    public void saveProductOut(TblProductOut obj) throws SQLException 
     {
         try {
             int id = obj.getPoutId();
             String sql;
             
             if(id>0){ 
-                sql = "UPDATE tbl_product_rec SET pid=?, rec_id=?, req_det_id=?, qty=?, rate=?, out_date=? WHERE pout_id=?";
+                sql = "UPDATE tbl_product_out SET pid=?, rec_id=?, req_det_id=?, qty=?, rate=?, out_date=? WHERE pout_id=?";
                 pstmt = conn.prepareStatement(sql);
                 pstmt.setInt(7, id);
             }else{
-                sql = "INSERT INTO tbl_product_rec (pid, rec_id, req_det_id, qty, rate, out_date) VALUES (?, ?, ?, ?, ?, ?)";
+                sql = "INSERT INTO tbl_product_out (pid, rec_id, req_det_id, qty, rate, out_date) VALUES (?, ?, ?, ?, ?, ?)";
                 pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             }
             
