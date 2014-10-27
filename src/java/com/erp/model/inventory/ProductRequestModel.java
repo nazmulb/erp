@@ -216,10 +216,11 @@ public class ProductRequestModel
     /**
      * To get all request details by req_id.
      * @param reqId
+     *@param withRecId return with rec_id or not
      * @return ArrayList<TblProductReqDetails> This will return all request details.
      * @exception SQLException On SQL error.
      */
-    public ArrayList<TblProductReqDetails> loadByRequestId(int reqId) throws SQLException 
+    public ArrayList<TblProductReqDetails> loadByRequestId(int reqId, boolean withRecId) throws SQLException 
     {
         ResultSet rs = null;
         ArrayList<TblProductReqDetails> list = new ArrayList<TblProductReqDetails>();
@@ -229,6 +230,15 @@ public class ProductRequestModel
                    + "SELECT prd.*, p.name FROM tbl_product_req_details prd "
                    + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
                    + "WHERE req_id=?";
+           
+           if(withRecId){
+                sql = ""
+                    + "SELECT prd.*, p.name, pr.rec_id FROM tbl_product_req_details prd "
+                    + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
+                    + "LEFT JOIN tbl_product_purchase_req_details pprd ON(pprd.pid=prd.pid) "
+                    + "LEFT JOIN tbl_product_rec pr ON(pr.pur_req_det_id=pprd.pur_req_det_id) "                        
+                    + "WHERE prd.req_id=? GROUP BY prd.req_det_id";
+           }
            
            pstmt = conn.prepareStatement(sql);
            pstmt.setInt(1, reqId);
@@ -242,6 +252,10 @@ public class ProductRequestModel
                p.setPid(rs.getInt("pid"));
                p.setQty(rs.getDouble("qty"));
                p.setProductName(rs.getString("name"));
+               
+               if(withRecId){
+                   p.setReqId(rs.getInt("rec_id"));
+               }
                
                list.add(p);
            } 

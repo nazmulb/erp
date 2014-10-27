@@ -49,8 +49,16 @@ public class ProductRequestController extends HttpServlet
 
                 case "product_req_update":
                     productReqUpdate(request, response);
-                break;    
-
+                break;
+                
+                case "product_req_out":
+                    productReqOut(request, response);
+                break;
+                
+                case "product_req_outed":
+                    productReqOuted(request, response);
+                break;
+                    
                 case "product_req_details":
                     productReqDetails(request, response);
                 break;    
@@ -156,6 +164,83 @@ public class ProductRequestController extends HttpServlet
         }
     }
     
+    private void productReqOut(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int id = (request.getParameter("id") != null) ? Integer.parseInt(request.getParameter("id")) : 0;
+            
+            if(id>0){
+                ProductRequestModel m = new ProductRequestModel();
+                TblProductReq result = m.loadById(id);
+                request.setAttribute("result", result);
+                
+                ArrayList<TblProductReqDetails> reqDetails = m.loadByRequestId(result.getReqId(), true);
+                request.setAttribute("reqDetails", reqDetails);
+                
+                String url = "/WEB-INF/view/template/inventory/product_req_out.jsp";
+                request.getRequestDispatcher(url).forward(request, response);
+            }else{
+                throw new Error("Id requied to show out.");
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void productReqOuted(HttpServletRequest request, HttpServletResponse response) 
+    { /*
+        try {
+            Enumeration paramNames = request.getParameterNames();
+            int purReqId = Integer.parseInt(request.getParameter("pur_req_id"));
+            int id = 0, pid = 0;
+            double qty = 0, rate =0;
+            Date dnow = new Date();
+            SimpleDateFormat fullDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            
+            PurchaseRequestModel pm = new PurchaseRequestModel();
+            
+            while(paramNames.hasMoreElements()) {
+                String paramName = (String)paramNames.nextElement();
+               
+                if(paramName.startsWith("itmqty_")){
+                    try{
+                        id = Integer.parseInt(paramName.split("_")[1]);
+
+                        if(Integer.parseInt(request.getParameter("chk_"+id)) == 1){
+                            pid = Integer.parseInt(request.getParameter("pid_"+id));    
+                            qty = Double.parseDouble(request.getParameter("qty_"+id));
+                            rate = Double.parseDouble(request.getParameter("rate_"+id));
+                            if(qty>0 && rate>0){
+                                // Add product in receive table.
+                                TblProductRec pr = new TblProductRec();
+                                pr.setPurReqDetId(id);
+                                pr.setQty(qty);
+                                pr.setRate(rate);
+                                pr.setRecDate(fullDateTime.format(dnow));
+                                pr.setQtyDisburse(0);
+                                pm.saveProductReceive(pr);
+                                
+                                // Update stock in product table.
+                                ProductModel p = new ProductModel();
+                                p.updateCurrentStock(pid, qty);
+                            }
+                        }
+                    } catch(Exception e){
+                        continue;
+                    }
+                 }
+            } 
+            
+            // Mark the request as received.
+            pm.updateStatus(purReqId, 1);
+            
+            response.sendRedirect("purchase_request?action=purchase_req_list&msg_type=success&msg=Purchase request has beed received successfully.");
+            
+        } catch(Exception e){
+            e.printStackTrace();
+        }*/
+    }
+    
     private void productReqDetails(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
@@ -166,7 +251,7 @@ public class ProductRequestController extends HttpServlet
                 TblProductReq result = m.loadById(id);
                 request.setAttribute("result", result);
                 
-                ArrayList<TblProductReqDetails> reqDetails = m.loadByRequestId(result.getReqId());
+                ArrayList<TblProductReqDetails> reqDetails = m.loadByRequestId(result.getReqId(), false);
                 request.setAttribute("reqDetails", reqDetails);
                 
                 String url = "/WEB-INF/view/template/inventory/product_req_details.jsp";
