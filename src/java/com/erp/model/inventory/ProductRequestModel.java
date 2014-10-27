@@ -1,6 +1,7 @@
 package com.erp.model.inventory;
 
 import com.erp.dal.MysqlConnection;
+import com.erp.entity.inventory.TblProductOut;
 import com.erp.entity.inventory.TblProductReq;
 import com.erp.entity.inventory.TblProductReqDetails;
 import java.sql.*;
@@ -253,5 +254,90 @@ public class ProductRequestModel
         }
         
         return list;   
+    }
+    
+    /**
+     * Add or update product request details depending on id.
+     * @param obj product request details object.
+     * @exception SQLException On SQL error.
+     */
+    public void saveProductReqDetails(TblProductReqDetails obj) throws SQLException 
+    {
+        try {
+            int id = obj.getReqDetId();
+            String sql;
+            
+            if(id>0){ 
+                sql = "UPDATE tbl_product_req_details SET req_id=?, pid=?, qty=?  WHERE req_det_id=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(4, id);
+            }else{
+                sql = "INSERT INTO tbl_product_req_details (req_id, pid, qty) VALUES (?, ?, ?)";
+                pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            
+            pstmt.setInt(1, obj.getReqId());
+            pstmt.setInt(2, obj.getPid());
+            pstmt.setDouble(3, obj.getQty());          
+            pstmt.executeUpdate();
+            
+            if(id==0){ 
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.lastInsertedId = rs.getInt(1);
+                }
+            }
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+    }
+    
+    
+    /**
+     * Add or update product out depending on id.
+     * @param obj product out object.
+     * @exception SQLException On SQL error.
+     */
+    public void saveProductReceive(TblProductOut obj) throws SQLException 
+    {
+        try {
+            int id = obj.getPoutId();
+            String sql;
+            
+            if(id>0){ 
+                sql = "UPDATE tbl_product_rec SET pid=?, rec_id=?, req_det_id=?, qty=?, rate=?, out_date=? WHERE pout_id=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(7, id);
+            }else{
+                sql = "INSERT INTO tbl_product_rec (pid, rec_id, req_det_id, qty, rate, out_date) VALUES (?, ?, ?, ?, ?, ?)";
+                pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            
+            pstmt.setInt(1, obj.getPid());
+            pstmt.setInt(2, obj.getRecId());
+            pstmt.setInt(3, obj.getReqDetId());
+            pstmt.setDouble(4, obj.getQty());
+            pstmt.setDouble(5, obj.getRate());
+            pstmt.setString(6, obj.getOutDate());
+            
+            pstmt.executeUpdate();
+            
+            if(id==0){ 
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.lastInsertedId = rs.getInt(1);
+                }
+            }
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
     }
 }

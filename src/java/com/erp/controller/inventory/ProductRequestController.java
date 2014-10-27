@@ -4,14 +4,17 @@ import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProduct;
 import com.erp.entity.inventory.TblProductReq;
 import com.erp.entity.inventory.TblProductReqDetails;
+import com.erp.entity.user.TblUser;
 import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.ProductRequestModel;
+import com.erp.model.user.UserModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * <h1>ERP Controller</h1>
@@ -45,7 +48,7 @@ public class ProductRequestController extends HttpServlet
                 break;
 
                 case "product_req_update":
-
+                    productReqUpdate(request, response);
                 break;    
 
                 case "product_req_details":
@@ -85,6 +88,56 @@ public class ProductRequestController extends HttpServlet
         
             String url = "/WEB-INF/view/template/inventory/product_req_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void productReqUpdate(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            
+            String reqDate = (request.getParameter("req_date") != null && request.getParameter("req_date") != "") ? request.getParameter("req_date") : "";
+            String reqRequiredDate = (request.getParameter("req_required_date") != null && request.getParameter("req_required_date") != "") ? request.getParameter("req_required_date") : "";
+            
+            HttpSession session = request.getSession(true);
+            String uname = session.getAttribute("uname").toString();
+            UserModel um = new UserModel();
+            TblUser u = um.loadByUserName(uname);
+                    
+            TblProductReq p = new TblProductReq();
+            p.setReqDate(reqDate);
+            p.setReqBy(u.getUid());
+            p.setStatus(0);
+            p.setReqRequiredDate(reqRequiredDate);
+            
+            ProductRequestModel pm = new ProductRequestModel();
+            pm.save(p); 
+            int reqId = pm.getLastInsertedId();
+            
+            int cntInputs = (request.getParameter("cnt_inputs") != null && request.getParameter("cnt_inputs") != "") ? Integer.parseInt(request.getParameter("cnt_inputs")) : 0;
+            int pid = 0;
+            double qty = 0;
+            
+            for(int i=1; i<=cntInputs; i++){    
+                try{
+                    pid = Integer.parseInt(request.getParameter("pid_"+i));
+                    qty = Double.parseDouble(request.getParameter("qty_"+i));
+                    if(pid>0 && qty>0){
+                        TblProductReqDetails pd = new TblProductReqDetails();
+                        pd.setReqId(reqId);
+                        pd.setPid(pid);
+                        pd.setQty(qty);
+
+                        pm.saveProductReqDetails(pd);
+                    }
+                } catch(Exception e){
+                    continue;
+                }
+            }
+            
+            response.sendRedirect("product_request?action=product_req_list&msg_type=success&msg=Product request has beed added successfully.");
+            
         } catch(Exception e){
             e.printStackTrace();
         }
