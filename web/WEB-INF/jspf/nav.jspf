@@ -29,6 +29,7 @@
                         <li class="<%=(routePath.endsWith("/user/add.jsp")?"active":"")%>"><a href="user?action=add">Add User</a></li>
                     </ul>
                 </div>
+                <div class="nav-header">Reports</div>
                 <div class="nav-header">Sales Management</div>
                 <div class="nav-header">Accounting Management</div>
                 <div class="nav-header">Human Resource Management</div>

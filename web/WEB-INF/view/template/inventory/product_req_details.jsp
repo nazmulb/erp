@@ -24,7 +24,7 @@
                 
                 <div class="row">
                     <div class="dva-left col-md-3">Status: </div>
-                    <div class="dva-right col-md-9">${result.status==1 ? "Received" : "Not Received"}</div>
+                    <div class="dva-right col-md-9">${result.status==1 ? "Issued" : "Not Issue"}</div>
                 </div>
                 
                 <div class="row">

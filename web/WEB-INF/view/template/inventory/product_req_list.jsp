@@ -19,10 +19,10 @@
                         <tr>
                             <td>${result.reqId}</td>
                             <td>${result.reqDate}</td>
-                            <td>${result.status==1 ? "Out" : "Not Out"}</td>
+                            <td>${result.status==1 ? "Issued" : "Not Issue"}</td>
                             <td>
                                 <c:if test="${result.status!=1}">
-                                    <a class="btn btn-default btn-xs" href="product_request?action=product_req_out&amp;id=${result.reqId}">Out</a>
+                                    <a class="btn btn-default btn-xs" href="product_request?action=product_req_out&amp;id=${result.reqId}">Issue</a>
                                 </c:if>
                                 <a class="btn btn-default btn-xs" href="product_request?action=product_req_details&amp;id=${result.reqId}">View</a></td>
                         </tr>

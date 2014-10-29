@@ -2,7 +2,7 @@
     <div class="container content">
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
         <aside id="productOutPage" class="col-md-9">
-            <h1>Product Out</h1>
+            <h1>Product Issue</h1>
             <div class="right-content form-area">
                 <form class="form-horizontal" id="productOutForm" role="form" action="product_request?action=product_req_outed" method="POST">
                     <div class="form-group ptop-row" style="width: 100%;">
@@ -44,7 +44,7 @@
                                 </label>
                             </div>
                             <div class="col-sm-3">
-                                <label>Out</label>
+                                <label>Issue</label>
                                 <input type="number" name="qty_${req.reqDetId}" value="" class="form-control" />
                             </div>
                             <div class="col-sm-3">

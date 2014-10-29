@@ -200,14 +200,35 @@ public class ProductModel
     */
     public void updateCurrentStock(int pid, double stock, boolean increase) throws SQLException 
     {
+        updateCurrentStockAndRate(pid, stock, increase, 0);
+    }
+    
+    /**
+     * Update current stock and rate by product id.
+     * @param pid product id.
+     * @param stock
+     * @param increase is increase or decrease
+     * @param rate
+     * @exception SQLException On SQL error.
+    */
+    public void updateCurrentStockAndRate(int pid, double stock, boolean increase, double rate) throws SQLException 
+    {
         try {    
             
-           String opt = (increase)? "+" : "-"; 
-           String sql = "UPDATE tbl_product SET current_stock=(current_stock "+opt+" ?) WHERE pid=?";
+           String opt = (increase)? "+" : "-";
+           String sql = "UPDATE tbl_product SET current_stock=(current_stock "+opt+" ?) ";
+           sql+=(rate>0 ? ", rate=? " : "");
+           sql +="WHERE pid=?";
            
            pstmt = conn.prepareStatement(sql); 
            pstmt.setDouble(1, stock);
-           pstmt.setInt(2, pid);
+           if(rate>0){
+               pstmt.setDouble(2, rate);
+               pstmt.setInt(3, pid);
+           }else{
+               pstmt.setInt(2, pid);
+           }
+           
            pstmt.executeUpdate();      
          
         }catch(SQLException se){

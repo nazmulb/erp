@@ -185,7 +185,7 @@ public class ProductRequestController extends HttpServlet
                 String url = "/WEB-INF/view/template/inventory/product_req_out.jsp";
                 request.getRequestDispatcher(url).forward(request, response);
             }else{
-                throw new Error("Id requied to show out.");
+                throw new Error("Id requied to show data.");
             }
         } catch(Exception e){
             e.printStackTrace();
@@ -245,7 +245,7 @@ public class ProductRequestController extends HttpServlet
             // Mark the request as received.
             pm.updateStatus(reqId, 1);
             
-            response.sendRedirect("product_request?action=product_req_list&msg_type=success&msg=Product request has beed out successfully.");
+            response.sendRedirect("product_request?action=product_req_list&msg_type=success&msg=Product request has beed issued successfully.");
             
         } catch(Exception e){
             e.printStackTrace();

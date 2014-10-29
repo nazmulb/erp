@@ -347,7 +347,7 @@ public class PurchaseRequestModel
     public void updateQtyDisburse(int recId, double qty) throws SQLException 
     {
         try {    
-           String sql = "UPDATE tbl_product_rec SET qty_disburse=? WHERE rec_id=?";
+           String sql = "UPDATE tbl_product_rec SET qty_disburse=(qty_disburse + ?) WHERE rec_id=?";
            
            pstmt = conn.prepareStatement(sql); 
            pstmt.setDouble(1, qty);

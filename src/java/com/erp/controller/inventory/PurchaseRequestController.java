@@ -224,7 +224,7 @@ public class PurchaseRequestController extends HttpServlet
                                 
                                 // Update stock in product table.
                                 ProductModel p = new ProductModel();
-                                p.updateCurrentStock(pid, qty, true);
+                                p.updateCurrentStockAndRate(pid, qty, true, rate);
                             }
                         }
                     } catch(Exception e){
