@@ -6,7 +6,7 @@
             <h1>${pageContext.request.getParameter('uid')==null ? 'Add' : 'Edit'} User</h1>
 
             <div class="right-content form-area">
-                <form id="userForm" role="form" action="user?action=update" method="POST">
+                <form id="userForm" name="userForm" role="form" action="user?action=update" method="POST">
                     <input type="hidden" name="uid" value="${pageContext.request.getParameter('uid')}" />
                     <div class="form-group">
                         <label for="txtUname">User Name</label>
@@ -47,7 +47,16 @@
         <div class="clearfix"></div>
     </div>
 </section>
-<script type="text/javascript">
+<c:if test="${pageContext.request.getParameter('uid')==null}">                    
+    <script type="text/javascript">
+        jQuery.validator.setDefaults({
+            submitHandler: function() {
+               checkUname(jQuery("#txtUname").val());
+            }
+        });
+    </script>
+</c:if>
+<script type="text/javascript">    
     jQuery(document).ready(function(){
         // validate the form when it is submitted
         jQuery("#userForm").validate();

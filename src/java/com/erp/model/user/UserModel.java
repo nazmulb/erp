@@ -234,6 +234,41 @@ public class UserModel
     }
     
     /**
+     * To check a user is exist or not.
+     * @param uname User Name.
+     * @return boolean This will return is the user exist or not.
+     * @exception SQLException On SQL error.
+    */
+    public boolean isExist(String uname) throws SQLException 
+    {
+        ResultSet rs = null;
+        boolean isExist = false;
+        
+        try {    
+           String sql = "SELECT COUNT(1) AS counts FROM tbl_user WHERE uname=?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setString(1, uname);
+           rs = pstmt.executeQuery();
+
+           if(rs.next()){
+              isExist = (rs.getInt("counts")>0 ? true : false);
+           }        
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            rs.close();
+            pstmt.close();
+            conn.close();
+        }
+        
+        return isExist;   
+    }
+    
+    /**
      * Add or update user depending on user id.
      * @param user object.
      * @exception SQLException On SQL error.

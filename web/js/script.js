@@ -32,3 +32,23 @@ function addRequiredItem(id) {
         jQuery(rate).removeClass("required").val("");
     }  
 }
+
+function checkUname(uname) {
+    var method    = "POST";
+    var url 	  = "user?action=check_uname";
+    var queryStr  = {uname: uname};
+
+    jQuery.ajax({
+        type:    method,
+        url:     url,
+        data:	 queryStr,
+        success: function(msg){
+            if(msg==1){
+                alert("User name already used. Please try another.");
+            }else{
+                document.userForm.submit();
+                return true;
+            }
+        }
+    });
+}

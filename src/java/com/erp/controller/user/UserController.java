@@ -4,6 +4,7 @@ import com.erp.common.Utility;
 import com.erp.entity.user.TblUser;
 import com.erp.model.user.UserModel;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -61,7 +62,11 @@ public class UserController extends HttpServlet
                     case "active_inactive":
                         activeInactive(request, response);
                     break;   
-
+                        
+                    case "check_uname":              
+                        checkUname(request, response);
+                    break;
+                    
                     case "list":              
                         list(request, response);
                     break;
@@ -135,7 +140,6 @@ public class UserController extends HttpServlet
         }
     }
     
-    
     private void activeInactive(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
@@ -187,8 +191,6 @@ public class UserController extends HttpServlet
             
             if(uid>0){
                 u = m.loadById(uid);
-                if(u.getUid()==0)
-                    throw new RuntimeException("User not found!");
             }else{
                 u = new TblUser();
             }
@@ -210,6 +212,24 @@ public class UserController extends HttpServlet
             m.save(u);         
             
             response.sendRedirect("user?action=list&msg_type=success&msg=User has beed "+(uid==0 ? "added" : "updated") + " successfully.");
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void checkUname(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            String uname = (request.getParameter("uname") != null && request.getParameter("uname") != "") ? request.getParameter("uname") : "";
+            
+            response.setContentType("text/html;charset=UTF-8");
+            try (PrintWriter out = response.getWriter()) {
+                UserModel um = new UserModel();
+                int resp;
+                resp = um.isExist(uname) ? 1 : 0;
+                out.print(resp);
+            }
+            
         } catch(Exception e){
             e.printStackTrace();
         }
