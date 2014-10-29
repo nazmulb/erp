@@ -16,6 +16,7 @@ public class TblProductReqDetails
     private double qty;
     private String productName;
     private int recId;
+    private String unit;
     
     public TblProductReqDetails() 
     {
@@ -26,24 +27,15 @@ public class TblProductReqDetails
         this.reqDetId = reqDetId;
     }
 
-    public TblProductReqDetails(int reqDetId, double qty, int reqId, int pid) 
-    {
-        this.reqDetId = reqDetId;
-        this.qty = qty;
-        this.reqId = reqId;
-        this.pid = pid;
-    }
-
-    public TblProductReqDetails(int reqDetId, int reqId, int pid, double qty, String productName) 
+    public TblProductReqDetails(int reqDetId, int reqId, int pid, double qty) 
     {
         this.reqDetId = reqDetId;
         this.reqId = reqId;
         this.pid = pid;
         this.qty = qty;
-        this.productName = productName;
     }
 
-    public TblProductReqDetails(int reqDetId, int reqId, int pid, double qty, String productName, int recId) 
+    public TblProductReqDetails(int reqDetId, int reqId, int pid, double qty, String productName, int recId, String unit) 
     {
         this.reqDetId = reqDetId;
         this.reqId = reqId;
@@ -51,9 +43,8 @@ public class TblProductReqDetails
         this.qty = qty;
         this.productName = productName;
         this.recId = recId;
+        this.unit = unit;
     }
-    
-    
     
     public int getReqDetId() 
     {
@@ -115,11 +106,19 @@ public class TblProductReqDetails
         this.recId = recId;
     }
 
+    public String getUnit() 
+    {
+        return unit;
+    }
+
+    public void setUnit(String unit) 
+    {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() 
     {
-        return "TblProductReqDetails{" + "reqDetId=" + reqDetId + ", reqId=" + reqId + ", pid=" + pid + ", qty=" + qty + ", productName=" + productName + ", recId=" + recId + '}';
+        return "TblProductReqDetails{" + "reqDetId=" + reqDetId + ", reqId=" + reqId + ", pid=" + pid + ", qty=" + qty + ", productName=" + productName + ", recId=" + recId + ", unit=" + unit + '}';
     }
-
-       
 }

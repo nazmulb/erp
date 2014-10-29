@@ -37,11 +37,13 @@
                         <tr>
                             <th>Item</th>
                             <th>Qty</th>
+                            <th>Unit</th>
                         </tr>
                         <c:forEach var="req" items="${reqDetails}">
                             <tr>
                                 <td>${req.productName}</td>
                                 <td>${req.qty}</td>
+                                <td>${req.unit}</td>
                             </tr> 
                         </c:forEach>
                     </table>

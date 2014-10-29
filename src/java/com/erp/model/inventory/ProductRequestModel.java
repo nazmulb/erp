@@ -227,13 +227,13 @@ public class ProductRequestModel
         
         try {    
            String sql = ""
-                   + "SELECT prd.*, p.name FROM tbl_product_req_details prd "
+                   + "SELECT prd.*, p.name, p.unit FROM tbl_product_req_details prd "
                    + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
                    + "WHERE req_id=?";
            
            if(withRecId){
                 sql = ""
-                    + "SELECT prd.*, p.name, pr.rec_id FROM tbl_product_req_details prd "
+                    + "SELECT prd.*, p.name, p.unit, pr.rec_id FROM tbl_product_req_details prd "
                     + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
                     + "LEFT JOIN tbl_product_purchase_req_details pprd ON(pprd.pid=prd.pid) "
                     + "LEFT JOIN tbl_product_rec pr ON(pr.pur_req_det_id=pprd.pur_req_det_id) "                        
@@ -252,6 +252,7 @@ public class ProductRequestModel
                p.setPid(rs.getInt("pid"));
                p.setQty(rs.getDouble("qty"));
                p.setProductName(rs.getString("name"));
+               p.setUnit(rs.getString("unit"));
                
                if(withRecId){
                    p.setRecId(rs.getInt("rec_id"));

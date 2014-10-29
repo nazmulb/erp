@@ -15,6 +15,7 @@ public class TblProductPurchaseReqDetails
     private int pid;
     private double qty;
     private String productName;
+    private String unit;
     
     public TblProductPurchaseReqDetails() 
     {
@@ -33,13 +34,14 @@ public class TblProductPurchaseReqDetails
         this.qty = qty;
     }
 
-    public TblProductPurchaseReqDetails(int purReqDetId, int purReqId, int pid, double qty, String productName) 
+    public TblProductPurchaseReqDetails(int purReqDetId, int purReqId, int pid, double qty, String productName, String unit) 
     {
         this.purReqDetId = purReqDetId;
         this.purReqId = purReqId;
         this.pid = pid;
         this.qty = qty;
         this.productName = productName;
+        this.unit = unit;
     }
  
     public int getPurReqDetId() 
@@ -92,9 +94,19 @@ public class TblProductPurchaseReqDetails
         this.productName = productName;
     }
 
+    public String getUnit() 
+    {
+        return unit;
+    }
+
+    public void setUnit(String unit) 
+    {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() 
     {
-        return "TblProductPurchaseReqDetails{" + "purReqDetId=" + purReqDetId + ", purReqId=" + purReqId + ", pid=" + pid + ", qty=" + qty + ", productName=" + productName + '}';
+        return "TblProductPurchaseReqDetails{" + "purReqDetId=" + purReqDetId + ", purReqId=" + purReqId + ", pid=" + pid + ", qty=" + qty + ", productName=" + productName + ", unit=" + unit + '}';
     }    
 }

@@ -223,7 +223,7 @@ public class PurchaseRequestModel
         
         try {    
            String sql = ""
-                   + "SELECT prd.*, p.name FROM tbl_product_purchase_req_details prd "
+                   + "SELECT prd.*, p.name, p.unit FROM tbl_product_purchase_req_details prd "
                    + "LEFT JOIN tbl_product p ON(p.pid=prd.pid) "
                    + "WHERE pur_req_id=?";
            
@@ -239,6 +239,7 @@ public class PurchaseRequestModel
                p.setPid(rs.getInt("pid"));
                p.setQty(rs.getDouble("qty"));
                p.setProductName(rs.getString("name"));
+               p.setUnit(rs.getString("unit"));
                
                list.add(p);
            } 
