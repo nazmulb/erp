@@ -55,16 +55,12 @@ public class UserController extends HttpServlet
                     break;
 
                     case "update":
-
+                        update(request, response);
                     break;    
 
                     case "active_inactive":
                         activeInactive(request, response);
-                    break;
-
-                    case "details":
-
-                    break;    
+                    break;   
 
                     case "list":              
                         list(request, response);
@@ -158,8 +154,62 @@ public class UserController extends HttpServlet
     public void add(HttpServletRequest request, HttpServletResponse response)
     {
         try {
+            int uid = (request.getParameter("uid") != null) ? Integer.parseInt(request.getParameter("uid")) : 0;
+            request.setAttribute("result", null);
+            
+            if(uid>0){
+                UserModel pm = new UserModel();
+                TblUser result = pm.loadById(uid);
+                request.setAttribute("result", result);
+            }
+            
             String url = "/WEB-INF/view/template/user/add.jsp";
             request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void update(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            int uid = (request.getParameter("uid") != null && request.getParameter("uid") != "") ? Integer.parseInt(request.getParameter("uid")) : 0;
+            String uname = (request.getParameter("uname") != null && request.getParameter("uname") != "") ? request.getParameter("uname") : "";
+            String firstName = (request.getParameter("first_name") != null && request.getParameter("first_name") != "") ? request.getParameter("first_name") : "";
+            String lastName = (request.getParameter("last_name") != null && request.getParameter("last_name") != "") ? request.getParameter("last_name") : "";
+            String password = (request.getParameter("password") != null && request.getParameter("password") != "") ? request.getParameter("password") : "";
+            String email = (request.getParameter("email") != null && request.getParameter("email") != "") ? request.getParameter("email") : "";
+            String phone = (request.getParameter("phone") != null && request.getParameter("phone") != "") ? request.getParameter("phone") : "";
+            int pass = 0;
+            
+            UserModel m = new UserModel();
+            TblUser u;
+            
+            if(uid>0){
+                u = m.loadById(uid);
+                if(u.getUid()==0)
+                    throw new RuntimeException("User not found!");
+            }else{
+                u = new TblUser();
+            }
+            
+            if(password != ""){
+                pass = password.hashCode();
+            }
+            
+            u.setUid(uid);
+            u.setUname(uname);
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+            if(pass != 0){
+                u.setPassword(Integer.toString(pass));
+            }
+            u.setEmail(email);
+            u.setPhone(phone);
+            
+            m.save(u);         
+            
+            response.sendRedirect("user?action=list&msg_type=success&msg=User has beed "+(uid==0 ? "added" : "updated") + " successfully.");
         } catch(Exception e){
             e.printStackTrace();
         }

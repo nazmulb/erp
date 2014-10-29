@@ -19,6 +19,7 @@ public class UserModel
     private Connection conn = null;
     private PreparedStatement pstmt = null;
     private int noOfRecords = 0;
+    private int lastInsertedId = -1;
         
     public UserModel()
     {
@@ -33,6 +34,15 @@ public class UserModel
     public int getNoOfRecords() 
     {
         return noOfRecords;
+    }
+    
+    /**
+     * To get the last inserted id.
+     * @return int no of record found.
+     */
+    public int getLastInsertedId() 
+    {
+        return lastInsertedId;
     }
     
     /**
@@ -101,35 +111,49 @@ public class UserModel
         
         return userList;   
     }
-        
+    
     /**
-     * Update status by user id.
-     * @param uid User ID.
-     * @param status User Status.
+     * Get user by user id.
+     * @param uid
+     * @return TblUser This will return user info.
      * @exception SQLException On SQL error.
-    */
-    public void updateStatus(int uid, int status) throws SQLException 
+     */
+    public TblUser loadById(int uid) throws SQLException 
     {
+        ResultSet rs = null;
+        TblUser u = new TblUser();
+        
         try {    
-           String sql = "UPDATE tbl_user SET status=? WHERE uid=?";
+           String sql = "SELECT * FROM tbl_user WHERE uid=? LIMIT 1";
            
-           pstmt = conn.prepareStatement(sql); 
-           pstmt.setInt(1, status);
-           pstmt.setInt(2, uid);
-           pstmt.executeUpdate();      
-         
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, uid);
+           
+           rs = pstmt.executeQuery();
+
+           if(rs.next()){
+               u.setUid(rs.getInt("uid"));
+               u.setUname(rs.getString("uname"));
+               u.setFirstName(rs.getString("first_name"));
+               u.setLastName(rs.getString("last_name"));
+               u.setPassword(rs.getString("password"));
+               u.setEmail(rs.getString("email"));
+               u.setPhone(rs.getString("phone"));
+               u.setImage(rs.getString("image"));
+               u.setStatus(rs.getInt("status"));
+           }
         }catch(SQLException se){
            se.printStackTrace();
         }catch(Exception e){
            e.printStackTrace();
         } finally {
-            pstmt.close();
-            conn.close();
         }
+        
+        return u;
     }
-    
+        
     /**
-     * To get user by user name.
+     * Get user by user name.
      * @param uname
      * @return TblUser This will return user info.
      * @exception SQLException On SQL error.
@@ -207,5 +231,76 @@ public class UserModel
         }
         
         return isValid;   
+    }
+    
+    /**
+     * Add or update user depending on user id.
+     * @param user object.
+     * @exception SQLException On SQL error.
+     */
+    public void save(TblUser user) throws SQLException 
+    {
+        try {
+            int uid = user.getUid();
+            String sql;
+            
+            if(uid>0){ 
+                sql = "UPDATE tbl_user SET uname=?, first_name=?, last_name=?, password=?, email=?, phone=?  WHERE uid=?";
+                pstmt = conn.prepareStatement(sql);
+                pstmt.setInt(7, uid);
+            }else{
+                sql = "INSERT INTO tbl_user (uname, first_name, last_name, password, email, phone) VALUES (?, ?, ?, ?, ?, ?)";
+                pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            }
+            
+            pstmt.setString(1, user.getUname());
+            pstmt.setString(2, user.getFirstName());
+            pstmt.setString(3, user.getLastName());
+            pstmt.setString(4, user.getPassword());
+            pstmt.setString(5, user.getEmail());
+            pstmt.setString(6, user.getPhone());
+            pstmt.executeUpdate();
+            
+            if(uid==0){ 
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if(rs.next()){
+                    this.lastInsertedId = rs.getInt(1);
+                }
+            }
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            pstmt.close();
+            conn.close();
+        }
+    }
+    
+    /**
+     * Update status by user id.
+     * @param uid User ID.
+     * @param status User Status.
+     * @exception SQLException On SQL error.
+    */
+    public void updateStatus(int uid, int status) throws SQLException 
+    {
+        try {    
+           String sql = "UPDATE tbl_user SET status=? WHERE uid=?";
+           
+           pstmt = conn.prepareStatement(sql); 
+           pstmt.setInt(1, status);
+           pstmt.setInt(2, uid);
+           pstmt.executeUpdate();      
+         
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+            pstmt.close();
+            conn.close();
+        }
     }
 }
