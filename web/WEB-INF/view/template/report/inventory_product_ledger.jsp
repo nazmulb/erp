@@ -1,4 +1,3 @@
-<%@page import="java.sql.ResultSet"%>
 <section>
     <div class="container content">
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
@@ -48,13 +47,13 @@
                             <tr>
                                 <th>Date</th>
                                 <th>Transaction Type</th>
-                                <th>Receive</th>
-                                <th>Issue</th>
-                                <th>Balance</th>
+                                <th class="text-right">Receive</th>
+                                <th class="text-right">Issue</th>
+                                <th class="text-right">Balance</th>
                             </tr>
                             <tr>
                                 <td colspan="4">Opening Balance</td>
-                                <td align="right"><%=balance%></td>
+                                <td class="text-right"><%=balance%></td>
                             </tr>
                             <% 
                                 while(rs.next()){ 
@@ -75,16 +74,16 @@
                                     <tr>
                                         <td><%=trndate%></td>
                                         <td><%=trntype%></td>
-                                        <td align="right"><%=(trntype.equals("received") ? qty : "")%></td>
-                                        <td align="right"><%=(trntype.equals("issued") ? qty : "")%></td>
-                                        <td align="right"><%=balance%></td>
+                                        <td class="text-right"><%=(trntype.equals("received") ? qty : "")%></td>
+                                        <td class="text-right"><%=(trntype.equals("issued") ? qty : "")%></td>
+                                        <td class="text-right"><%=balance%></td>
                                     </tr> 
                             <%  } %>
                             <tr class="tbl-total">
                                 <td colspan="2">Total:</td>
-                                <td align="right"><%=totalRec%></td>
-                                <td align="right"><%=totalIssued%></td>
-                                <td align="right"><%=balance%></td>
+                                <td class="text-right"><%=totalRec%></td>
+                                <td class="text-right"><%=totalIssued%></td>
+                                <td class="text-right"><%=balance%></td>
                             </tr>
                         </table>
                     </div>

@@ -357,3 +357,7 @@ table .tbl-total{
     background-color: #ccc;
     font-weight: bold;
 }
+
+table .text-right{
+    text-align: right;
+}

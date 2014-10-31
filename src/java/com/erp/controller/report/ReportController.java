@@ -86,7 +86,7 @@ public class ReportController extends HttpServlet {
             
             if(pid>0 && fromDate!="" && toDate!=""){
                 PurchaseRequestModel m = new PurchaseRequestModel();
-                ResultSet results = m.getproductLedgerInfo(pid, fromDate, toDate);
+                ResultSet results = m.getProductLedgerInfo(pid, fromDate, toDate);
                 request.setAttribute("results", results);
                 
                 double balance = m.getOpeningBalance(pid, fromDate);
@@ -103,6 +103,28 @@ public class ReportController extends HttpServlet {
     private void receiveReport(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
+            Date dateNow = new Date();
+            SimpleDateFormat todayDate = new SimpleDateFormat("yyyy-MM-dd");
+            
+            int pid = (request.getParameter("pid") != null && request.getParameter("pid") != "") ? Integer.parseInt(request.getParameter("pid")) : 0;
+            String fromDate = (request.getParameter("from_date") != null && request.getParameter("from_date") != "") ? request.getParameter("from_date") : todayDate.format(dateNow);
+            String toDate = (request.getParameter("to_date") != null && request.getParameter("to_date") != "") ? request.getParameter("to_date") : todayDate.format(dateNow);
+            
+            request.setAttribute("pid", pid);
+            request.setAttribute("from_date", fromDate);
+            request.setAttribute("to_date", toDate);
+            request.setAttribute("results", null);
+            
+            ProductModel pm = new ProductModel();
+            ArrayList<TblProduct> products = pm.load();
+            request.setAttribute("products", products);
+            
+            if(fromDate!="" && toDate!=""){
+                PurchaseRequestModel m = new PurchaseRequestModel();
+                ResultSet results = m.getReceiveInfo(pid, fromDate, toDate);
+                request.setAttribute("results", results);
+            }
+            
             String url = "/WEB-INF/view/template/report/inventory_receive_report.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){

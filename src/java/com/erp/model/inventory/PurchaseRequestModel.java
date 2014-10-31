@@ -372,7 +372,7 @@ public class PurchaseRequestModel
      * @return ResultSet This will return product ledger info.
      * @exception SQLException On SQL error.
      */
-    public ResultSet getproductLedgerInfo(int pid, String fromDate, String toDate) throws SQLException 
+    public ResultSet getProductLedgerInfo(int pid, String fromDate, String toDate) throws SQLException 
     {
         ResultSet rs = null;
         try {    
@@ -453,5 +453,52 @@ public class PurchaseRequestModel
         }
         
         return balance;
+    }
+    
+    /**
+     * Get receive info
+     * @param pid
+     * @param fromDate
+     * @param toDate
+     * @return ResultSet This will return receive info.
+     * @exception SQLException On SQL error.
+     */
+    public ResultSet getReceiveInfo(int pid, String fromDate, String toDate) throws SQLException 
+    {
+        ResultSet rs = null;
+        try {    
+           String sql = ""
+                   + "SELECT pprd.pid, p.name, DATE(pr.rec_date) AS trndate, pr.rec_date AS sortdate, "
+                   + ((pid>0) ? "pr.qty AS itm_qty, " : "SUM(pr.qty) AS itm_qty, ")
+                   + "pr.rate "
+                   + "FROM tbl_product_rec pr "
+                   + "INNER JOIN tbl_product_purchase_req_details pprd USING ( pur_req_det_id ) "
+                   + "LEFT JOIN tbl_product p USING ( pid ) "
+                   + "WHERE "
+                   + ((pid>0) ? "pprd.pid = ? " : "1 ")
+                   + "AND DATE(pr.rec_date) BETWEEN ? AND ? "
+                   + ((pid>0) ? "" : "GROUP BY pprd.pid ")
+                   + "ORDER BY sortdate ASC ";
+           
+           pstmt = conn.prepareStatement(sql);
+           if(pid>0){
+               pstmt.setInt(1, pid);
+               pstmt.setString(2, fromDate);
+               pstmt.setString(3, toDate);
+           }else{
+               pstmt.setString(1, fromDate);
+               pstmt.setString(2, toDate);
+           }
+           
+           rs = pstmt.executeQuery();
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+        
+        return rs;   
     }
 }
