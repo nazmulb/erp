@@ -365,7 +365,7 @@ public class PurchaseRequestModel
     
     
     /**
-     * Get product ledger info by product id.
+     * Get product ledger info
      * @param pid
      * @param fromDate
      * @param toDate
@@ -377,12 +377,12 @@ public class PurchaseRequestModel
         ResultSet rs = null;
         try {    
            String sql = ""
-                   + "(SELECT pprd.pid, DATE(pr.rec_date) AS trndate, 'rec' AS trntype, pr.qty, pr.rate "
+                   + "(SELECT pprd.pid, DATE(pr.rec_date) AS trndate, 'received' AS trntype, pr.qty, pr.rate "
                    + "FROM tbl_product_rec pr "
                    + "INNER JOIN tbl_product_purchase_req_details pprd USING ( pur_req_det_id ) "
                    + "WHERE pprd.pid = ? AND DATE(pr.rec_date) BETWEEN ? AND ?) "
                    + "UNION "
-                   + "(SELECT pid, DATE(out_date) AS trndate, 'issue' AS trntype, qty, rate "
+                   + "(SELECT pid, DATE(out_date) AS trndate, 'issued' AS trntype, qty, rate "
                    + "FROM tbl_product_out "
                    + "WHERE pid = ? AND DATE(out_date) BETWEEN ? AND ? "
                    + "ORDER BY trndate) ";
@@ -406,5 +406,52 @@ public class PurchaseRequestModel
         
         return rs;   
     }
+    
+    
+    /**
+     * Get opening balance
+     * @param pid
+     * @param fromDate
+     * @return ResultSet This will return opening balance
+     * @exception SQLException On SQL error.
+     */
+    public double getOpeningBalance(int pid, String fromDate) throws SQLException 
+    {
+        ResultSet rs = null;
+        double balance = 0.0;
+        try {    
+           String sql = ""
+                   + "SELECT IFNULL( SUM( IFNULL( received, 0 ) - IFNULL( issued, 0 ) ) , 0 ) AS opening_balance "
+                   + "FROM ( "
+                   + "(SELECT pid, tbl_product_rec.qty AS received, '0' AS issued "
+                   + "FROM tbl_product_rec "
+                   + "INNER JOIN tbl_product_purchase_req_details USING ( pur_req_det_id )  "
+                   + "WHERE pid = ? AND DATE( rec_date ) < ?) "
+                   + "UNION  "
+                   + "(SELECT pid, '0' AS received, qty AS issued "
+                   + "FROM tbl_product_out "
+                   + "WHERE pid = ? AND DATE( out_date ) < ?) "
+                   + ") AS temp ";
+                   
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, pid);
+           pstmt.setString(2, fromDate);
+           pstmt.setInt(3, pid);
+           pstmt.setString(4, fromDate);
+          
+           rs = pstmt.executeQuery();
+           if(rs.next()){ 
+               balance = rs.getDouble("opening_balance");
+           }
+           
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
         
+        return balance;
+    }
 }

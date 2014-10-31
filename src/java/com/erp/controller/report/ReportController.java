@@ -78,6 +78,7 @@ public class ReportController extends HttpServlet {
             request.setAttribute("from_date", fromDate);
             request.setAttribute("to_date", toDate);
             request.setAttribute("results", null);
+            request.setAttribute("balance", 0.0);
             
             ProductModel pm = new ProductModel();
             ArrayList<TblProduct> products = pm.load();
@@ -87,6 +88,9 @@ public class ReportController extends HttpServlet {
                 PurchaseRequestModel m = new PurchaseRequestModel();
                 ResultSet results = m.getproductLedgerInfo(pid, fromDate, toDate);
                 request.setAttribute("results", results);
+                
+                double balance = m.getOpeningBalance(pid, fromDate);
+                request.setAttribute("balance", balance);
             }
             
             String url = "/WEB-INF/view/template/report/inventory_product_ledger.jsp";

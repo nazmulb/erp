@@ -353,3 +353,7 @@ label.error {
     font-style: italic
 }
 
+table .tbl-total{
+    background-color: #ccc;
+    font-weight: bold;
+}

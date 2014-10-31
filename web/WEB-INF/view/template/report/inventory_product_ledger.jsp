@@ -37,37 +37,58 @@
                         </div>
                     </div>
                 </form>
-                <% ResultSet rs = (ResultSet)request.getAttribute("results"); %>        
-                <div class="row">
-                    <table width="100%" class="table-bordered">
-                        <tr>
-                            <th>Date</th>
-                            <th>Transaction Type</th>
-                            <th>Receive</th>
-                            <th>Issue</th>
-                            <th>Balance</th>
-                        </tr>
-                        <% 
-                            if(rs != null){
+                <% 
+                    ResultSet rs = (ResultSet)request.getAttribute("results");
+                    double balance = (double)request.getAttribute("balance");
+                    double totalRec = 0, totalIssued = 0;
+                %>
+                <% if(rs != null){ %>
+                    <div class="form-group">
+                        <table width="100%" class="table-bordered">
+                            <tr>
+                                <th>Date</th>
+                                <th>Transaction Type</th>
+                                <th>Receive</th>
+                                <th>Issue</th>
+                                <th>Balance</th>
+                            </tr>
+                            <tr>
+                                <td colspan="4">Opening Balance</td>
+                                <td align="right"><%=balance%></td>
+                            </tr>
+                            <% 
                                 while(rs.next()){ 
                                     String trndate = rs.getString("trndate");
                                     String trntype = rs.getString("trntype");
                                     double qty = rs.getDouble("qty");
-                                    double rate = rs.getDouble("rate");
+                                    if(trntype.equals("received")){
+                                        balance += qty;
+                                        totalRec += qty;
+                                    }
+                                    
+                                    if(trntype.equals("issued")){
+                                        balance -= qty;
+                                        totalIssued += qty;
+                                    }
+                                    
                             %>
-                                <tr>
-                                    <td><%=trndate%></td>
-                                    <td><%=trntype%></td>
-                                    <td><%=qty%></td>
-                                    <td><%=rate%></td>
-                                    <td></td>
-                                </tr> 
-                            <%
-                                }
-                            }
-                        %>
-                    </table>
-                </div>        
+                                    <tr>
+                                        <td><%=trndate%></td>
+                                        <td><%=trntype%></td>
+                                        <td align="right"><%=(trntype.equals("received") ? qty : "")%></td>
+                                        <td align="right"><%=(trntype.equals("issued") ? qty : "")%></td>
+                                        <td align="right"><%=balance%></td>
+                                    </tr> 
+                            <%  } %>
+                            <tr class="tbl-total">
+                                <td colspan="2">Total:</td>
+                                <td align="right"><%=totalRec%></td>
+                                <td align="right"><%=totalIssued%></td>
+                                <td align="right"><%=balance%></td>
+                            </tr>
+                        </table>
+                    </div>
+                <% } %>
             </div>
         </aside>
 
