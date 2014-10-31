@@ -362,4 +362,49 @@ public class PurchaseRequestModel
         } finally {
         }
     }
+    
+    
+    /**
+     * Get product ledger info by product id.
+     * @param pid
+     * @param fromDate
+     * @param toDate
+     * @return ResultSet This will return product ledger info.
+     * @exception SQLException On SQL error.
+     */
+    public ResultSet getproductLedgerInfo(int pid, String fromDate, String toDate) throws SQLException 
+    {
+        ResultSet rs = null;
+        try {    
+           String sql = ""
+                   + "(SELECT pprd.pid, DATE(pr.rec_date) AS trndate, 'rec' AS trntype, pr.qty, pr.rate "
+                   + "FROM tbl_product_rec pr "
+                   + "INNER JOIN tbl_product_purchase_req_details pprd USING ( pur_req_det_id ) "
+                   + "WHERE pprd.pid = ? AND DATE(pr.rec_date) BETWEEN ? AND ?) "
+                   + "UNION "
+                   + "(SELECT pid, DATE(out_date) AS trndate, 'issue' AS trntype, qty, rate "
+                   + "FROM tbl_product_out "
+                   + "WHERE pid = ? AND DATE(out_date) BETWEEN ? AND ? "
+                   + "ORDER BY trndate) ";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, pid);
+           pstmt.setString(2, fromDate);
+           pstmt.setString(3, toDate);
+           pstmt.setInt(4, pid);
+           pstmt.setString(5, fromDate);
+           pstmt.setString(6, toDate);
+           
+           rs = pstmt.executeQuery();
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+        
+        return rs;   
+    }
+        
 }

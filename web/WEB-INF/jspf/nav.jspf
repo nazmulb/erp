@@ -30,6 +30,13 @@
                     </ul>
                 </div>
                 <div class="nav-header">Reports</div>
+                <div class="nav-content">
+                    <ul>
+                        <li class="<%=(routePath.endsWith("/report/inventory_product_ledger.jsp")?"active":"")%>"><a href="report?action=product_ledger">Product Ledger</a></li>
+                        <li class="<%=(routePath.endsWith("/report/inventory_receive_report.jsp")?"active":"")%>"><a href="report?action=receive_report">Receive Report</a></li>
+                        <li class="<%=(routePath.endsWith("/report/inventory_issue_report.jsp")?"active":"")%>"><a href="report?action=issue_report">Issue Report</a></li>
+                    </ul>
+                </div>
                 <div class="nav-header">Sales Management</div>
                 <div class="nav-header">Accounting Management</div>
                 <div class="nav-header">Human Resource Management</div>
