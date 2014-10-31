@@ -377,15 +377,15 @@ public class PurchaseRequestModel
         ResultSet rs = null;
         try {    
            String sql = ""
-                   + "(SELECT pprd.pid, DATE(pr.rec_date) AS trndate, 'received' AS trntype, pr.qty, pr.rate "
+                   + "(SELECT pprd.pid, DATE(pr.rec_date) AS trndate, pr.rec_date AS sortdate, 'received' AS trntype, pr.qty, pr.rate "
                    + "FROM tbl_product_rec pr "
                    + "INNER JOIN tbl_product_purchase_req_details pprd USING ( pur_req_det_id ) "
                    + "WHERE pprd.pid = ? AND DATE(pr.rec_date) BETWEEN ? AND ?) "
                    + "UNION "
-                   + "(SELECT pid, DATE(out_date) AS trndate, 'issued' AS trntype, qty, rate "
+                   + "(SELECT pid, DATE(out_date) AS trndate, out_date AS sortdate, 'issued' AS trntype, qty, rate "
                    + "FROM tbl_product_out "
                    + "WHERE pid = ? AND DATE(out_date) BETWEEN ? AND ? "
-                   + "ORDER BY trndate) ";
+                   + ") ORDER BY sortdate ASC ";
            
            pstmt = conn.prepareStatement(sql);
            pstmt.setInt(1, pid);
