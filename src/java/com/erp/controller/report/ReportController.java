@@ -2,6 +2,7 @@ package com.erp.controller.report;
 
 import com.erp.entity.inventory.TblProduct;
 import com.erp.model.inventory.ProductModel;
+import com.erp.model.inventory.ProductRequestModel;
 import com.erp.model.inventory.PurchaseRequestModel;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -135,6 +136,28 @@ public class ReportController extends HttpServlet {
     private void issueReport(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
+            Date dateNow = new Date();
+            SimpleDateFormat todayDate = new SimpleDateFormat("yyyy-MM-dd");
+            
+            int pid = (request.getParameter("pid") != null && request.getParameter("pid") != "") ? Integer.parseInt(request.getParameter("pid")) : 0;
+            String fromDate = (request.getParameter("from_date") != null && request.getParameter("from_date") != "") ? request.getParameter("from_date") : todayDate.format(dateNow);
+            String toDate = (request.getParameter("to_date") != null && request.getParameter("to_date") != "") ? request.getParameter("to_date") : todayDate.format(dateNow);
+            
+            request.setAttribute("pid", pid);
+            request.setAttribute("from_date", fromDate);
+            request.setAttribute("to_date", toDate);
+            request.setAttribute("results", null);
+            
+            ProductModel pm = new ProductModel();
+            ArrayList<TblProduct> products = pm.load();
+            request.setAttribute("products", products);
+            
+            if(fromDate!="" && toDate!=""){
+                ProductRequestModel m = new ProductRequestModel();
+                ResultSet results = m.getProductOutInfo(pid, fromDate, toDate);
+                request.setAttribute("results", results);
+            }
+            
             String url = "/WEB-INF/view/template/report/inventory_issue_report.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){

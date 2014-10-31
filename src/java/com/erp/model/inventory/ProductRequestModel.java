@@ -355,4 +355,50 @@ public class ProductRequestModel
         } finally {
         }
     }
+    
+    /**
+     * Get product out info
+     * @param pid
+     * @param fromDate
+     * @param toDate
+     * @return ResultSet This will return product out info.
+     * @exception SQLException On SQL error.
+     */
+    public ResultSet getProductOutInfo(int pid, String fromDate, String toDate) throws SQLException 
+    {
+        ResultSet rs = null;
+        try {    
+           String sql = ""
+                   + "SELECT po.pid, p.name, DATE(po.out_date) AS trndate, po.out_date AS sortdate, "
+                   + ((pid>0) ? "po.qty AS itm_qty, " : "SUM(po.qty) AS itm_qty, ")
+                   + "po.rate "
+                   + "FROM tbl_product_out po "
+                   + "LEFT JOIN tbl_product p USING ( pid ) "
+                   + "WHERE "
+                   + ((pid>0) ? "po.pid = ? " : "1 ")
+                   + "AND DATE(po.out_date) BETWEEN ? AND ? "
+                   + ((pid>0) ? "" : "GROUP BY po.pid ")
+                   + "ORDER BY sortdate ASC ";
+           
+           pstmt = conn.prepareStatement(sql);
+           if(pid>0){
+               pstmt.setInt(1, pid);
+               pstmt.setString(2, fromDate);
+               pstmt.setString(3, toDate);
+           }else{
+               pstmt.setString(1, fromDate);
+               pstmt.setString(2, toDate);
+           }
+           
+           rs = pstmt.executeQuery();
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+        
+        return rs;   
+    }
 }
