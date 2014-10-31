@@ -47,12 +47,13 @@ public class ProductModel
     
     /**
      * To get all products.
+     * @param productType
      * @return ArrayList<TblProduct> This will return list of products.
      * @exception SQLException On SQL error.
      */
-    public ArrayList<TblProduct> load() throws SQLException 
+    public ArrayList<TblProduct> load(int productType) throws SQLException 
     {
-        return load(-1, -1);
+        return load(-1, -1, productType);
     }
     
     
@@ -60,21 +61,24 @@ public class ProductModel
      * To get products with limit.
      * @param offset
      * @param noOfRecords
+     * @param productType
      * @return ArrayList<TblProduct> This will return list of products.
      * @exception SQLException On SQL error.
      */
-    public ArrayList<TblProduct> load(int offset, int noOfRecords) throws SQLException 
+    public ArrayList<TblProduct> load(int offset, int noOfRecords, int productType) throws SQLException 
     {
         ResultSet rs = null;
         ArrayList<TblProduct> proList = new ArrayList<TblProduct>();
         
         try {    
-           String sql = "SELECT SQL_CALC_FOUND_ROWS * FROM tbl_product "+((offset==-1 && noOfRecords==-1) ? "" :  " LIMIT ?, ?");
+           String sql = "SELECT SQL_CALC_FOUND_ROWS * FROM tbl_product WHERE product_type = ? "+((offset==-1 && noOfRecords==-1) ? "" :  " LIMIT ?, ?");
            
            pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, productType);
+           
            if(!(offset==-1 && noOfRecords==-1)){
-                pstmt.setInt(1, offset);
-                pstmt.setInt(2, noOfRecords);
+                pstmt.setInt(2, offset);
+                pstmt.setInt(3, noOfRecords);
            }
            
            rs = pstmt.executeQuery();

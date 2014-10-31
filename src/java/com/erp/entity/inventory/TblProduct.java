@@ -15,6 +15,7 @@ public class TblProduct
     private double currentStock;
     private double rate;
     private String unit;
+    private int productType;
     
     public TblProduct() 
     {
@@ -25,14 +26,15 @@ public class TblProduct
         this.pid = pid;
     }
 
-    public TblProduct(int pid, String name, double currentStock, double rate, String unit) 
+    public TblProduct(int pid, String name, double currentStock, double rate, String unit, int productType) 
     {
         this.pid = pid;
         this.name = name;
         this.currentStock = currentStock;
         this.rate = rate;
         this.unit = unit;
-    } 
+        this.productType = productType;
+    }
     
     public int getPid() 
     {
@@ -84,9 +86,19 @@ public class TblProduct
         this.unit = unit;
     }
 
+    public int getProductType() 
+    {
+        return productType;
+    }
+
+    public void setProductType(int productType) 
+    {
+        this.productType = productType;
+    }
+
     @Override
     public String toString() 
     {
-        return "TblProduct{" + "pid=" + pid + ", name=" + name + ", currentStock=" + currentStock + ", rate=" + rate + ", unit=" + unit + '}';
+        return "TblProduct{" + "pid=" + pid + ", name=" + name + ", currentStock=" + currentStock + ", rate=" + rate + ", unit=" + unit + ", productType=" + productType + '}';
     }
 }

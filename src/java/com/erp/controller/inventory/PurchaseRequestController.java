@@ -157,7 +157,7 @@ public class PurchaseRequestController extends HttpServlet
     {
         try {
             ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> products = pm.load();
+            ArrayList<TblProduct> products = pm.load(1);
             request.setAttribute("products", products);
             String url = "/WEB-INF/view/template/inventory/purchase_req_add.jsp";
             request.getRequestDispatcher(url).forward(request, response);

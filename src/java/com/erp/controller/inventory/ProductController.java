@@ -67,7 +67,7 @@ public class ProductController extends HttpServlet {
             int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
             
             ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> results = pm.load((page-1)*recordsPerPage, recordsPerPage);
+            ArrayList<TblProduct> results = pm.load((page-1)*recordsPerPage, recordsPerPage, 1);
             int noOfRecords = pm.getNoOfRecords();
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
             request.setAttribute("results", results);

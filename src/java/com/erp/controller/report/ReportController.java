@@ -5,7 +5,6 @@ import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.ProductRequestModel;
 import com.erp.model.inventory.PurchaseRequestModel;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -82,7 +81,7 @@ public class ReportController extends HttpServlet {
             request.setAttribute("balance", 0.0);
             
             ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> products = pm.load();
+            ArrayList<TblProduct> products = pm.load(1);
             request.setAttribute("products", products);
             
             if(pid>0 && fromDate!="" && toDate!=""){
@@ -117,7 +116,7 @@ public class ReportController extends HttpServlet {
             request.setAttribute("results", null);
             
             ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> products = pm.load();
+            ArrayList<TblProduct> products = pm.load(1);
             request.setAttribute("products", products);
             
             if(fromDate!="" && toDate!=""){
@@ -149,7 +148,7 @@ public class ReportController extends HttpServlet {
             request.setAttribute("results", null);
             
             ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> products = pm.load();
+            ArrayList<TblProduct> products = pm.load(1);
             request.setAttribute("products", products);
             
             if(fromDate!="" && toDate!=""){
