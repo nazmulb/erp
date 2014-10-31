@@ -16,22 +16,78 @@ USE `erp`;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO';
 
+/*Table structure for table `tbl_customer` */
+
+DROP TABLE IF EXISTS `tbl_customer`;
+
+CREATE TABLE `tbl_customer` (
+  `cid` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '1' COMMENT '0 - Inactive, 1 - Active',
+  PRIMARY KEY (`cid`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tbl_customer` */
+
+/*Table structure for table `tbl_invoice` */
+
+DROP TABLE IF EXISTS `tbl_invoice`;
+
+CREATE TABLE `tbl_invoice` (
+  `invoice_id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` int(11) DEFAULT NULL,
+  `invoice_date` date DEFAULT NULL,
+  `reference_no` varchar(255) DEFAULT NULL,
+  `subtotal` double DEFAULT NULL,
+  `vat` double DEFAULT NULL,
+  `grand_total` double DEFAULT NULL,
+  PRIMARY KEY (`invoice_id`),
+  KEY `fk_tbl_invoice_tbl_customer1_idx` (`cid`),
+  CONSTRAINT `fk_tbl_invoice_tbl_customer1` FOREIGN KEY (`cid`) REFERENCES `tbl_customer` (`cid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tbl_invoice` */
+
+/*Table structure for table `tbl_invoice_details` */
+
+DROP TABLE IF EXISTS `tbl_invoice_details`;
+
+CREATE TABLE `tbl_invoice_details` (
+  `invoice_det_id` int(11) NOT NULL AUTO_INCREMENT,
+  `invoice_id` int(11) DEFAULT NULL,
+  `pid` int(11) DEFAULT NULL,
+  `qty` double DEFAULT NULL,
+  `rate` double DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '0' COMMENT '0 - Not Deliver, 1 - Delivered',
+  PRIMARY KEY (`invoice_det_id`),
+  KEY `fk_tbl_invoice_details_tbl_invoice1_idx` (`invoice_id`),
+  KEY `fk_tbl_invoice_details_tbl_product1_idx` (`pid`),
+  CONSTRAINT `fk_tbl_invoice_details_tbl_invoice1` FOREIGN KEY (`invoice_id`) REFERENCES `tbl_invoice` (`invoice_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbl_invoice_details_tbl_product1` FOREIGN KEY (`pid`) REFERENCES `tbl_product` (`pid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Data for the table `tbl_invoice_details` */
+
 /*Table structure for table `tbl_product` */
 
 DROP TABLE IF EXISTS `tbl_product`;
 
 CREATE TABLE `tbl_product` (
-  `pid` int(11) NOT NULL AUTO_INCREMENT COMMENT 'xzxz',
+  `pid` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `current_stock` double DEFAULT NULL,
   `rate` double DEFAULT NULL,
   `unit` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `product_type` tinyint(4) DEFAULT '1' COMMENT '1 - Raw Materials, 2 - Finish Goods',
+  PRIMARY KEY (`pid`),
+  KEY `product_type` (`product_type`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product` */
-
-insert  into `tbl_product`(`pid`,`name`,`current_stock`,`rate`,`unit`) values (1,'Pen',90,12,'pcs'),(2,'Pencil',48,5,'pcs');
 
 /*Table structure for table `tbl_product_out` */
 
@@ -53,11 +109,9 @@ CREATE TABLE `tbl_product_out` (
   CONSTRAINT `fk_tbl_product_out_tbl_product_rec1` FOREIGN KEY (`rec_id`) REFERENCES `tbl_product_rec` (`rec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbl_product_out_tbl_product_rec2` FOREIGN KEY (`rec_id`) REFERENCES `tbl_product_rec` (`rec_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbl_product_out_tbl_product_req_details1` FOREIGN KEY (`req_det_id`) REFERENCES `tbl_product_req_details` (`req_det_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product_out` */
-
-insert  into `tbl_product_out`(`pout_id`,`pid`,`rec_id`,`req_det_id`,`qty`,`rate`,`out_date`) values (1,1,1,1,10,12,'2014-10-21 12:25:16'),(2,2,2,2,2,5,'2014-10-21 12:25:40');
 
 /*Table structure for table `tbl_product_purchase_req` */
 
@@ -67,13 +121,11 @@ CREATE TABLE `tbl_product_purchase_req` (
   `pur_req_id` int(11) NOT NULL AUTO_INCREMENT,
   `pur_req_date` date DEFAULT NULL,
   `pur_req_by` int(11) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL COMMENT '0 - Not Receive, 1 - Received',
   PRIMARY KEY (`pur_req_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product_purchase_req` */
-
-insert  into `tbl_product_purchase_req`(`pur_req_id`,`pur_req_date`,`pur_req_by`,`status`) values (1,'2014-10-21',1,1);
 
 /*Table structure for table `tbl_product_purchase_req_details` */
 
@@ -89,11 +141,9 @@ CREATE TABLE `tbl_product_purchase_req_details` (
   KEY `fk_tbl_product_req_details_tbl_product_req1_idx` (`pur_req_id`),
   CONSTRAINT `fk_tbl_product_req_details_tbl_product1` FOREIGN KEY (`pid`) REFERENCES `tbl_product` (`pid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbl_product_req_details_tbl_product_req1` FOREIGN KEY (`pur_req_id`) REFERENCES `tbl_product_purchase_req` (`pur_req_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product_purchase_req_details` */
-
-insert  into `tbl_product_purchase_req_details`(`pur_req_det_id`,`pur_req_id`,`pid`,`qty`) values (1,1,1,100),(2,1,2,50);
 
 /*Table structure for table `tbl_product_rec` */
 
@@ -109,11 +159,9 @@ CREATE TABLE `tbl_product_rec` (
   PRIMARY KEY (`rec_id`),
   KEY `fk_tbl_product_rec_tbl_product_purchase_req_details1_idx` (`pur_req_det_id`),
   CONSTRAINT `fk_tbl_product_rec_tbl_product_purchase_req_details1` FOREIGN KEY (`pur_req_det_id`) REFERENCES `tbl_product_purchase_req_details` (`pur_req_det_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product_rec` */
-
-insert  into `tbl_product_rec`(`rec_id`,`pur_req_det_id`,`qty`,`rate`,`rec_date`,`qty_disburse`) values (1,1,100,12,'2014-10-21 12:23:20',10),(2,2,50,5,'2014-10-21 12:23:48',2);
 
 /*Table structure for table `tbl_product_req` */
 
@@ -123,14 +171,12 @@ CREATE TABLE `tbl_product_req` (
   `req_id` int(11) NOT NULL AUTO_INCREMENT,
   `req_date` date DEFAULT NULL,
   `req_by` int(11) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT NULL,
+  `status` tinyint(4) DEFAULT NULL COMMENT '0 - Not Issue, 1 - Issued',
   `req_required_date` date DEFAULT NULL,
   PRIMARY KEY (`req_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product_req` */
-
-insert  into `tbl_product_req`(`req_id`,`req_date`,`req_by`,`status`,`req_required_date`) values (1,'2014-10-21',1,1,'2014-10-22');
 
 /*Table structure for table `tbl_product_req_details` */
 
@@ -146,11 +192,9 @@ CREATE TABLE `tbl_product_req_details` (
   KEY `fk_tbl_product_req_details_tbl_product2_idx` (`pid`),
   CONSTRAINT `fk_tbl_product_req_details_tbl_product_req2` FOREIGN KEY (`req_id`) REFERENCES `tbl_product_req` (`req_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_tbl_product_req_details_tbl_product2` FOREIGN KEY (`pid`) REFERENCES `tbl_product` (`pid`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_product_req_details` */
-
-insert  into `tbl_product_req_details`(`req_det_id`,`req_id`,`pid`,`qty`) values (1,1,1,10),(2,1,2,2);
 
 /*Table structure for table `tbl_user` */
 
@@ -165,8 +209,10 @@ CREATE TABLE `tbl_user` (
   `email` varchar(255) NOT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
-  `status` tinyint(4) DEFAULT '1',
-  PRIMARY KEY (`uid`)
+  `status` tinyint(4) DEFAULT '1' COMMENT '0 - Inactive, 1 - Active',
+  PRIMARY KEY (`uid`),
+  KEY `status` (`status`),
+  KEY `uname` (`uname`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `tbl_user` */
