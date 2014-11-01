@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  * @since   2009-05-22
  */
-public class ReportController extends HttpServlet {
-
+public class ReportController extends HttpServlet 
+{
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

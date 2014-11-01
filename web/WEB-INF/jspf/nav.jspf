@@ -24,9 +24,9 @@
                 <div class="nav-header">Sales Management</div>
                 <div class="nav-content">
                     <ul>
-                        <li class="<%=(routePath.endsWith("/report/inventory_receive_report.jsp")?"active":"")%>"><a href="report?action=receive_report">Customer Entry</a></li>
+                        <li class="<%=(routePath.endsWith("/sales/customer_list.jsp")?"active":"")%>"><a href="customer?action=list">Customer Entry</a></li>
                         <li class="<%=((routePath.endsWith("/inventory/product_list.jsp") && request.getParameter("product_type") !=null && request.getParameter("product_type").equals("2"))?"active":"")%>"><a href="product?action=product_list&amp;product_type=2">Product Entry</a></li>
-                        <li class="<%=(routePath.endsWith("/report/inventory_issue_report.jsp")?"active":"")%>"><a href="report?action=issue_report">Invoice</a></li>
+                        <li class="<%=(routePath.endsWith("/sales/invoice_list.jsp")?"active":"")%>"><a href="invoice?action=list">Invoice</a></li>
                     </ul>
                 </div>
                 <div class="nav-header">Reports</div>

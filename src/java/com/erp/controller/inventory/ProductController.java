@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  * @version 1.0
  * @since   2014-10-22
  */
-public class ProductController extends HttpServlet {
-
+public class ProductController extends HttpServlet 
+{
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

@@ -31,7 +31,6 @@ import javax.servlet.http.HttpSession;
  */
 public class ProductRequestController extends HttpServlet 
 {
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
