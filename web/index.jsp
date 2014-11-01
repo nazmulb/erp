@@ -9,8 +9,8 @@
                 <h2>Features</h2>
                 <ul class="home-features">
                     <li>Inventory Management</li>
-                    <li>User Management</li>
                     <li>Sales Management</li>
+                    <li>User Management</li>
                     <li>Accounting Management</li>
                     <li>Human Resource Management</li>
                     <li>Production Management</li>
