@@ -65,15 +65,17 @@ public class ProductController extends HttpServlet {
         
         try {
             int page = (request.getParameter("page") != null) ? Integer.parseInt(request.getParameter("page")) : 1;
+            int productType = (request.getParameter("product_type") != null) ? Integer.parseInt(request.getParameter("product_type")) : 1;
             
             ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> results = pm.load((page-1)*recordsPerPage, recordsPerPage, 1);
+            ArrayList<TblProduct> results = pm.load((page-1)*recordsPerPage, recordsPerPage, productType);
             int noOfRecords = pm.getNoOfRecords();
             int noOfPages = (int) Math.ceil(noOfRecords * 1.0 / recordsPerPage);
             request.setAttribute("results", results);
             request.setAttribute("noOfPages", noOfPages);
             request.setAttribute("currentPage", page);
-            request.setAttribute("pageURL", "product?action=product_list");
+            request.setAttribute("product_type", productType);
+            request.setAttribute("pageURL", "product?action=product_list&product_type="+productType);
         
             String url = "/WEB-INF/view/template/inventory/product_list.jsp";
             request.getRequestDispatcher(url).forward(request, response);
@@ -109,6 +111,7 @@ public class ProductController extends HttpServlet {
             double currentStock = (request.getParameter("current_stock") != null && request.getParameter("current_stock") != "") ? Double.parseDouble(request.getParameter("current_stock")) : 0;
             double rate = (request.getParameter("rate") != null && request.getParameter("rate") != "") ? Double.parseDouble(request.getParameter("rate")) : 0;
             String unit = (request.getParameter("unit") != null && request.getParameter("unit") != "") ? request.getParameter("unit") : "";
+            int productType = (request.getParameter("product_type") != null && request.getParameter("product_type") != "") ? Integer.parseInt(request.getParameter("product_type")) : 1;
             
             TblProduct p = new TblProduct();
             p.setPid(pid);
@@ -116,11 +119,12 @@ public class ProductController extends HttpServlet {
             p.setCurrentStock(currentStock);
             p.setRate(rate);
             p.setUnit(unit);
+            p.setProductType(productType);
             
             ProductModel pm = new ProductModel();
             pm.save(p);         
             
-            response.sendRedirect("product?action=product_list&msg_type=success&msg=Product has beed "+(pid==0 ? "added" : "updated") + " successfully.");
+            response.sendRedirect("product?action=product_list&product_type="+productType+"&msg_type=success&msg=Product has beed "+(pid==0 ? "added" : "updated") + " successfully.");
         } catch(Exception e){
             e.printStackTrace();
         }

@@ -6,7 +6,7 @@
             <h1>Product List</h1>
             <div class="right-content list-area">
                 <%@include file="/WEB-INF/jspf/msg.jspf" %>
-                <a class="btn btn-success btn-sm btn-add-right" href="product?action=product_add">Add Product</a>
+                <a class="btn btn-success btn-sm btn-add-right" href="product?action=product_add&amp;product_type=${product_type}">Add Product</a>
                 <div class="clearfix"></div>
                 <table width="100%" class="table-bordered">
                     <tr>

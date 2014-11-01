@@ -90,6 +90,7 @@ public class ProductModel
                p.setCurrentStock(rs.getDouble("current_stock"));
                p.setRate(rs.getDouble("rate"));
                p.setUnit(rs.getString("unit"));
+               p.setProductType(rs.getInt("product_type"));
                
                proList.add(p);
            } 
@@ -137,6 +138,7 @@ public class ProductModel
                p.setCurrentStock(rs.getDouble("current_stock"));
                p.setRate(rs.getDouble("rate"));
                p.setUnit(rs.getString("unit"));
+               p.setProductType(rs.getInt("product_type"));
            } 
 
         }catch(SQLException se){
@@ -164,18 +166,19 @@ public class ProductModel
             String sql;
             
             if(pid>0){ 
-                sql = "UPDATE tbl_product SET name=?, current_stock=?, rate=?, unit=?  WHERE pid=?";
+                sql = "UPDATE tbl_product SET name=?, current_stock=?, rate=?, unit=?, product_type=?  WHERE pid=?";
                 pstmt = conn.prepareStatement(sql);
-                pstmt.setInt(5, pid);
+                pstmt.setInt(6, pid);
             }else{
-                sql = "INSERT INTO tbl_product (name, current_stock, rate, unit) VALUES (?, ?, ?, ?)";
+                sql = "INSERT INTO tbl_product (name, current_stock, rate, unit, product_type) VALUES (?, ?, ?, ?, ?)";
                 pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             }
             
             pstmt.setString(1, product.getName());
             pstmt.setDouble(2, product.getCurrentStock());
             pstmt.setDouble(3, product.getRate());
-            pstmt.setString(4, product.getUnit());            
+            pstmt.setString(4, product.getUnit());
+            pstmt.setInt(5, product.getProductType());
             pstmt.executeUpdate();
             
             if(pid==0){ 

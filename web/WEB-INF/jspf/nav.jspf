@@ -16,17 +16,17 @@
                 <div class="nav-header">Inventory Management</div>
                 <div class="nav-content">
                     <ul>
-                        <li class="<%=(routePath.endsWith("/inventory/product_list.jsp")?"active":"")%>"><a href="product?action=product_list">Product Entry</a></li>
+                        <li class="<%=((routePath.endsWith("/inventory/product_list.jsp") && request.getParameter("product_type") !=null && request.getParameter("product_type").equals("1"))?"active":"")%>"><a href="product?action=product_list&amp;product_type=1">Product Entry</a></li>
                         <li class="<%=(routePath.endsWith("/inventory/purchase_req_list.jsp")?"active":"")%>"><a href="purchase_request?action=purchase_req_list">Purchase Request</a></li>
                         <li class="<%=(routePath.endsWith("/inventory/product_req_list.jsp")?"active":"")%>"><a href="product_request?action=product_req_list">Product Request</a></li>
                     </ul>
                 </div>
-
-                <div class="nav-header">User Management</div>
+                <div class="nav-header">Sales Management</div>
                 <div class="nav-content">
                     <ul>
-                        <li class="<%=(routePath.endsWith("/user/list.jsp")?"active":"")%>"><a href="user?action=list">User Lists</a></li>
-                        <li class="<%=(routePath.endsWith("/user/add.jsp")?"active":"")%>"><a href="user?action=add">Add User</a></li>
+                        <li class="<%=(routePath.endsWith("/report/inventory_receive_report.jsp")?"active":"")%>"><a href="report?action=receive_report">Customer Entry</a></li>
+                        <li class="<%=((routePath.endsWith("/inventory/product_list.jsp") && request.getParameter("product_type") !=null && request.getParameter("product_type").equals("2"))?"active":"")%>"><a href="product?action=product_list&amp;product_type=2">Product Entry</a></li>
+                        <li class="<%=(routePath.endsWith("/report/inventory_issue_report.jsp")?"active":"")%>"><a href="report?action=issue_report">Invoice</a></li>
                     </ul>
                 </div>
                 <div class="nav-header">Reports</div>
@@ -37,7 +37,13 @@
                         <li class="<%=(routePath.endsWith("/report/inventory_issue_report.jsp")?"active":"")%>"><a href="report?action=issue_report">Issue Report</a></li>
                     </ul>
                 </div>
-                <div class="nav-header">Sales Management</div>
+                <div class="nav-header">User Management</div>
+                <div class="nav-content">
+                    <ul>
+                        <li class="<%=(routePath.endsWith("/user/list.jsp")?"active":"")%>"><a href="user?action=list">User Lists</a></li>
+                        <li class="<%=(routePath.endsWith("/user/add.jsp")?"active":"")%>"><a href="user?action=add">Add User</a></li>
+                    </ul>
+                </div>
                 <div class="nav-header">Accounting Management</div>
                 <div class="nav-header">Human Resource Management</div>
                 <div class="nav-header">Production Management</div>

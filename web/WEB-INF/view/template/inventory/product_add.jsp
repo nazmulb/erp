@@ -8,6 +8,7 @@
             <div class="right-content form-area">
                 <form id="productEntryForm" role="form" action="product?action=product_update" method="POST">
                     <input type="hidden" name="pid" value="${pageContext.request.getParameter('pid')}" />
+                    <input type="hidden" name="product_type" value="${pageContext.request.getParameter('pid')==null ? pageContext.request.getParameter('product_type') : ((result!=null) ? result.productType : 1)}" />
                     <div class="form-group">
                         <label for="txtName">Name</label>
                         <input type="text" name="name" value="${(result!=null) ? result.name : ''}" class="form-control" id="txtName" placeholder="Enter Product Name" required />
@@ -24,7 +25,7 @@
                         <label for="txtUnit">Unit</label>
                         <input type="text" name="unit" value="${(result!=null) ? result.unit : ''}" class="form-control" id="txtUnit" placeholder="Enter Unit" required />
                     </div>
-                    <a href="product?action=product_list" class="btn btn-default">Cancel</a>
+                    <a href="product?action=product_list&amp;product_type=${pageContext.request.getParameter('pid')==null ? pageContext.request.getParameter('product_type') : ((result!=null) ? result.productType : 1)}" class="btn btn-default">Cancel</a>
                     <button type="submit" class="btn btn-success">Submit</button>
                 </form>
             </div>
