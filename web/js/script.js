@@ -68,8 +68,30 @@ function checkUname(uname) {
 }
 
 function updateTotal() {
+    var cnt = jQuery("#cntInputs").val();
     
-    alert("updateTotal");
+    var qtyObj = "[name=qty_1]";
+    var rateObj = "[name=rate_1]";
+    var totalObj = "[name=total_1]";
+    qty = 0, rate = 0, total = 0, subtotal = 0, vatper = 0, vat = 0, grandTotal = 0;
+    
+    for(var i = 1; i<=cnt; i++){
+        if(i>1){
+            qtyObj = "#itemToCloneDiv [name=qty_"+i+"]";
+            rateObj = "#itemToCloneDiv [name=rate_"+i+"]";
+            totalObj = "#itemToCloneDiv [name=total_"+i+"]";   
+        }
+        
+        if(jQuery(qtyObj).length > 0){
+            qty = parseFloat(jQuery(qtyObj).val());
+            rate = parseFloat(jQuery(rateObj).val());
+            total = parseFloat(qty * rate);
+            jQuery(totalObj).val(total);
+            subtotal = parseFloat(subtotal + total);
+        }
+    }
+    
+    jQuery("[name=subtotal]").val(subtotal);
 }
 
 function updateVat() {
