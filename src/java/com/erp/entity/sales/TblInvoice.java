@@ -17,6 +17,7 @@ public class TblInvoice
     private double subtotal;
     private double vat;
     private double grandTotal;
+    private int status;
 
     public TblInvoice() 
     {
@@ -27,7 +28,7 @@ public class TblInvoice
         this.invoiceId = invoiceId;
     }
 
-    public TblInvoice(int invoiceId, int cid, String invoiceDate, String referenceNo, double subtotal, double vat, double grandTotal) 
+    public TblInvoice(int invoiceId, int cid, String invoiceDate, String referenceNo, double subtotal, double vat, double grandTotal, int status) 
     {
         this.invoiceId = invoiceId;
         this.cid = cid;
@@ -36,6 +37,7 @@ public class TblInvoice
         this.subtotal = subtotal;
         this.vat = vat;
         this.grandTotal = grandTotal;
+        this.status = status;
     }
 
     public int getInvoiceId() 
@@ -108,9 +110,19 @@ public class TblInvoice
         this.grandTotal = grandTotal;
     }
 
+    public int getStatus() 
+    {
+        return status;
+    }
+
+    public void setStatus(int status) 
+    {
+        this.status = status;
+    }
+
     @Override
     public String toString() 
     {
-        return "TblInvoice{" + "invoiceId=" + invoiceId + ", cid=" + cid + ", invoiceDate=" + invoiceDate + ", referenceNo=" + referenceNo + ", subtotal=" + subtotal + ", vat=" + vat + ", grandTotal=" + grandTotal + '}';
-    }    
+        return "TblInvoice{" + "invoiceId=" + invoiceId + ", cid=" + cid + ", invoiceDate=" + invoiceDate + ", referenceNo=" + referenceNo + ", subtotal=" + subtotal + ", vat=" + vat + ", grandTotal=" + grandTotal + ", status=" + status + '}';
+    }   
 }
