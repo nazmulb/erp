@@ -1,10 +1,24 @@
 function addMoreItem() {
     var cnt = jQuery("#cntInputs").val();
+    var preCnt = cnt;
     ++cnt;
     jQuery("#cntInputs").val(cnt);
     
-    jQuery("#cloneDiv select").attr("name", "pid_"+cnt);
-    jQuery("#cloneDiv input").attr("name", "qty_"+cnt)
+    var pid = "#cloneDiv [name=pid_"+preCnt+"]";
+    var qty = "#cloneDiv [name=qty_"+preCnt+"]";
+    var rate = "#cloneDiv [name=rate_"+preCnt+"]";
+    var total = "#cloneDiv [name=total_"+preCnt+"]";
+    
+    jQuery(pid).attr("name", "pid_"+cnt);
+    jQuery(qty).attr("name", "qty_"+cnt);
+    
+    if(jQuery(rate).length > 0){
+        jQuery(rate).attr("name", "rate_"+cnt);
+    }
+    
+    if(jQuery(total).length > 0){
+        jQuery(total).attr("name", "total_"+cnt); 
+    }
     
     var item = jQuery("#cloneDiv").html();
     
@@ -51,4 +65,14 @@ function checkUname(uname) {
             }
         }
     });
+}
+
+function updateTotal() {
+    
+    alert("updateTotal");
+}
+
+function updateVat() {
+    
+    alert("updateVat");
 }

@@ -2,9 +2,11 @@ package com.erp.controller.sales;
 
 import com.erp.common.Utility;
 import com.erp.entity.inventory.TblProduct;
+import com.erp.entity.sales.TblCustomer;
 import com.erp.entity.sales.TblInvoice;
 import com.erp.entity.sales.TblInvoiceDetails;
 import com.erp.model.inventory.ProductModel;
+import com.erp.model.sales.CustomerModel;
 import com.erp.model.sales.InvoiceModel;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -99,6 +101,23 @@ public class InvoiceController extends HttpServlet
         }
     }
     
+    private void add(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            CustomerModel m = new CustomerModel();
+            ArrayList<TblCustomer> customers = m.load(1);
+            request.setAttribute("customers", customers);
+            
+            ProductModel pm = new ProductModel();
+            ArrayList<TblProduct> products = pm.load(2);
+            request.setAttribute("products", products);
+            String url = "/WEB-INF/view/template/sales/invoice_add.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
     private void update(HttpServletRequest request, HttpServletResponse response) 
     {/*
         try {
@@ -143,20 +162,7 @@ public class InvoiceController extends HttpServlet
             e.printStackTrace();
         }*/
     }
-    
-    private void add(HttpServletRequest request, HttpServletResponse response) 
-    {
-        try {
-            ProductModel pm = new ProductModel();
-            ArrayList<TblProduct> products = pm.load(2);
-            request.setAttribute("products", products);
-            String url = "/WEB-INF/view/template/sales/invoice_add.jsp";
-            request.getRequestDispatcher(url).forward(request, response);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
+   
     private void deliver(HttpServletRequest request, HttpServletResponse response) 
     {
         try {
