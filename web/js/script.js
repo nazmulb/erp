@@ -91,10 +91,15 @@ function updateTotal() {
         }
     }
     
-    jQuery("[name=subtotal]").val(subtotal);
-}
-
-function updateVat() {
+    grandTotal = subtotal;
+    vatper = parseFloat(jQuery("[name=vat_percent]").val());
     
-    alert("updateVat");
+    if(vatper>0){
+        vat = parseFloat((subtotal * vatper)/100);
+        grandTotal = parseFloat(grandTotal + vat);
+    }
+    
+    jQuery("[name=subtotal]").val(subtotal);
+    jQuery("[name=vat]").val(vat);
+    jQuery("[name=grand_total]").val(grandTotal);
 }

@@ -53,7 +53,7 @@
                         </div>
                         <div class="col-sm-3">
                             <label>Total</label>
-                            <input type="number" name="total_1" value="" class="form-control update-total" required />
+                            <input type="number" name="total_1" value="" class="form-control update-total" readonly />
                         </div>
                         <div class="col-sm-1"></div>
                     </div>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <label>Total</label>
-                                <input type="number" name="total_2" value="" class="form-control update-total" required />
+                                <input type="number" name="total_2" value="" class="form-control update-total" readonly />
                             </div>
                             <div class="col-sm-1"><a class="btn btn-danger btn-xs" href="#" onclick="jQuery(this).parent().parent().remove()">X</a></div>    
                         </div>
@@ -90,14 +90,14 @@
                     <div class="form-group pbottom-row pbottom-row-subtotal">
                         <div class="pull-right">
                             <label>Subtotal</label>
-                            <input type="number" name="subtotal" value="" class="form-control" required />
+                            <input type="number" name="subtotal" value="" class="form-control" readonly />
                         </div>
 
                         <div class="clearfix"></div>
                         
                         <div class="pull-right">
                             <label>Vat</label>
-                            <input style="width: 70px; margin-right: 10px;" max="100" type="number" name="vat_percent" value="" class="form-control" placeholder="%" />
+                            <input style="width: 70px; margin-right: 10px;" max="100" type="number" name="vat_percent" value="" class="form-control update-total" placeholder="%" />
                             <input type="text" name="vat" value="0" class="form-control" readonly />
                         </div>
                         
@@ -129,10 +129,6 @@
         
         jQuery(document).delegate( ".update-total", "blur", function() {
             updateTotal();
-        });
-        
-        jQuery(document).delegate( "[name=vat_percent]", "blur", function() {
-            updateVat();
         });
         
         jQuery("[name=invoice_date]").datetimepicker({
