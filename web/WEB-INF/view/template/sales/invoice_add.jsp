@@ -2,7 +2,7 @@
     <div class="container content">
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
         <aside class="col-md-9">
-            <h1>Invoice Request</h1>
+            <h1>Add Invoice</h1>
             <%  SimpleDateFormat todayDate = new SimpleDateFormat("yyyy-MM-dd"); %>
             <div class="right-content form-area">
                 <form class="form-horizontal" id="invoiceForm" role="form" action="invoice?action=update" method="POST">
@@ -136,7 +136,4 @@
             format:'Y-m-d'
         });
     });
-    
-   
-   
 </script>

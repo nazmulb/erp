@@ -47,6 +47,14 @@ function addRequiredItem(id) {
     }  
 }
 
+function addRequired() {
+    if(jQuery(".chk-class").is(':checked')){
+       jQuery("#btnSubmit").removeAttr('disabled');
+    }else{
+        jQuery("#btnSubmit").attr('disabled', 'disabled');
+    }  
+}
+
 function checkUname(uname) {
     var method    = "POST";
     var url 	  = "user?action=check_uname";

@@ -199,47 +199,31 @@ public class InvoiceController extends HttpServlet
     }
     
     private void delivered(HttpServletRequest request, HttpServletResponse response) 
-    { /*
+    { 
         try {
             Enumeration paramNames = request.getParameterNames();
-            int reqId = Integer.parseInt(request.getParameter("req_id"));
-            int id = 0, pid = 0, recId = 0;
-            double qty = 0, rate =0;
-            Date dnow = new Date();
-            SimpleDateFormat fullDateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            
-            ProductRequestModel m = new ProductRequestModel();
+            int inviceId = Integer.parseInt(request.getParameter("invice_id")); 
+            int id = 0, pid = 0;
+            double qty = 0;
+            InvoiceModel m = new InvoiceModel();
             
             while(paramNames.hasMoreElements()) {
                 String paramName = (String)paramNames.nextElement();
                
-                if(paramName.startsWith("itmqty_")){
+                if(paramName.startsWith("pid_")){
                     try{
                         id = Integer.parseInt(paramName.split("_")[1]);
 
                         if(Integer.parseInt(request.getParameter("chk_"+id)) == 1){
                             pid = Integer.parseInt(request.getParameter("pid_"+id));    
-                            recId = Integer.parseInt(request.getParameter("recid_"+id));
                             qty = Double.parseDouble(request.getParameter("qty_"+id));
-                            rate = Double.parseDouble(request.getParameter("rate_"+id));
-                            if(qty>0 && rate>0){
-                                // Add product in product out table.
-                                TblProductOut pr = new TblProductOut();
-                                pr.setPid(pid);
-                                pr.setRecId(recId);
-                                pr.setReqDetId(id);
-                                pr.setQty(qty);
-                                pr.setRate(rate);
-                                pr.setOutDate(fullDateTime.format(dnow));
-                                m.saveProductOut(pr);
-                                
+                            if(pid>0 && qty>0){
                                 // Update stock in product table.
                                 ProductModel tbl = new ProductModel();
                                 tbl.updateCurrentStock(pid, qty, false);
                                 
-                                // Update qty disburse in product receive table.
-                                PurchaseRequestModel prm = new PurchaseRequestModel();
-                                prm.updateQtyDisburse(recId, qty);
+                                // Update status.
+                                m.updateInvoiceDetailsStatus(id, 1);
                             }
                         }
                     } catch(Exception e){
@@ -248,14 +232,14 @@ public class InvoiceController extends HttpServlet
                  }
             } 
             
-            // Mark the request as received.
-            m.updateStatus(reqId, 1);
+            // Mark the invice as delivered.
+            m.updateStatus(inviceId, 1);
             
             response.sendRedirect("invoice?action=list&msg_type=success&msg=Invoice has beed delivered successfully.");
             
         } catch(Exception e){
             e.printStackTrace();
-        }*/
+        }
     }
     
     private void details(HttpServletRequest request, HttpServletResponse response) 

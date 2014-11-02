@@ -126,7 +126,7 @@ public class InvoiceModel
         
         try {    
            String sql = ""
-                   + "SELECT i.*, c.uname FROM tbl_invoice i "
+                   + "SELECT i.*, c.name FROM tbl_invoice i "
                    + "LEFT JOIN tbl_customer c USING(cid) "
                    + "WHERE i.invoice_id=? LIMIT 1";
            
@@ -144,6 +144,7 @@ public class InvoiceModel
                tbl.setVat(rs.getDouble("vat"));
                tbl.setGrandTotal(rs.getDouble("grand_total"));
                tbl.setStatus(rs.getInt("status"));
+               tbl.setCustomerName(rs.getString("name"));
            } 
 
         }catch(SQLException se){
