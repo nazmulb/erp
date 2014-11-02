@@ -45,6 +45,7 @@ CREATE TABLE `tbl_invoice` (
   `subtotal` double DEFAULT NULL,
   `vat` double DEFAULT NULL,
   `grand_total` double DEFAULT NULL,
+  `status` tinyint(4) DEFAULT '0' COMMENT '0 - Not Deliver, 1 - Delivered',
   PRIMARY KEY (`invoice_id`),
   KEY `fk_tbl_invoice_tbl_customer1_idx` (`cid`),
   CONSTRAINT `fk_tbl_invoice_tbl_customer1` FOREIGN KEY (`cid`) REFERENCES `tbl_customer` (`cid`) ON DELETE NO ACTION ON UPDATE NO ACTION

@@ -113,7 +113,6 @@ public class CustomerController extends HttpServlet
             String address = (request.getParameter("address") != null && request.getParameter("address") != "") ? request.getParameter("address") : "";
             String email = (request.getParameter("email") != null && request.getParameter("email") != "") ? request.getParameter("email") : "";
             String phone = (request.getParameter("phone") != null && request.getParameter("phone") != "") ? request.getParameter("phone") : "";
-            int status = (request.getParameter("status") != null && request.getParameter("status") != "") ? Integer.parseInt(request.getParameter("status")) : 1;
             
             TblCustomer c = new TblCustomer();
             c.setCid(cid);
@@ -121,7 +120,6 @@ public class CustomerController extends HttpServlet
             c.setAddress(address);
             c.setEmail(email);
             c.setPhone(phone);
-            c.setStatus(status);
             
             CustomerModel m = new CustomerModel();
             m.save(c);         
