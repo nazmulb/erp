@@ -216,7 +216,7 @@ public class ProductRequestModel
     /**
      * To get all request details by req_id.
      * @param reqId
-     *@param withRecId return with rec_id or not
+     * @param withRecId return with rec_id or not
      * @return ArrayList<TblProductReqDetails> This will return all request details.
      * @exception SQLException On SQL error.
      */
