@@ -83,7 +83,7 @@
                                 <label>Total</label>
                                 <input type="number" name="total_2" value="" class="form-control update-total" readonly />
                             </div>
-                            <div class="col-sm-1"><a class="btn btn-danger btn-xs" href="#" onclick="jQuery(this).parent().parent().remove()">X</a></div>    
+                            <div class="col-sm-1"><a class="btn btn-danger btn-xs update-total" href="#" onclick="jQuery(this).parent().parent().remove();">X</a></div>    
                         </div>
                     </div>
                     
@@ -127,7 +127,7 @@
         
         jQuery("#aItemAddMore").on( "click", addMoreItem );
         
-        jQuery(document).delegate( ".update-total", "blur", function() {
+        jQuery(document).delegate( ".update-total", "blur click", function() {
             updateTotal();
         });
         
