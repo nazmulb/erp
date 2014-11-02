@@ -11,6 +11,7 @@ import com.erp.model.sales.InvoiceModel;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -119,35 +120,46 @@ public class InvoiceController extends HttpServlet
     }
     
     private void update(HttpServletRequest request, HttpServletResponse response) 
-    {/*
+    {   
         try {
+            int cid = (request.getParameter("cid") != null && request.getParameter("cid") != "") ? Integer.parseInt(request.getParameter("cid")) : 0;
+            String invoiceDate = (request.getParameter("invoice_date") != null && request.getParameter("invoice_date") != "") ? request.getParameter("invoice_date") : "";
+            String referenceNo = (request.getParameter("reference_no") != null && request.getParameter("reference_no") != "") ? request.getParameter("reference_no") : "";
+            double subtotal = (request.getParameter("subtotal") != null && request.getParameter("subtotal") != "") ? Double.parseDouble(request.getParameter("subtotal")) : 0;
+            double vat = (request.getParameter("vat") != null && request.getParameter("vat") != "") ? Double.parseDouble(request.getParameter("vat")) : 0;
+            double grandTotal = (request.getParameter("grand_total") != null && request.getParameter("grand_total") != "") ? Double.parseDouble(request.getParameter("grand_total")) : 0;
             
-            String reqDate = (request.getParameter("req_date") != null && request.getParameter("req_date") != "") ? request.getParameter("req_date") : "";
-            String reqRequiredDate = (request.getParameter("req_required_date") != null && request.getParameter("req_required_date") != "") ? request.getParameter("req_required_date") : "";
             
             TblInvoice tbl = new TblInvoice();
-            tbl.setReqDate(reqDate);
-            tbl.setReqBy(u.getUid());
+            tbl.setCid(cid);
+            tbl.setInvoiceDate(invoiceDate);
+            tbl.setReferenceNo(referenceNo);
+            tbl.setSubtotal(subtotal);
+            tbl.setVat(vat);
+            tbl.setGrandTotal(grandTotal);
             tbl.setStatus(0);
-            tbl.setReqRequiredDate(reqRequiredDate);
             
             InvoiceModel m = new InvoiceModel();
             m.save(tbl); 
-            int reqId = m.getLastInsertedId();
+            int invoiceId = m.getLastInsertedId();
             
             int cntInputs = (request.getParameter("cnt_inputs") != null && request.getParameter("cnt_inputs") != "") ? Integer.parseInt(request.getParameter("cnt_inputs")) : 0;
             int pid = 0;
             double qty = 0;
+            double rate = 0;
             
             for(int i=1; i<=cntInputs; i++){    
                 try{
                     pid = Integer.parseInt(request.getParameter("pid_"+i));
                     qty = Double.parseDouble(request.getParameter("qty_"+i));
-                    if(pid>0 && qty>0){
+                    rate = Double.parseDouble(request.getParameter("rate_"+i));
+                    if(pid>0 && qty>0 && rate>0){
                         TblInvoiceDetails pd = new TblInvoiceDetails();
-                        pd.setReqId(reqId);
+                        pd.setInvoiceId(invoiceId);
                         pd.setPid(pid);
                         pd.setQty(qty);
+                        pd.setRate(rate);
+                        pd.setStatus(0);
 
                         m.saveInvoiceDetails(pd);
                     }
@@ -160,7 +172,7 @@ public class InvoiceController extends HttpServlet
             
         } catch(Exception e){
             e.printStackTrace();
-        }*/
+        }
     }
    
     private void deliver(HttpServletRequest request, HttpServletResponse response) 
