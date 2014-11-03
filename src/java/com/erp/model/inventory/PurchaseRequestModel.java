@@ -12,9 +12,9 @@ import java.util.ArrayList;
  * Purchase Request Model Class which is related to below three tables:
  * tbl_product_purchase_req, tbl_product_purchase_req_details, tbl_product_rec
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
- * @since   2014-10-22
+ * @since   2009-04-22
  */
 public class PurchaseRequestModel 
 {

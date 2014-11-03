@@ -9,9 +9,9 @@ import javax.servlet.http.HttpSession;
  * <h1>ERP Common</h1>
  * Utility Common Class
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
- * @since   2014-10-22
+ * @since   2009-04-22
  */
 public class Utility 
 {

@@ -12,10 +12,10 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Field Nation ERP</title>
-    <meta name="description" content="Field Nation ERP" />
+    <title>ERP</title>
+    <meta name="description" content="ERP" />
     <meta name="keywords" content="ERP" />
-    <meta name="author" content="nazmul.basher@fieldnation.com" />
+    <meta name="author" content="nazmul.basher@gmail.com" />
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <%@include file="common.jspf" %>
 </head>
@@ -23,7 +23,7 @@
     <header>
         <div class="container">
             <div class="pull-left">
-                <div class="logo"><a href="index.jsp">Field Nation ERP</a></div>
+                <div class="logo"><a href="index.jsp">ERP</a></div>
             </div>
 
             <div class="pull-right top-right">

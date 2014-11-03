@@ -4,9 +4,9 @@ package com.erp.entity.user;
  * <h1>ERP Entity</h1>
  * tbl_user Table Entity Class
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
- * @since   2014-10-21 
+ * @since   2009-04-21 
  */
 public class TblUser 
 {

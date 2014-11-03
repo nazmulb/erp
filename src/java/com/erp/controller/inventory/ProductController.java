@@ -14,9 +14,9 @@ import javax.servlet.http.HttpServletResponse;
  * <h1>ERP Controller</h1>
  * Product Controller Class
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
- * @since   2014-10-22
+ * @since   2009-04-22
  */
 public class ProductController extends HttpServlet 
 {

@@ -3,7 +3,7 @@
 
     <footer>
         <div class="container">
-                Copyright &copy; <%=new GregorianCalendar().get(Calendar.YEAR)%> Field Nation LLC.
+                Copyright &copy; <%=new GregorianCalendar().get(Calendar.YEAR)%>
         </div>
     </footer>
 </body>

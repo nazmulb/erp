@@ -17,9 +17,9 @@ import javax.servlet.http.HttpSession;
  * <h1>ERP Controller</h1>
  * User Controller Class
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
- * @since   2014-10-21 
+ * @since   2009-04-21 
  */
 @WebServlet(name="UserController",
             loadOnStartup = 1,

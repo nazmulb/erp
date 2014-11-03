@@ -10,9 +10,9 @@ import java.util.ArrayList;
  * Product Model Class which is related to below the table:
  * tbl_product
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
- * @since   2014-10-21 
+ * @since   2009-04-21 
  */
 public class ProductModel 
 {

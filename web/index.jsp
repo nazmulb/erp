@@ -3,7 +3,7 @@
         <%@include file="/WEB-INF/jspf/nav.jspf" %>
 
         <aside class="col-md-9">
-            <h1>Welcome to Field Nation ERP</h1>
+            <h1>Welcome to the Enterprise Resource Planning (ERP)</h1>
                 
             <div class="right-content">
                 <h2>Features</h2>

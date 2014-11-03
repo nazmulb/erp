@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Customer Model Class which is related to below the table:
  * tbl_customer
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
  * @since   2009-05-22
  */

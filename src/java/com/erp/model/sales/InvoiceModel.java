@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Invoice Model Class which is related to below the table:
  * tbl_invoice, tbl_invoice_details
  * 
- * @author  nazmul.basher@fieldnation.com
+ * @author  nazmul.basher@gmail.com
  * @version 1.0
  * @since   2009-05-22
  */
