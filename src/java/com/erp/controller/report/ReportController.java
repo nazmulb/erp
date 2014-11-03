@@ -1,9 +1,12 @@
 package com.erp.controller.report;
 
 import com.erp.entity.inventory.TblProduct;
+import com.erp.entity.sales.TblCustomer;
 import com.erp.model.inventory.ProductModel;
 import com.erp.model.inventory.ProductRequestModel;
 import com.erp.model.inventory.PurchaseRequestModel;
+import com.erp.model.sales.CustomerModel;
+import com.erp.model.sales.InvoiceModel;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
@@ -50,6 +53,10 @@ public class ReportController extends HttpServlet
 
                 case "issue_report":              
                     issueReport(request, response);
+                break;
+                    
+                case "sales_report":              
+                    salesReport(request, response);
                 break;
 
                 default:
@@ -158,6 +165,38 @@ public class ReportController extends HttpServlet
             }
             
             String url = "/WEB-INF/view/template/report/inventory_issue_report.jsp";
+            request.getRequestDispatcher(url).forward(request, response);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    private void salesReport(HttpServletRequest request, HttpServletResponse response) 
+    {
+        try {
+            Date dateNow = new Date();
+            SimpleDateFormat todayDate = new SimpleDateFormat("yyyy-MM-dd");
+            
+            int cid = (request.getParameter("cid") != null && request.getParameter("cid") != "") ? Integer.parseInt(request.getParameter("cid")) : 0;
+            String fromDate = (request.getParameter("from_date") != null && request.getParameter("from_date") != "") ? request.getParameter("from_date") : todayDate.format(dateNow);
+            String toDate = (request.getParameter("to_date") != null && request.getParameter("to_date") != "") ? request.getParameter("to_date") : todayDate.format(dateNow);
+            
+            request.setAttribute("cid", cid);
+            request.setAttribute("from_date", fromDate);
+            request.setAttribute("to_date", toDate);
+            request.setAttribute("results", null);
+            
+            CustomerModel m = new CustomerModel();
+            ArrayList<TblCustomer> customers = m.load(1);
+            request.setAttribute("customers", customers);
+            
+            if(fromDate!="" && toDate!=""){
+                InvoiceModel im = new InvoiceModel();
+                ResultSet results = im.getInvoiceReport(cid, fromDate, toDate);
+                request.setAttribute("results", results);
+            }
+            
+            String url = "/WEB-INF/view/template/report/inventory_sales_report.jsp";
             request.getRequestDispatcher(url).forward(request, response);
         } catch(Exception e){
             e.printStackTrace();

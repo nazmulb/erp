@@ -335,4 +335,46 @@ public class InvoiceModel
         } finally {
         }
     }
+    
+    /**
+     * Get invoice report
+     * @param cid
+     * @param fromDate
+     * @param toDate
+     * @return ResultSet This will return invoice report.
+     * @exception SQLException On SQL error.
+     */
+    public ResultSet getInvoiceReport(int cid, String fromDate, String toDate) throws SQLException
+    {
+        ResultSet rs = null;
+        try {    
+           String sql = ""
+                   + "SELECT i.*, c.name FROM tbl_invoice i "
+                   + "LEFT JOIN tbl_customer c USING(cid) "
+                   + "WHERE "
+                   + ((cid>0) ? "c.cid=? " : "? ")
+                   + "AND i.invoice_date BETWEEN ? AND ? "
+                   + "ORDER BY i.invoice_date";
+           
+           pstmt = conn.prepareStatement(sql);
+           pstmt.setInt(1, 1);
+           
+           if(cid>0){
+               pstmt.setInt(1, cid);
+           }
+           
+           pstmt.setString(2, fromDate);
+           pstmt.setString(3, toDate);
+           
+           rs = pstmt.executeQuery();
+
+        }catch(SQLException se){
+           se.printStackTrace();
+        }catch(Exception e){
+           e.printStackTrace();
+        } finally {
+        }
+        
+        return rs;   
+    }
 }
